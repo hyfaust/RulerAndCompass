@@ -182,5 +182,5 @@ This project is licensed under the GPLV3 License. See the [LICENSE](LICENSE) fil
 
 ---
 
-**Original Author:** Professor Ken Brakke
+**Original Author:** Professor Ken Brakke  
 **Translation:** All content has been translated to Simplified Chinese (see [README_zh.md](README_zh.md))
