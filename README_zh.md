@@ -182,5 +182,5 @@ RulerAndCompass/
 
 ---
 
-**原作者：** Ken Brakke 教授
+**原作者：** Ken Brakke 教授  
 **翻译：** 全部内容已翻译为简体中文
