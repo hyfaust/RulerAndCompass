@@ -4,7 +4,7 @@
 
 ---
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://hyfaust.github.io/RulerAndCompass/)
 [![License](https://img.shields.io/github/license/hyfaust/RulerAndCompass)](LICENSE)
 [![HTML](https://img.shields.io/badge/language-HTML%20%2F%20JavaScript-orange.svg)]()
 
@@ -35,7 +35,7 @@
 
 ## 在线演示
 
-访问 [GitHub Pages 部署地址](https://brakke-doc.github.io/RulerAndCompass/) 查看在线演示。
+访问 [GitHub Pages 部署地址](https://hyfaust.github.io/RulerAndCompass/) 查看在线演示。
 
 ## 项目结构
 

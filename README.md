@@ -4,7 +4,7 @@
 
 ---
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://hyfaust.github.io/RulerAndCompass/)
 [![License](https://img.shields.io/github/license/hyfaust/RulerAndCompass)](LICENSE)
 [![HTML](https://img.shields.io/badge/language-HTML%20%2F%20JavaScript-orange.svg)]()
 
@@ -33,7 +33,7 @@ This project is a Simplified Chinese translation of Professor Ken Brakke's [Rule
 
 ## Live Demo
 
-Visit the [GitHub Pages deployment](https://brakke-doc.github.io/RulerAndCompass/) for a live demo.
+Visit the [GitHub Pages deployment](https://hyfaust.github.io/RulerAndCompass/) for a live demo.
 
 ## Project Structure
 
