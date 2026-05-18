@@ -1,8 +1,8 @@
+# Ruler and Compass Constructions
+
 [English](README.md) | [简体中文](README_zh.md)
 
 ---
-
-# Ruler and Compass Constructions
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
