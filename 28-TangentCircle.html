@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>相切圆</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+  var r = 1.0;
+  var rc = 1.5;
+  var rd = 1.2;
+  var a = new Object;  a.x = -2; a.y = 2; a.label = "A";
+  var b = new Object;  b.x = a.x+r; b.y = a.y; b.label = "B";
+  var c = new Object;  c.x = -1.5; c.y = 0; c.label = "C";
+  var d = new Object;  d.x = 1.5; d.y = 0; d.label = "D";
+  var e = new Object;  e.x = c.x; e.y = c.y-rc; e.label = "E";
+  var f = new Object;  f.x = d.x; f.y = d.y-rd; f.label = "F";
+  var g = new Object;  g.x = c.x; g.y = c.y-rc-r; g.label = "G";
+  var h = new Object;  h.x = d.x; h.y = d.y-rd-r; h.label = "H";
+  x = ((rc+r)*(rc+r)-(rd+r)*(rd+r)-c.x*c.x+d.x*d.x)/2/(d.x-c.x);
+  var i = new Object;  i.x = x; i.y = c.y-Math.sqrt((rc+r)*(rc+r)-(x-c.x)*(x-c.x)); i.label = "I";
+  var j = new Object;  j.x = x; j.y = c.y+Math.sqrt((rc+r)*(rc+r)-(x-c.x)*(x-c.x)); j.label = "J";
+  var k = new Object;  k.x = 0; k.y = 0; k.label = "K";
+  var l = new Object;  l.x = 0; l.y = 0; l.label = "L";
+  var m = new Object;  m.x = 0; m.y = 0; m.label = "M";
+  var n = new Object;  n.x = 0; n.y = 0; n.label = "N";
+  var o = new Object;  o.x = 0; o.y = 0; o.label = "O";
+  var p = new Object;  p.x = 0; p.y = 0; p.label = "P";
+  var q = new Object;  q.x = 0; q.y = 0; q.label = "Q";
+  var c1 = new Object;
+  var c2 = new Object;
+  
+  var movable_pts = [a,b,c,d,e,f];
+    
+  function reset()
+  { a.x = -2; a.y = 2; 
+    b.x = a.x+r; b.y = a.y; 
+    c.x = -1.5; c.y = 0; 
+    d.x = 1.5; d.y = 0;
+    e.x = c.x; e.y = c.y-rc;
+    f.x = d.x; f.y = d.y-rd; 
+  }
+  
+  reset();
+  
+  function calc_points()
+  { g.x = e.x + dist(a,b)*(e.x-c.x)/dist(e,c);
+    g.y = e.y + dist(a,b)*(e.y-c.y)/dist(e,c);
+    h.x = f.x + dist(a,b)*(f.x-d.x)/dist(f,d);
+    h.y = f.y + dist(a,b)*(f.y-d.y)/dist(f,d); 
+    c1.x = c.x; c1.y = c.y; c1.r = dist(c,g);
+    c2.x = d.x; c2.y = d.y; c2.r = dist(d,h);
+    circle_circle(c1,c2,i,j); if ( dist(i,h) > dist(j,h) ) swap(i,j);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+    draw_segment(a,b);
+
+    draw_point(c,"red",NW);
+    draw_arc(c,dist(c,e),0,2*Math.PI);
+
+    draw_point(d,"red",NE);
+    draw_arc(d,dist(d,f),0,2*Math.PI);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_point(e,"red",NW);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_ray(c,e);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(g,"black",NE);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_arc(c,dist(c,g),0,2*Math.PI);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(f,"red",NE);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_ray(d,f);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_point(h,"black",NE);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_arc(d,dist(d,h),0,2*Math.PI);
+
+    if ( draw_stage == 8 ) return;
+
+    draw_point(i,"black",N);
+    draw_point(j,"black",N);
+
+    if ( draw_stage == 9 ) return;
+
+    draw_arc(i,r,0,2*Math.PI);
+    draw_arc(j,r,0,2*Math.PI);
+
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 28<br>
+  作与两已知圆相切的给定半径圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 第一个圆上任意点 E<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 射线 CE<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 射线 CE 上点 G，使 EG=AB<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 C 为圆心，过 G 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 第二个圆上任意点 F<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 射线 DF<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 射线 DF 上点 H，使 FH=AB<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 以 D 为圆心，过 H 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. 交点 I、J 即为相切圆的圆心<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10" id="start">10. 以 I、J 为圆心，AB 为半径的相切圆<br>
+<tr><td> 原理说明：
+  所求圆的圆心到第一个圆圆心的距离为两半径之和，到第二个圆圆心的距离也为两半径之和，因此只需作两个以此距离为半径的圆，其交点即为所求圆心。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="29-ParallelMidline.html">下一个作图</a>
+<tr><td>
+  <a href="27-TangentsToCircle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

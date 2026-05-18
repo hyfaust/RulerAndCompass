@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>圆内接正五边形</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+ 
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = 0; a.y = -0.5; a.label = "A";
+  var b = new Object;  b.x = -2; b.y = a.y; b.label = "B";
+  var line1= new Object;
+  line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+  var c = new Object;  c.x = a.x + (b.y-a.y); c.y = a.y + (a.x-b.x) ; c.label = "C";
+  var d = new Object;  d.x = a.x - (b.y-a.y); d.y = a.y - (a.x-b.x); d.label = "D";
+  var e = new Object;  e.x = a.x + (a.x-b.x); e.y = a.y + (a.y-b.y); e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.x = 0.3; g.y = 1.5 ; g.label = "G";
+  var h = new Object; h.x = (a.x+e.x)/2; h.y = (a.y+e.y)/2;  h.label = "H";
+  line2 = new Object;
+  perp_to_line(h,a,line2);
+  var circle1 = new Object;
+  circle1.x = a.x; circle1.y = a.y; circle1.r = dist(a,b);
+  line_circle(line2,circle1,f,g);
+  line3 = new Object; line3.x1 = h.x; line3.y1 = h.y; line3.x2 = c.x; line3.y2 = c.y;
+  var i = new Object;   i.label = "I";
+  var j = new Object;   j.label = "J";
+  var circle2 = new Object; circle2.x = h.x; circle2.y = h.y; circle2.r = dist(a,h);
+  line_circle(line3, circle2, i, j); if ( dist(i,c) > dist(j,c) ) swap(i,j);
+  var circle3 = new Object; circle3.x = c.x; circle3.y = c.y; circle3.r = dist(c,j);
+  var k = new Object; k.label = "K";
+  circle_circle(circle1,circle3,k,j); if ( dist(j,h) > dist(k,h) ) swap(k,j);
+  var circle4 = new Object; circle4.x = k.x; circle4.y = k.y, circle4.r = dist(k,j);
+  var circle5 = new Object; circle5.x = j.x; circle5.y = j.y, circle5.r = dist(k,j);  
+  var l = new Object; l.label = "L";
+  var m = new Object; m.label = "M";
+  var n = new Object; n.label = "N";
+  circle_circle(circle4,circle1,l,m); if ( dist(l,j) < dist(m,j) ) swap(l,m);
+  circle_circle(circle5,circle1,m,n); if ( dist(m,k) < dist(n,k) ) swap(m,n);
+
+  var movable_pts = [a,b];
+  
+  function reset()
+  { a.x = 0; a.y = -0.5; 
+    b.x = -2; b.y = a.y; 
+  }
+  function calc_points()
+  {   
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    c.x = a.x - (b.y-a.y); c.y = a.y - (a.x-b.x); 
+    d.x = a.x + (b.y-a.y); d.y = a.y + (a.x-b.x); 
+    e.x = a.x + (a.x-b.x); e.y = a.y + (a.y-b.y); 
+    g.x = 0.3; g.y = 1.5 ;
+    h.x = (a.x+e.x)/2; h.y = (a.y+e.y)/2; 
+    perp_to_line(h,a,line2);
+    circle1.x = a.x; circle1.y = a.y; circle1.r = dist(a,b);
+    line_circle(line2,circle1,f,g);
+    line3.x1 = h.x; line3.y1 = h.y; line3.x2 = c.x; line3.y2 = c.y;
+    circle2.x = h.x; circle2.y = h.y; circle2.r = dist(a,h);
+    line_circle(line3, circle2, i, j); if ( dist(i,c) > dist(j,c) ) swap(i,j);
+    circle3.x = c.x; circle3.y = c.y; circle3.r = dist(c,i);
+    circle_circle(circle1,circle3,k,j); if ( dist(j,h) > dist(k,h) ) swap(k,j);
+    circle4.x = k.x; circle4.y = k.y, circle4.r = dist(k,j);
+    circle5.x = j.x; circle5.y = j.y, circle5.r = dist(k,j);  
+    circle_circle(circle4,circle1,l,m); if ( dist(l,j) < dist(m,j) ) swap(l,m);
+    circle_circle(circle5,circle1,m,n); if ( dist(m,k) < dist(n,k) ) swap(m,n);
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+      
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",SE);
+    draw_arc(a,circle1.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 0 ) return;
+
+    draw_ray(b,e);
+    draw_point(e,"black",NE);
+    draw_line(c,d);
+    draw_point(d,"black",SW);
+    draw_point(c,"black",NE);
+	
+    if ( draw_stage == 1 ) return;
+
+
+	draw_point(h,"black",SE);
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,dist(e,f),angle-0.1,angle+0.1);
+    draw_point(f,"black",N);
+    angle = Math.atan2(g.y-e.y,g.x-e.x);
+    draw_arc(e,dist(e,g),angle-0.1,angle+0.1);
+    draw_point(g,"black",S);
+    draw_segment(f,g);
+
+    if ( draw_stage == 2 ) return;
+    
+    draw_segment(c,h);
+    
+    if ( draw_stage == 3 ) return;
+  
+    draw_arc(h,circle2.r,0.0,2*Math.PI);
+    draw_point(i,"black",S);
+    
+    if ( draw_stage == 4 ) return;  
+    
+    draw_arc(c,circle3.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 5 ) return;
+    
+    draw_point(k,"black",W);
+    draw_point(j,"black",E);
+    draw_segment(k,j);
+   
+    if ( draw_stage == 6 ) return;
+    
+    angle = Math.atan2(l.y-k.y,l.x-k.x);
+    draw_arc(k,circle4.r,angle-0.1,angle+0.1);
+    draw_point(l,"black",SW);
+    angle = Math.atan2(m.y-j.y,m.x-j.x);
+    draw_arc(j,circle5.r,angle-0.1,angle+0.1);
+    draw_point(m,"black",SE);
+    draw_segment(k,l);
+    draw_segment(l,d);
+    draw_segment(j,m);
+    draw_segment(m,d);
+    
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 40 <br>
+圆内接正五边形</H3>
+
+<table>
+<tr>
+<td>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置。<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 互相垂直的直径 BE、CD。<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 半径 AE 的中点 H。<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 线段 CH。<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 H 为圆心，过 A 的圆。<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 以 C 为圆心，过 I 的圆。<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 正五边形的一边 KJ。<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. 正五边形的其余各边。<br>
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="41-Regular-17-gon.html">下一个作图：41 正十七边形</a>
+<tr><td>
+  <a href="39-ThreeCircles.html">上一个作图：39 与三圆相切的圆</a>
+</table>
+</table>
+
+<script>
+
+// Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body></html>
+
+
+

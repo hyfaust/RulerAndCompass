@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   内切圆 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+
+  var a = new Object;   a.label = "A";
+  var b = new Object;   b.label = "B";
+  var c = new Object;   c.label = "C";
+
+  var d = new Object;   d.label = "D";
+  var e = new Object;   e.label = "E";
+  var f = new Object;   f.label = "F";
+
+  var g = new Object;   g.label = "G";
+  var h = new Object;   h.label = "H";
+  var i = new Object;   i.label = "I";
+
+  var o = new Object;  o.label = "O";
+
+  var k = new Object;   k.label = "K";
+  var l = new Object;   l.label = "L";
+  var m = new Object;   m.label = "M";
+  var n = new Object;   n.label = "N";
+  var z = new Object; 
+
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var line1 = new Object;
+  var line2 = new Object;  
+  var line3 = new Object;  
+  var line4 = new Object;  
+  var line5 = new Object;  
+  var line6 = new Object; 
+  
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  {  a.x = -2.5; a.y = 0;
+     b.x = 2.5; b.y = a.y; 
+     c.x = -0.5; c.y = a.y-2;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { area = Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x))/2;
+    perim = dist(a,b)+dist(b,c)+dist(c,a);
+    inradius = 2*area/perim;
+  
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    line2.x1 = c.x; line2.y1 = c.y; line2.x2 = b.x; line2.y2 = b.y;
+    line3.x1 = a.x; line3.y1 = a.y; line3.x2 = c.x; line3.y2 = c.y;
+
+    c1.x = a.x; c1.y = a.y; c1.r = dist(a,c)/3;
+    line_circle(line1,c1,d,z); if ( dist(d,b) > dist(z,b) ) swap(d,z);
+    line_circle(line3,c1,e,z); if ( dist(e,c) > dist(z,c) ) swap(e,z);
+    
+    c2.x = d.x; c2.y = d.y; c2.r = c1.r;
+    c3.x = e.x; c3.y = e.y; c3.r = c1.r;
+    circle_circle(c2,c3,f,g); if ( dist(f,c) > dist(g,c) ) swap(f,g);
+    line4.x1 = a.x; line4.y1 = a.y; line4.x2 = f.x; line4.y2 = f.y;
+   
+    c4.x = b.x; c4.y = b.y; c4.r = dist(b,c)/3;
+    line_circle(line1,c4,g,z); if ( dist(g,a) > dist(z,a) ) swap(g,z);
+    line_circle(line2,c4,h,z); if ( dist(h,c) > dist(z,c) ) swap(h,z);
+    
+    c5.x = g.x; c5.y = g.y; c5.r = c4.r;
+    c6.x = h.x; c6.y = h.y; c6.r = c4.r;
+    circle_circle(c5,c6,i,z); if ( dist(i,c) > dist(z,c) ) swap(i,z);
+    line5.x1 = b.x; line5.y1 = b.y; line5.x2 = i.x; line5.y2 = i.y;
+    
+    line_line(line4,line5,o);
+    
+    c7.x = o.x; c7.y = o.y; c7.r = 1.2*inradius;
+    line_circle(line1,c7,k,l); if ( dist(k,a) > dist(l,a) ) swap(k,l);
+    c8.x = k.x; c8.y = k.y; c8.r = c7.r;
+    c9.x = l.x; c9.y = l.y; c9.r = c7.r;
+    circle_circle(c8,c9,m,z); if ( dist(m,o) < dist(z,o) ) swap(m,z);
+    line6.x1 = o.x; line6.y1 = o.y; line6.x2 = m.x; line6.y2 = m.y;
+    line_line(line1,line6,n);
+    
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+    
+    calc_points();
+
+    draw_segment(a,b);
+    draw_segment(a,c);
+    draw_segment(c,b);
+
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    angle1 = Math.atan2(c.y-a.y,c.x-a.x);
+    angle2 = Math.atan2(b.y-a.y,b.x-a.x);
+    draw_arc(a,c1.r,angle1-0.2,angle2+0.2);
+    draw_point(d,"black",NE);
+    draw_point(e,"black",N);
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,c2.r,angle-0.2,angle+0.2);
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,c3.r,angle-0.2,angle+0.2);
+    draw_point(f,"black",NE);
+    draw_ray(a,f);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(g.y-b.y,g.x-b.x);
+    angle2 = Math.atan2(h.y-b.y,h.x-b.x);
+    draw_arc(b,c4.r,angle1-0.2,angle2+0.2);
+    draw_point(g,"black",NE);
+    draw_point(h,"black",N);
+    angle = Math.atan2(i.y-g.y,i.x-g.x);
+    draw_arc(g,dist(g,i),angle-0.2,angle+0.2);
+    angle = Math.atan2(i.y-h.y,i.x-h.x);
+    draw_arc(h,dist(h,i),angle-0.2,angle+0.2);
+    draw_point(i,"black",NW);
+    draw_ray(b,i);
+
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(o,"black",N);
+   
+    if ( draw_stage == 3 ) return;
+
+    angle1 = Math.atan2(l.y-o.y,l.x-o.x);
+    angle2 = Math.atan2(k.y-o.y,k.x-o.x);
+    draw_arc(o,c7.r,angle1-0.2,angle2+0.2);
+    draw_point(k,"black",NE);
+    draw_point(l,"black",NW);
+    angle = Math.atan2(m.y-k.y,m.x-k.x);
+    draw_arc(k,c7.r,angle-0.2,angle+0.2);
+    angle = Math.atan2(m.y-l.y,m.x-l.x);
+    draw_arc(l,c7.r,angle-0.2,angle+0.2);
+    draw_point(m,"black",E);
+    draw_ray(o,m);
+    draw_point(n,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_arc(o,inradius,0,2*Math.PI);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 14<br>
+   给定三角形的内切圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 作角A的平分线 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 作角B的平分线 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 交点O，内切圆圆心<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 射线OM垂直于AB（<a href="02-PerpToLine.html">作图2</a>）<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5" id="start">5. 以O为圆心，过N的圆即为内切圆<br>
+<tr><td>原理说明：
+内切圆的圆心必须在每个角的平分线上，因此作图过程作出了两条角平分线。然后，通过从圆心O向边AB作垂线来确定半径。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="15-Rectangle.html">下一个作图</a>
+<tr><td>
+  <a href="13-TriangleCircumCircle.html">上一个作图</a>
+
+</table>
+</table>
+<script>
+
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

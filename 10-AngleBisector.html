@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   角平分线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 2.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -2; a.y = 1; a.label = "A";
+  var b = new Object;  b.x = 2; b.y = -2; b.label = "B";
+  var c = new Object;  c.x = a.x+4; c.y = a.y; c.label = "C";
+  var d = new Object;  d.x = a.x+r; d.y = a.y; d.label = "D";
+  var e = new Object;  e.x = a.x+r*(b.x-a.x)/dist(b,a); e.y = a.y+r*(b.y-a.y)/dist(b,a); e.label = "E";
+  var f = new Object;  f.x = a.x + 2*((d.x+e.x)/2-a.x); f.y = a.y+2*((d.y+e.y)/2-a.y); f.label = "F";
+  var rr = dist(f,d);
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var line1 = new Object;
+  var line2 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  { a.x = -2; a.y = 1; 
+    b.x = 2; b.y = -2;
+    c.x = a.x+4; c.y = a.y;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { r = dist(a,c)/2.5;
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = c.x; line1.y2 = c.y;
+    c1.x = a.x; c1.y = a.y; c1.r = r;
+    line_circle(line1,c1,d,g); if (dist(d,c) > dist(g,c) ) swap(d,g);
+    line2.x1 = a.x; line2.y1 = a.y; line2.x2 = b.x; line2.y2 = b.y;
+    line_circle(line2,c1,e,g); if ( dist(e,b) > dist(g,b) )  swap(e,g);
+    c2.x = d.x; c2.y = d.y; c2.r = r;
+    c3.x = e.x; c3.y = e.y; c3.r = r;
+    circle_circle(c2,c3,f,g); if ( dist(f,c) > dist(g,c) ) swap(f,g);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_segment(a,c);
+    draw_segment(a,b);
+    draw_point(a,"red",W);
+    draw_point(b,"red",NE);
+    draw_point(c,"red",E);
+
+    if ( draw_stage == 0 ) return;
+
+    angle1 = Math.atan2(b.y-a.y,b.x-a.x);
+    angle2 = Math.atan2(c.y-a.y,c.x-a.x)
+    draw_arc(a,r,angle1-0.2,angle2+0.2);
+    draw_point(d,"black",NE);
+    draw_point(e,"black",N);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,c2.r,angle-0.2,angle+0.2);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,c2.r,angle-0.2,angle+0.2);
+    draw_point(f,"black",NE);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_ray(a,f);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 10 <br>
+   角平分线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset(); ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以A为圆心，任意半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以D为圆心，任意半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以E为圆心，相同半径作圆<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4" id="start">4. 角平分线AF<br>
+<tr><td> 原理说明：
+   由作图可知AD = AE且DF = EF，又AF = AF（自反性），因此三角形ADF与三角形AEF全等（SSS）。所以角DAF等于角EAF。
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="11-30-degree.html">下一个作图</a>
+<tr><td>
+  <a href="09-ThreeParts.html">上一个作图</a>
+
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

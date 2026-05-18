@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>镜像点</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+  var s = 1.3; // distance from mirror
+
+  var a = new Object;   a.label = "A";
+  var b = new Object;   b.label = "B";
+  var c = new Object;   c.label = "C";
+  var d = new Object;   d.label = "D";
+  var q = new Object;  
+  var c1 = new Object;
+  var c2 = new Object;
+  
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  {  a.x = -2; a.y = 0; 
+     b.x = 2.5; b.y = a.y;
+     c.x = 0; c.y = a.y-s;
+  }
+  
+  reset();
+  
+  function calc_points()
+  {  c1.x = a.x; c1.y = a.y, c1.r = dist(a,c);
+     c2.x = b.x; c2.y = b.y; c2.r = dist(b,c);
+     circle_circle(c1,c2,d,q); if ( dist(d,c) < dist(q,c) ) swap(d,q);
+  }
+  
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_line(a,b);
+    draw_point(c,"red",E); 
+
+    if ( draw_stage == 0 ) return;
+
+    draw_point(a,"red",N);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(c.y-a.y,c.x-a.x);
+    angle2 = Math.atan2(d.y-a.y,d.x-a.x);
+    draw_arc(a,dist(a,c),angle1-0.2,angle2+0.2);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(b,"red",N);
+   
+    if ( draw_stage == 3 ) return;
+
+    angle1 = Math.atan2(d.y-b.y,d.x-b.x);
+    angle2 = Math.atan2(c.y-b.y,c.x-b.x);
+    draw_arc(b,dist(b,c),angle1-0.2,angle2+0.2);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(d,"black",E);
+
+  
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 25<br>
+   点关于直线的镜像
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 直线上任意点 A<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以 A 为圆心，过 C 作弧<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 直线上任意点 B<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 B 为圆心，过 C 作弧<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5" id="start">5. 镜像点 D<br>
+<tr><td> C 的镜像点是镜面垂线上与 C 到镜面距离相等、位于镜面另一侧的点，而垂线作图法恰好能构造出这一点。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="26-Reflection.html">下一个作图</a>
+<tr><td>
+  <a href="24-SquareRectangle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

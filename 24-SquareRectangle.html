@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>等积正方形</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var t = 1.67 // side length
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var j = new Object;  j.label = "J";
+  var k = new Object;  k.label = "K";
+  var l = new Object;  l.label = "L";
+  var m = new Object;  m.label = "M";
+  var n = new Object;  n.label = "N";
+  var o = new Object;  o.label = "O";
+  var p = new Object;  p.label = "P";
+  var q = new Object;  q.label = "Q";
+  var line1 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  
+  var movable_pts = [a,b,d];
+    
+  function reset()
+  { a.x = -2.7; a.y = 0; 
+    b.x = a.x+s; b.y = a.y; 
+    c.x = b.x; c.y = b.y-t; 
+    d.x = a.x; d.y = a.y-t;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { 
+    da = dist(d,a);
+    d.x = a.x + da*(b.y-a.y)/dist(b,a);
+    d.y = a.y - da*(b.x-a.x)/dist(b,a);
+
+    c.x = b.x+(d.x-a.x); c.y = b.y+(d.y-a.y);
+    e.x = b.x - (c.y-b.y); e.y = b.y + (c.x-b.x);
+    c1.x = a.x; c1.y = a.y; c1.r = 0.7*dist(a,e);
+    c2.x = e.x; c2.y = e.y; c2.r = c1.r;
+    circle_circle(c1,c2,f,g); if ( dist(f,c) > dist(g,c) ) swap(f,g);
+    h.x = (a.x+e.x)/2; h.y = (a.y+e.y)/2;
+    c3.x = h.x; c3.y = h.y; c3.r = dist(h,e);
+    line1.x1 = b.x; line1.y1 = b.y; line1.x2 = c.x; line1.y2 = c.y;
+    line_circle(line1,c3,i,j); if ( dist(i,c) > dist(j,c) ) swap(i,j);
+    j.x = b.x - (i.y-b.y); j.y = b.y + (i.x-b.x);
+    k.x = j.x + (i.x-b.x); k.y = j.y + (i.y-b.y);
+    
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+ 
+    draw_segment(a,b);
+    draw_segment(b,c);
+    draw_segment(c,d);
+    draw_segment(d,a); 
+    draw_point(a,"red",W);
+    draw_point(b,"red",S);
+    draw_point(c,"black",NE);
+    draw_point(d,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_ray(a,b);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(e.y-b.y,e.x-b.x);
+    draw_arc(b,dist(b,c),angle-0.2,angle+0.2);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(f.y-a.y,f.x-a.x);
+    draw_arc(a,dist(a,f),angle-0.2,angle+0.2);
+    angle = Math.atan2(g.y-a.y,g.x-a.x);
+    draw_arc(a,dist(a,g),angle-0.2,angle+0.2);
+
+   
+    if ( draw_stage == 3 ) return;
+
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,dist(f,e),angle-0.2,angle+0.2);
+    angle = Math.atan2(g.y-e.y,g.x-e.x);
+    draw_arc(e,dist(g,e),angle-0.2,angle+0.2);
+    draw_point(f,"black",N);
+    draw_point(g,"black",E);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_segment(f,g);
+    draw_point(h,"black",NE);
+
+    if ( draw_stage == 5 ) return;
+    
+    angle = Math.atan2(a.y-h.y,a.x-h.x);
+    draw_arc(h,dist(h,a),angle-0.1,angle+Math.PI+0.1);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_ray(b,c);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_point(i,"black",NE);
+
+    if ( draw_stage == 8 ) return;
+
+    angle = Math.atan2(j.y-b.y,j.x-b.x);
+    draw_arc(b,dist(b,i),angle-0.2,angle+0.2);
+    draw_point(j,"black",NE);
+
+    if ( draw_stage == 9 ) return;
+
+    angle -= Math.PI/2;
+    draw_arc(j,dist(b,i),angle-0.2,angle+0.2);
+
+    if ( draw_stage == 10 ) return;
+
+    angle += Math.PI/2;
+    draw_arc(i,dist(b,i),angle-0.2,angle+0.2);
+    draw_point(k,"black",NE);
+
+    if ( draw_stage == 11 ) return;
+
+    draw_segment(j,k);
+    draw_segment(i,k);
+
+
+    if ( draw_stage == 12 ) return;
+
+    draw_segment(a,i);
+    draw_segment(i,e);
+
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 24<br>
+   等积正方形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 延长射线 AB<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以 B 为圆心，BC 为半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以 A 为圆心，任意半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 E 为圆心，相同半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 线段 FG，使 H 为 AE 的中点<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以 H 为圆心，过 A 的半圆<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 延长射线 BC<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 交点 I；IB 即为正方形的边长<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. 以 B 为圆心，BI 为半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10">10. 以 J 为圆心，BI 为半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(11)" value="11">11. 以 I 为圆心，IB 为半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(12)" value="12"  id="start">12. 正方形 HJKI<br>
+ <input type="radio" name="step" onclick="ddraw(13)" value="13" >13. 直角三角形表明 IB/AB = BE/IB<br>
+<tr><td> 原理说明：
+   作弦 AI 和 IE。角 AIE 内接于半圆，因此角 AIE 是直角。
+   三角形 AIB 与三角形 ABI 相似，因为它们共有角 A 且都是直角三角形；
+   同理，三角形 AIB 与三角形 IBE 相似。因此 ABI 与 IBE 相似，故 AB/BI = BI/BE。
+   交叉相乘得 AB·BE = BI²。由于 BE = BC，矩形面积 = AB·BC = BI² = 正方形面积。
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="25-MirrorPoint.html">下一个作图</a>
+<tr><td>
+  <a href="23-CircleInAngle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   ddraw(12);
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

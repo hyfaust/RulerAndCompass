@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>圆的切线</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+
+  var a = new Object;   a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var o = new Object;  o.label = " ";
+
+  var c1 = new Object;
+  var c2 = new Object;
+  
+  var movable_pts = [a,b,o];
+    
+  function reset()
+  { a.x = -1; a.y = 0; 
+    b.x = 2; b.y = a.y;
+    o.x = -2.0; o.y = 0.3;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { e.x = (a.x+b.x)/2; e.y = (a.y+b.y)/2;
+    c.x = e.x + 0.7*(b.y-a.y); c.y = e.y - 0.7*(b.x-a.x);
+    d.x = e.x - 0.7*(b.y-a.y); d.y = e.y + 0.7*(b.x-a.x); 
+    c1.x = a.x; c1.y = a.y; c1.r = dist(a,o);
+    c2.x = e.x; c2.y = e.y, c2.r = dist(e,a);
+    circle_circle(c1,c2,f,g); if ( dist(f,c) > dist(g,c) ) swap(f,g);    
+  }
+  
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(o,"red",W);
+    
+    draw_arc(a,dist(a,o),0,2*Math.PI);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_segment(a,b);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(c.y-a.y,c.x-a.x);
+    angle2 = Math.atan2(d.y-a.y,d.x-a.x);
+    draw_arc(a,dist(a,c),angle1-0.1,angle1+0.1);
+    draw_arc(a,dist(a,c),angle2-0.1,angle2+0.1);
+
+    if ( draw_stage == 2 ) return;
+
+    angle1 = Math.atan2(c.y-b.y,c.x-b.x);
+    angle2 = Math.atan2(d.y-b.y,d.x-b.x);
+    draw_arc(b,dist(b,c),angle1-0.1,angle1+0.1);
+    draw_arc(b,dist(b,c),angle2-0.1,angle2+0.1);
+
+    draw_point(c,"black",N);
+    draw_point(d,"black",S);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_segment(c,d);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_arc(e,dist(a,e),0,2*Math.PI);
+    draw_point(f,"black",N);
+    draw_point(g,"black",S);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_ray(b,f);
+    draw_ray(b,g);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_segment(a,f);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 27<br>
+  从圆外一点作圆的切线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 线段 AB<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以 A 为圆心，任意半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以 B 为圆心，相同半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. AB 的垂直平分线 CD<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 以 E 为圆心，过 A 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 切线 BF、BG<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. 半径 AF，因三角形内接于半圆而呈直角<br>
+<tr><td> 原理说明：
+   切线与半径垂直，而半圆内接角为直角，因此只需构造以 AB 为直径的圆，它与原圆的交点即为切点。
+   
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="28-TangentCircle.html">下一个作图</a>
+<tr><td>
+  <a href="26-Reflection.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

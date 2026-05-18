@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>在线上一点作垂线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = -2.5; a.y = 0.0; a.label = "A";
+  var b = new Object;  b.x = 2.5; b.y = 0.0; b.label = "B";
+  var c = new Object;  c.x = 0; c.y = 0 ; c.label = "C";
+  var d = new Object;  d.x = -1; d.y = a.y ; d.label = "D";
+  var e = new Object;  e.x =  1; e.y = a.y ; e.label = "E";
+  var r = Math.sqrt((c.x-d.x)*(c.x-d.x)+(c.y-d.y)*(c.y-d.y));
+  var rr = 1.5*r;
+  var f = new Object;  f.x = 0; f.y = -Math.sqrt(rr*rr-d.x*d.x) ; f.label = "F";
+  var ff = new Object;  ff.x = 0; ff.y = -3.5 ; ff.label = "F";
+  var g = new Object;  g.x = 0; g.y = Math.sqrt(rr*rr-d.x*d.x) ; g.label = "G";
+  var gg = new Object;  gg.x = 0; gg.y = 3.5 ; gg.label = "G";
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  var line1 = new Object;
+  
+  var movable_pts = [a,b,c];
+  
+  function reset()
+  {  a.x = -2.5; a.y = 0.0; 
+     b.x = 2.5; b.y = 0.0;
+     c.x = 0; c.y = 0 ;
+  }
+  function calc_points()
+  {
+    // project c to line	
+	dot = (c.x-a.x)*(b.x-a.x) + (c.y-a.y)*(b.y-a.y);
+	c.x = a.x + dot/dist(a,b)/dist(a,b)*(b.x-a.x);
+	c.y = a.y + dot/dist(a,b)/dist(a,b)*(b.y-a.y);
+	
+    c1.x = c.x; c1.y = c.y; c1.r = r;
+	line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+	line_circle(line1,c1,d,e);
+	if ( dist(a,d) > dist(a,e) ) swap(d,e);
+
+	rr = 1.3*dist(d,c);
+	c2.x = d.x; c2.y = d.y; c2.r = rr;
+	c3.x = e.x; c3.y = e.y; c3.r = rr;
+	circle_circle(c2,c3,f,g);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+	
+	draw_segment(a,b);
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+    draw_point(c,"red",NE);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_arc(c,r,Math.PI-0.2,2*Math.PI+0.2);
+    draw_point(d,"black",NE);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,rr,angle-0.2,angle+0.2);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,rr,angle-0.2,angle+0.2);
+
+    if ( draw_stage == 3 ) return;
+  
+    draw_point(f,"black",E);
+   
+    if ( draw_stage == 4 ) return;
+
+    draw_line(f,g);
+    draw_point(c,"red",NE);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 3 <br>
+在线上一点作垂线  </H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以C为圆心作任意圆，与直线AB相交于D、E<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以D为圆心，半径大于DC作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以E为圆心，相同半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 交点F <br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5"  id="start">5. 垂直线FC <br>
+<tr><td> 原理说明：
+  点C到D和E的距离相等，因此C位于DE的垂直平分线上，即直线FG。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="04-SquareOnSide.html">下一个作图</a>
+<tr><td>
+  <a href="02-PerpToLine.html">上一个作图</a>
+</table>
+</table>
+
+<script>
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   ctx = canvas.getContext('2d');
+   draw(100);
+
+</script>
+
+
+</body>
+</html>
+
+
+

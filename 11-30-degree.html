@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   30度角 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+
+  var a = new Object; a.label = "A";
+  var b = new Object; b.label = "B";
+  var c = new Object; c.label = "C";
+  var d = new Object; d.label = "D";
+  var g = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+
+  var movable_pts = [a,b];
+    
+  function reset()
+  { a.x = -2; a.y = 0; 
+    b.x = 0; b.y = a.y;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { c1.x = a.x; c1.y = a.y; c1.r = dist(a,b);
+    c2.x = b.x; c2.y = b.y; c2.r = dist(b,a);
+    circle_circle(c1,c2,c,d);
+    if ( (c.x-a.x)*(b.y-a.y) - (c.y-a.y)*(b.x-a.x) < 0 ) swap(c,d);
+    c3.x = c.x; c3.y = c.y; c3.r = c1.r;
+    circle_circle(c3,c2,d,g); if ( dist(d,a) < dist(g,a) ) swap(d,g);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_point(a,"red",SW);
+    draw_point(b,"red",SE);
+    draw_segment(a,b);
+
+    if ( draw_stage == 0 ) return;
+
+    angle = Math.atan2(b.y-a.y,b.x-a.x);
+    draw_arc(a,c1.r,angle-Math.PI/3-0.2,angle+0.2);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(c.y-b.y,c.x-b.x);
+    draw_arc(b,c2.r,angle-0.2-Math.PI/3,angle+Math.PI/3+0.2);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(c,"black",N); 
+
+    if ( draw_stage == 3 ) return;
+
+    angle = Math.atan2(b.y-c.y,b.x-c.x);
+    draw_arc(c,c3.r,angle-Math.PI/3-0.2,angle+0.2);
+    draw_point(d,"black",E);
+ 
+    if ( draw_stage == 4 ) return;
+
+    draw_ray(a,d);
+
+
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 11 <br>
+   30度角的作图
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以A为圆心，过B作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，过A作圆<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 交点C<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以C为圆心，过B作圆<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5" id="start">5. 角边AD<br>
+<tr><td>原理说明：ABC是等边三角形，所以角BAC是60度。然后构造D来平分这个角。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="12-ThreePointCircle.html">下一个作图</a>
+<tr><td>
+  <a href="10-AngleBisector.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

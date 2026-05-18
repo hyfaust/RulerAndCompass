@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>角与圆的相切</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+
+ <script>
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -2.5; a.y = 0.5; a.label = "A";
+  var b = new Object;  b.x = 1.5; b.y = a.y; b.label = "B";
+  var d = new Object;  d.x = 2; d.y = -1.1; d.label = "D";
+  var mm = (d.y-a.y)/(d.x-a.x);
+  var mmm = 2*mm/(1-mm*mm);
+  var c = new Object;  c.x = 2; c.y = a.y+mmm*(c.x-a.x); c.label = "C";
+  var e = new Object;  e.x = 0; e.y = 0; e.label = "E";
+  var f = new Object;  f.x = 0; f.y = 0; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var h = new Object;  h.x = 0; h.y = 0; h.label = "H";
+  var i = new Object;  i.x = 0; i.y = 0; i.label = "I";
+  var j = new Object;  j.x = 0; j.y = 0; j.label = "J";
+  var k = new Object;  k.x = 0; k.y = 0; k.label = "K";
+  var l = new Object;  l.x = 0; l.y = 0; l.label = "L";
+  var m = new Object;  m.x = 0; m.y = 0; m.label = "M";
+  var n = new Object;  n.x = 0; n.y = 0; n.label = "N";
+  var o = new Object;  o.x = 0; o.y = 0; o.label = "O";
+  var p = new Object;  p.x = 0; p.y = 0; p.label = "P";
+  var q = new Object;  q.x = 0; q.y = 0; q.label = "Q";
+
+  // Line objects, fields x1,y1,x2,y2
+  var L1 = new Object; L1.x1 = a.x; L1.y1 = a.y; L1.x2 = b.x; L1.y2 = b.y;
+  var L2 = new Object; L2.x1 = a.x; L2.y1 = a.y; L2.x2 = d.x; L2.y2 = d.y;
+  var L3 = new Object;
+  var L4 = new Object;
+  var L5 = new Object;
+  var L6 = new Object;
+  var L7 = new Object;
+  var L8 = new Object;
+  var L9 = new Object;
+
+  // Circle objects, fields x,y,r
+  var c1 = new Object; c1.x = d.x; c1.y = d.y; c1.r = 1.2;
+  var c2 = new Object; 
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var movable_pts = [a,b,d];
+  
+  function reset()  
+  {
+    a.x = -2.5; a.y = 0.5; a.label = "A";
+    b.x = 1.5; b.y = a.y; b.label = "B";
+    d.x = 2; d.y = -1.1; d.label = "D";
+    mm = (d.y-a.y)/(d.x-a.x);
+    mmm = 2*mm/(1-mm*mm);
+    c.x = 2; c.y = a.y+mmm*(c.x-a.x); 
+    L1.x1 = a.x; L1.y1 = a.y; L1.x2 = b.x; L1.y2 = b.y;
+    L2.x1 = a.x; L2.y1 = a.y; L2.x2 = d.x; L2.y2 = d.y;
+    c1.x = d.x; c1.y = d.y; c1.r = 1.2;
+  }
+  
+  reset();
+
+  
+  function calc_points() // calculate entire construction
+  { angle_1 = Math.atan2(b.y-a.y,b.x-a.x);
+    angle_2 = Math.atan2(d.y-a.y,d.x-a.x);
+    angle_3 = angle_2 + (angle_2-angle_1);
+    c.x = 2; c.y = a.y+Math.tan(angle_3)*(c.x-a.x); c.label = "C";
+    L1.x1 = a.x; L1.y1 = a.y; L1.x2 = b.x; L1.y2 = b.y;
+    L2.x1 = a.x; L2.y1 = a.y; L2.x2 = d.x; L2.y2 = d.y;
+    c1.x = d.x; c1.y = d.y; c1.r = 1.2;
+    line_circle(L2,c1,e,f); if ( f.x < e.x ) { e.x = f.x; e.y = f.y; } 
+    off_perp_to_line(e,L1,L4);
+    line_line(L1,L4,f);
+    c2.x = e.x; c2.y = e.y; c2.r = dist(e,f);
+    line_circle(L2,c2,g,h); if ( h.x > g.x ) { g.x = h.x; g.y = h.y; }
+    L5.x1 = e.x; L5.y1 = e.y;
+    L5.x2 = e.x + (g.x-f.x); L5.y2 = e.y + (g.y-f.y);
+    line_line(L1,L5,h);
+    perp_to_line(h,b,L6);
+    line_line(L6,L2,i);
+  }
+
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+    draw_ray(a,b);
+    draw_point(c,"black",NW);
+    draw_ray(a,c);
+    draw_point(d,"red",NW);
+    draw_ray(a,d);
+    draw_arc(d,c1.r,0,2*Math.PI);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_point(e,"black",SE);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_line_L(L4);
+    draw_point(f,"black",NW);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_arc(e,dist(e,f),0,2*Math.PI);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_point(g,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_segment(f,g);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_line_L(L5);
+    draw_point(h,"black",NW);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_line_L(L6);
+    draw_point(i,"black",NW);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_arc(i,dist(i,h),0,2*Math.PI);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 33 <br>
+  角平分线上与给定圆相切的圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 圆与角平分线的交点 E <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 过 E 作 AB 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以 E 为圆心过 F 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 圆与角平分线的交点 G<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 线段 FG<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 过 E 作 FG 的平行线<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 过 H 作 AB 的垂线，与角平分线交于 I<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8" id="start">8. 以 I 为圆心过 H 的圆<br>
+<tr><td>
+原理说明：我们知道点 E 将是所求圆的一个切点。因此在 E 处构造一个与角的两边相切的圆，
+并利用相似性找到相切圆的圆心 I。平行线 HE 和 FG 将截线 AD 和 AB 分成相等的比例。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="34-CircleAnglePoint.html">下一个作图：34 过点与角相切的圆</a>
+<tr><td>
+  <a href="32-CircleTanParLinesCircle.html">上一个作图：32 与平行线和圆相切</a>
+</table>
+</table>
+<script>
+
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>过线外一点作垂线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+ 
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = -2.5; a.y = 0.0; a.label = "A";
+  var b = new Object;  b.x = 2.5; b.y = 0.0; b.label = "B";
+  var c = new Object;  c.x = 0; c.y = -1.5 ; c.label = "C";
+  var cc = new Object;  cc.x = 0; cc.y = -3.5 ; cc.label = "C";
+  var d = new Object;  d.x = -1; d.y = a.y ; d.label = "D";
+  var e = new Object;  e.x =  1; e.y = a.y ; e.label = "E";
+  var r = Math.sqrt((c.x-d.x)*(c.x-d.x)+(c.y-d.y)*(c.y-d.y));
+  var f = new Object;  f.x = 0; f.y = 1.5 ; f.label = "F";
+  var ff = new Object;  ff.x = 0; ff.y = 3.5 ; ff.label = "F";
+  var line1= new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  var movable_pts = [a,b,c];
+  
+  function reset()
+  { a.x = -2.5; a.y = 0.0; a.label = "A";
+    var b = new Object;  b.x = 2.5; b.y = 0.0; b.label = "B";
+    var c = new Object;  c.x = 0; c.y = -1.5 ;
+  }
+  function calc_points()
+  {
+  	r = 1.2*Math.abs((c.x-a.x)*(b.y-a.y)-(c.y-a.y)*(b.x-a.x))/dist(a,b);
+	line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+	c1.r = r; c1.x = c.x; c1.y = c.y;
+	line_circle(line1,c1,d,e);
+    c2.r = dist(d,c); c2.x = d.x; c2.y = d.y;
+	c3.r = dist(e,c); c3.x = e.x; c3.y = e.y;
+	circle_circle(c2,c3,f,ff);
+	if ( dist(ff,c) > dist(ff,c) ) f = g;
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+	
+	draw_segment(a,b);
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+    draw_point(c,"red",NE);
+
+    if ( draw_stage == 0 ) return;
+
+    var angle = Math.atan2(b.y-a.y,b.x-a.x);
+    draw_arc(c,r,angle+0.8,angle+Math.PI-0.8);
+    draw_point(d,"black",SE);
+    draw_point(e,"black",SW);
+    draw_point(c,"red",NE);
+	
+    if ( draw_stage == 1 ) return;
+
+	angle = Math.atan2(d.y-e.y,d.x-e.x);
+    draw_arc(d,r,angle+1.9,angle-1.9);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_arc(e,r,angle-1.2,angle+1.2);
+    draw_point(c,"red",NE);
+	
+    if ( draw_stage == 3 ) return;
+  
+    draw_point(f,"black",W);
+   
+    if ( draw_stage == 4 ) return;
+
+    draw_line(f,c);
+	draw_point(c,"red",NE);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 2 <br>
+过线外一点作垂线  </H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以C为圆心作任意圆，与直线AB相交<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以D为圆心，过C点作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以E为圆心，过C点作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 下方交点F <br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5"  id="start">5. 垂直线FC <br>
+<tr><td> 原理说明：
+   点E和点D到C的距离相等，因此C位于DE的垂直平分线上。而F被构造为到D和E的距离相等，因此F也在垂直平分线上。所以CF是DE的垂直平分线，也就是过C点且垂直于AB的直线。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="03-PerpAtPointOnLine.html">下一个作图</a>
+<tr><td>
+  <a href="01-PerpBisector.html">上一个作图</a>
+</table>
+</table>
+
+<script>
+
+// Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

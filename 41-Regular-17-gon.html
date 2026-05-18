@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>圆内接正十七边形</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+ 
+  // Point objects, fields x,y,label
+  var a = new Object; a.label = "A";
+  var b = new Object; b.label = "B";
+  var line1= new Object;
+
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  line2 = new Object;
+  var circle1 = new Object;
+  line3 = new Object;
+  var i = new Object;   i.label = "I";
+  var j = new Object;   j.label = "J";
+  var circle2 = new Object; 
+  var circle3 = new Object; 
+  var k = new Object; k.label = "K";
+  var circle4 = new Object; 
+  var circle5 = new Object;  
+  var l = new Object; l.label = "L";
+  var m = new Object; m.label = "M";
+  var n = new Object; n.label = "N";
+  var p = new Object; p.label = "P";
+  var line4 = new Object;
+  var q = new Object; q.label = "Q";
+  var r = new Object; r.label = "R";
+  var lineq = new Object; 
+  var liner = new Object;
+  var movable_pts = [a,b];
+  var s = new Object; s.label = "S";
+  var t = new Object; t.label = "T";
+  var u = new Object; u.label = "U";
+  var x = new Object;
+  var w = new Object; w.label = "";
+  var y = new Object;
+  var z = new Object;
+  
+  function reset()
+  { a.x = 0; a.y = -0.5; 
+    b.x = -2; b.y = a.y; 
+  }
+  
+  reset();   // initialize upon loading
+  
+  function calc_points()
+  {   
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    c.x = a.x - (b.y-a.y); c.y = a.y - (a.x-b.x); 
+    d.x = a.x + (b.y-a.y); d.y = a.y + (a.x-b.x); 
+    e.x = a.x + (a.x-b.x); e.y = a.y + (a.y-b.y); 
+    line4.x1 = c.x; line4.y1 = c.y; line4.x2 = d.x; line4.y2 = d.y;
+    f.x = (a.x+c.x)/2; f.y = (a.y+c.y)/2;
+    g.x = (a.x+f.x)/2; g.y = (a.y+f.y)/2;
+    h.x = (a.x+e.x)/2; h.y = (a.y+e.y)/2; 
+    circle3.x = g.x; circle3.y = g.y; circle3.r = dist(g,e);
+    line_circle(line4,circle3,p,h); if ( dist(p,a) > dist(h,a) ) swap(p,a);
+    h.x = (e.x+p.x)/2; h.y = (e.y+p.y)/2;
+    rad = dist(h,g);
+    h.x = g.x + dist(g,e)*(h.x-g.x)/rad; h.y = g.y + dist(g,e)*(h.y-g.y)/rad;
+    i.x = (h.x+p.x)/2; i.y = (h.y+p.y)/2;
+    rad = dist(i,g);
+    i.x = g.x + dist(g,e)*(i.x-g.x)/rad; i.y = g.y + dist(g,e)*(i.y-g.y)/rad;
+    circle1.x = a.x; circle1.y = a.y; circle1.r = dist(a,b);
+    line2.x1 = g.x; line2.y1 = g.y; line2.x2 = i.x; line2.y2 = i.y;
+    line_line(line1,line2,j);
+    line3.x1 = g.x; line3.y1 = g.y;
+    line3.x2 = g.x + (j.x-g.x)/Math.sqrt(2) - (j.y-g.y)/Math.sqrt(2);
+    line3.y2 = g.y + (j.x-g.x)/Math.sqrt(2) + (j.y-g.y)/Math.sqrt(2);
+    line_line(line3,line1,k);
+    m.x = (k.x+e.x)/2; m.y = (k.y+e.y)/2;
+    circle2.x = m.x; circle2.y = m.y; circle2.r = dist(m,e);
+    line_circle(line4,circle2,n,q); if ( dist(q,g) < dist(n,g) ) swap(n,q);
+    circle4.x = j.x; circle4.y = j.y; circle4.r = dist(j,n);
+    line_circle(line1,circle4,q,r);
+    perp_to_line(q,a,lineq);
+    perp_to_line(r,a,liner);
+    line_circle(lineq,circle1,s,t); if ( dist(s,g) > dist(t,g) ) swap(s,t);
+    line_circle(liner,circle1,t,u); if ( dist(t,g) > dist(u,g) ) swap(t,u);
+    
+    circle5.r = dist(s,t);
+    z.x = t.x; z.y = t.y;
+    y.x = s.x; y.y = s.y;
+    circle5.x = z.x; circle5.y = z.y;
+    circle_circle(circle5,circle1,u,x);
+    if ( dist(u,y) < dist(x,y) ) swap(u,x);
+
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+      
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",SE);
+    draw_arc(a,circle1.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 0 ) return;
+
+    draw_segment(b,e);
+    draw_segment(c,d);
+    draw_point(c,"black",NE);
+    draw_point(d,"black",SE);
+    draw_point(e,"black",NE);
+    
+    if ( draw_stage == 1 ) return;
+
+    draw_point(f,"black",E);
+
+    if ( draw_stage == 2 ) return;
+    
+    draw_point(g,"black",E);
+    
+    if ( draw_stage == 3 ) return;
+    
+    draw_segment(g,e);
+    draw_arc(g,dist(g,e),0.0,2*Math.PI);
+    draw_point(p,"black",SE);
+
+    if ( draw_stage == 4 ) return;
+    
+    draw_ray(g,h);
+    draw_point(h,"black",SE);
+    
+    if ( draw_stage == 5 ) return;
+  
+    draw_ray(g,i);
+    draw_point(i,"black",SE);
+    
+    if ( draw_stage == 6 ) return;  
+    
+    draw_point(j,"black",S);
+   
+    if ( draw_stage == 7 ) return; 
+    
+    draw_point(k,"black",SE);
+    draw_ray(g,k);
+
+    if ( draw_stage == 8 ) return; 
+
+    draw_arc(m,circle2.r, 0.0, 2*Math.PI);
+    draw_point(m,"black",NW);
+    
+    if ( draw_stage == 9 ) return; 
+
+    draw_point(n,"black",NW);
+    
+    if ( draw_stage == 10) return; 
+
+    draw_arc(j,dist(j,n),0.0,2*Math.PI);
+    draw_point(q,"black",SE);
+    draw_point(r,"black",SW);
+    
+    if ( draw_stage == 11 ) return; 
+
+    draw_line_L(liner);
+    draw_line_L(lineq);
+    
+    if ( draw_stage == 12 ) return; 
+
+    draw_point(s,"black",NE);
+    draw_point(t,"black",NW);
+    
+    if ( draw_stage == 13 ) return; 
+    
+    draw_arc(t,dist(t,s),0.0,2*Math.PI);
+    draw_point(u,"black",W);
+
+    if ( draw_stage == 14 ) return;
+    v = new Object; v.x = z.x; v.y = z.y;	
+	gon_pts = [v];
+    for ( nn = 1 ; nn <= 16 ; nn++)
+    { circle5.x = z.x; circle5.y = z.y;
+      circle_circle(circle5,circle1,w,x);
+      if ( dist(w,y) < dist(x,y) ) swap(w,x);
+      draw_point(w,"black",N);
+      y.x = z.x; y.y = z.y;
+      z.x = w.x; z.y = w.y;
+	  v = new Object; v.x = z.x; v.y = z.y;
+	  gon_pts.push(v);  // Have to clone the object!
+    }
+   
+    if ( draw_stage == 15 ) return;
+	for ( nn = 0 ; nn < 17 ; nn++)
+	{ draw_segment(gon_pts[nn],gon_pts[(nn+9) % 17],"red");
+	}
+    
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 41 <br>
+圆内接正十七边形</H3>
+
+<table>
+<tr>
+<td>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置。<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 互相垂直的直径 BE、CD。<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 半径 AC 的中点 F。<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. AF 的中点 G，AC 的四等分点。<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 G 为圆心，过 E 的圆。<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 角 EGP 的平分线 GH。<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 角 EHP 的平分线 GI。<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. GI 与 AE 的交点 J。<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 射线 GK，与 GI 成 45° 角。<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. 以 KE 为直径的圆，圆心为 M。<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10">10. 圆与 AC 的交点 N。<br>
+ <input type="radio" name="step" onclick="ddraw(11)" value="11">11. 以 J 为圆心，过 N 的圆。<br>
+ <input type="radio" name="step" onclick="ddraw(12)" value="12">12. 在 Q、R 处的垂线。<br>
+ <input type="radio" name="step" onclick="ddraw(13)" value="13">13. 正十七边形的两个顶点 S、T。<br>
+ <input type="radio" name="step" onclick="ddraw(14)" value="14">14. 以 T 为圆心，过 S 的圆，得到顶点 U。<br>
+ <input type="radio" name="step" onclick="ddraw(15)" value="15">15. 重复上一步 14 次，绕行两圈得到所有顶点。<br>
+ <input type="radio" name="step" onclick="ddraw(16)" value="16" id="start">16. 连接各顶点的线段即为正十七边形。<br>
+
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+
+<tr><td>
+  <a href="40-RegularPentagon.html">上一个作图：40 正五边形</a>
+</table>
+</table>
+
+<script>
+
+// Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</html>
+
+
+

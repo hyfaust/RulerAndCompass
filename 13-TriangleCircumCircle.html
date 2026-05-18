@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>  三角形外接圆</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+  var o = new Object;  o.label = "O";
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+
+  var d = new Object;   d.label = "D";
+  var e = new Object;   e.label = "E";
+  var e = new Object;   e.label = "E";
+
+  var f = new Object;   f.label = "F";
+  var g = new Object;   g.label = "G";
+  var h = new Object; 
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+
+  var line1 = new Object;
+  var line2 = new Object;
+  
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  { a.x = -2; a.y = 0; 
+    b.x = 1; b.y = a.y;
+    c.x = -1.5, c.y = -2;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { c1.x = a.x; c1.y = a.y; c1.r = 0.7*dist(a,b);
+    c2.x = b.x; c2.y = b.y; c2.r = c1.r;
+    circle_circle(c1,c2,d,e); if ( dist(d,c) > dist(e,c) ) swap(d,e);
+    c3.x = c.x; c3.y = c.y; c3.r = 0.7*dist(a,c);
+    c4.x = a.x; c4.y = a.y; c4.r = c3.r
+    circle_circle(c3,c4,f,g); if ( dist(g,b) > dist(f,b) ) swap(g,f);
+    line1.x1 = d.x; line1.y1 = d.y; line1.x2 = e.x; line1.y2 = e.y;
+    line2.x1 = f.x; line2.y1 = f.y; line2.x2 = g.x; line2.y2 = g.y;
+    line_line(line1,line2,o)
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_segment(a,b);
+    draw_segment(b,c);
+    draw_segment(c,a);
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    angle1 = Math.atan2(d.y-a.y,d.x-a.x);
+    angle2 = Math.atan2(e.y-a.y,e.x-a.x);
+    draw_arc(a,c1.r,angle1-0.2,angle2+0.2);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(e.y-b.y,e.x-b.x);
+    angle2 = Math.atan2(d.y-b.y,d.x-b.x);
+    draw_arc(b,c2.r,angle1-0.2,angle2+0.2);
+    draw_point(d,"black",E);
+    draw_point(e,"black",E);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_line(d,e);
+   
+    if ( draw_stage == 3 ) return;
+
+    angle1 = Math.atan2(f.y-a.y,f.x-a.x);
+    angle2 = Math.atan2(g.y-a.y,g.x-a.x);
+    draw_arc(a,c3.r,angle1-0.2,angle2+0.2);
+
+    if ( draw_stage == 4 ) return;
+
+    angle1 = Math.atan2(g.y-c.y,g.x-c.x);
+    angle2 = Math.atan2(f.y-c.y,f.x-c.x);
+    draw_arc(c,c4.r,angle1-0.2,angle2+0.2);
+    draw_point(f,"black",NE);
+    draw_point(g,"black",N);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_line(f,g);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_point(o,"black",NE);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_arc(o,dist(o,a),0,2*Math.PI);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 13 <br>
+   给定三角形的外接圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset(); ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以A为圆心，任意半径作圆弧 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，相同半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. AB的垂直平分线DE<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以A为圆心，任意半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 以C为圆心，相同半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. AC的垂直平分线FG<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 外接圆圆心O<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8" id="start">8. 以O为圆心的外接圆<br>
+<tr><td> 原理说明：
+  AB和AC是所求圆的弦，作图过程作出了这些弦的垂直平分线，它们相交于圆心。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="14-Incircle.html">下一个作图</a>
+<tr><td>
+  <a href="12-ThreePointCircle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

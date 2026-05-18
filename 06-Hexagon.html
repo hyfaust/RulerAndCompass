@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   以给定线段为边作正六边形 </title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+  var s = 2; // side length
+  var r = 1.0;
+  var rr = 2.5;
+
+  var a = new Object;  a.x = -1; a.y = 1; a.label = "A";
+  var b = new Object;  b.x = 1; b.y =  1; b.label = "B";
+  var o = new Object;  o.label = "O"; 
+  var c = new Object;  c.x = o.x+s; c.y = o.y; c.label = "C";
+  var d = new Object;  d.x = o.x+s/2; d.y = o.y-s*Math.sqrt(3)/2; d.label = "D";
+  var e = new Object;  e.x = o.x-s/2; e.y = o.y-s*Math.sqrt(3)/2; e.label = "E";
+  var f = new Object;  f.x = o.x-s; f.y = o.y; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  
+  var movable_pts = [a,b];
+    
+  function reset()
+  { a.x = -1; a.y = 1; a.label = "A";
+    b.x = 1; b.y =  1;
+  }
+ 
+  function calc_points()
+  { s = dist(a,b);
+    o.x = (a.x+b.x)/2 - Math.sqrt(3)/2*(a.y-b.y);
+        o.y = (a.y+b.y)/2 + Math.sqrt(3)/2*(a.x-b.x); 
+    c1.x = a.x; c1.y = a.y; c1.r = s;
+    c2.x = b.x; c2.y = b.y; c2.r = s;    
+    c3.x = o.x; c3.y = o.y; c3.r = s;
+    circle_circle(c2,c3,c,g); if ( dist(c,a) < dist(g,a) ) swap(c,g);
+    circle_circle(c1,c3,f,g); if ( dist(f,b) < dist(g,b) ) swap(f,g);
+    c4.x = c.x; c4.y = c.y; c4.r = s;
+    circle_circle(c3,c4,d,g); if ( dist(d,b) < dist(g,b) ) swap(d,g);
+    c5.x = d.x; c5.y = d.y; c5.r = s;
+    circle_circle(c3,c5,e,g); if ( dist(e,c) < dist(g,c) ) swap(e,g);
+
+  }
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+    
+    draw_segment(a,b);
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+
+
+    if ( draw_stage == 0 ) return;
+
+    draw_arc(a,s,-2.4,0.1);
+
+
+    if ( draw_stage == 1 ) return;
+
+    draw_arc(b,s,-3.3,-0.6);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(o,"black",N);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_arc(o,s,0,2*Math.PI);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(c,"black",NE);
+    draw_point(f,"black",NW);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_arc(c,s,-3.3,-1.8);
+    draw_point(d,"black",N);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_arc(d,s,1.9,3.3);
+
+    draw_point(e,"black",NW);
+
+
+    if ( draw_stage == 7 ) return;
+
+    draw_segment(b,c);
+    draw_segment(c,d);
+    draw_segment(d,e);
+    draw_segment(e,f);
+    draw_segment(f,a);
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 6 <br>
+   以给定线段为边作正六边形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset(); ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以A为圆心，过B点作圆弧 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，过A点作圆弧 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 交点O，正六边形的中心<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以O为圆心，过A点作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 交点C和F<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以C为圆心，过O点作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 以D为圆心，过O点作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8" id="start">8. 正六边形的边BC、CD、DE、EF、FA<br>
+<tr><td> 原理说明：
+  ABO构成一个等边三角形，因此弦AB在O点所对的圆心角为60度。因此，将弦围绕以O为圆心的圆复制，得到60度的弦，这些弦构成了正六边形。
+   
+  
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="07-CopyAngle.html">下一个作图</a>
+<tr><td>
+  <a href="05-EquilateralTriangle.html">上一个作图</a>
+
+</table>
+</table>
+<script>
+
+    // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   ctx = canvas.getContext('2d');
+   draw(100);
+
+</script>
+
+
+</body>
+</html>
+
+
+

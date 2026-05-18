@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>过点与角相切</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+
+ <script>
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -2; a.y = 1; a.label = "A";
+  var b = new Object;  b.x = 2.7; b.y = a.y; b.label = "B";
+  var c = new Object;  c.x = 0; c.y = -2.5; c.label = "C";
+  var d = new Object;  d.x = 1; d.y = -0.2; d.label = "D";
+  var e = new Object;  e.x = 0; e.y = 0; e.label = "E";
+  var f = new Object;  f.x = 0; f.y = 0; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var h = new Object;  h.x = 0; h.y = 0; h.label = "H";
+  var i = new Object;  i.x = 0; i.y = 0; i.label = "I";
+  var j = new Object;  j.x = 0; j.y = 0; j.label = "J";
+  var k = new Object;  k.x = 0; k.y = 0; k.label = "K";
+  var l = new Object;  l.x = 0; l.y = 0; l.label = "L";
+  var m = new Object;  m.x = 0; m.y = 0; m.label = "M";
+  var n = new Object;  n.x = 0; n.y = 0; n.label = "N";
+  var o = new Object;  o.x = 0; o.y = 0; o.label = "O";
+  var p = new Object;  p.x = 0; p.y = 0; p.label = "P";
+  var q = new Object;  q.x = 0; q.y = 0; q.label = "Q";
+
+  // Line objects, fields x1,y1,x2,y2
+  var L1 = new Object; L1.x1 = a.x; L1.y1 = a.y; L1.x2 = b.x; L1.y2 = b.y;
+  var L2 = new Object; L2.x1 = a.x; L2.y1 = a.y; L2.x2 = c.x; L2.y2 = c.y;
+  var L3 = new Object;
+  var L4 = new Object;
+  var L5 = new Object;
+  var L6 = new Object;
+  var L7 = new Object;
+  var L8 = new Object;
+  var L9 = new Object;
+
+  // Circle objects, fields x,y,r
+  var c1 = new Object; 
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var movable_pts = [a,b,c,d];
+  
+  function reset()
+  { a.x = -2; a.y = 1; 
+    b.x = 2.7; b.y = a.y;
+    c.x = 0; c.y = -2.5;
+    d.x = 1; d.y = -0.2; 
+  }
+  
+  reset();
+
+  function calc_points() // calculate entire construction
+  { L1.x1 = a.x; L1.y1 = a.y; L1.x2 = b.x; L1.y2 = b.y;
+    L2.x1 = a.x; L2.y1 = a.y; L2.x2 = c.x; L2.y2 = c.y;
+    off_perp_to_line(d,L1,L3);
+    line_line(L1,L3,e);
+    c1.x = a.x; c1.y = a.y; c1.r = dist(d,e);
+    line_circle(L1,c1,f,g);  if ( g.x > f.x ) { f.x = g.x; f.y = g.y; }
+    perp_to_line(f,a,L4);
+    line_circle(L2,c1,p,q); if ( q.y < p.y ) { p.x = q.x; p.y = q.y; }
+    q.x = (f.x+p.x)/2; q.y = (f.y+p.y)/2;
+    L5.x1 = a.x; L5.y1 = a.y; L5.x2 = q.x; L5.y2 = q.y;
+    line_line(L4,L5,g);
+    c2.x = e.x; c2.y = e.y; c2.r = dist(f,g);
+    line_circle(L1,c2,h,i); if ( i.x > h.x ) { h.x = i.x; h.y = i.y; }
+    perp_to_line(d,a,L6);
+    c3.x = a.x; c3.y = a.y; c3.r = dist(a,h);
+    line_circle(L6,c3,i,j); if ( j.y > i.y )  { i.x = j.x; i.y = j.y; }
+    c4.x = h.x; c4.y = h.y; c4.r = dist(d,i);
+    line_circle(L1,c4,j,k); if ( dist(a,j) > dist(a,k) ) { j.x = k.x; j.y = k.y; }
+    perp_to_line(j,h,L7);
+    line_line(L5,L7,k);
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NW);
+    draw_point(c,"red",NW);
+    draw_point(d,"red",NE);
+    draw_ray(a,b);
+    draw_ray(a,c);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_line_L(L3);
+    draw_point(e,"black",NW);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_arc(a,dist(d,e),0,2*Math.PI);
+    draw_point(f,"black",NW);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_line_L(L4);
+
+    if ( draw_stage == 3 ) return;
+
+    draw_ray(a,q);
+    draw_point(g,"black",NW);
+   
+
+    if ( draw_stage == 4 ) return;
+
+    draw_arc(e,dist(f,g),0,2*Math.PI);
+    draw_point(h,"black",NW); 
+
+    if ( draw_stage == 5 ) return;
+
+    draw_segment(a,d);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_line_L(L6);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_arc(a,dist(a,h),0,2*Math.PI);
+    draw_point(i,"black",E);
+
+    if ( draw_stage == 8 ) return;
+
+    draw_arc(h,dist(d,i),0,2*Math.PI);
+    draw_point(j,"black",NW);
+
+    if ( draw_stage == 9 ) return;
+
+    draw_line_L(L7);
+    draw_point(k,"black",NW);
+
+    if ( draw_stage == 10 ) return;
+
+    draw_arc(k,dist(k,d),0,2*Math.PI);
+
+  }
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 34 <br>
+   与给定角内切且过给定点的圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 过 D 作 AB 的垂线 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以 A 为圆心、DE 为半径的圆<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 过 F 作 AB 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 角平分线<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 以 E 为圆心、FG 为半径的圆<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 线段 AD<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 过 D 作 AD 的垂线，交点 F<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 以 A 为圆心过 H 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. 以 H 为圆心、DI 为半径的圆<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10">10. 过 J 作 AB 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(11)" value="11" id="start">11. 以 K 为圆心过 D 的圆<br>
+<tr><td>
+原理说明：设角平分线的斜率为 m，D = (a,b)，(x,mx) 为所求圆的圆心。
+则解方程 mx = sqrt( (x-a)^2 + (mx-b)^2 ) 得 x = a+mb - sqrt((a+mb)^2-(a^2+b^2))。
+FG 为 mb，AH 为 a+mb，DI 为 sqrt((a+mb)^2-(a^2+b^2))。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="35-CircleInAngle.html">下一个作图：35 角内的圆</a>
+<tr><td>
+  <a href="33-AngleCircTan.html">上一个作图：33 角平分线上与圆相切</a>
+</table>
+</table>
+<script>
+
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

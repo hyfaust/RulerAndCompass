@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>与平行线和圆相切</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = 2; a.y = 1; a.label = "A";
+  var b = new Object;  b.x = 0; b.y = 0; b.label = "B";
+  var c = new Object;  c.x = 0; c.y = 0; c.label = "C";
+  var d = new Object;  d.x = 0; d.y = 0; d.label = "D";
+  var e = new Object;  e.x = a.x; e.y = a.y-2; e.label = "E";
+  var f = new Object;  f.x = 0; f.y = 0; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var h = new Object;  h.x = 0; h.y = 0; h.label = "H";
+  var i = new Object;  i.x = 0; i.y = 0; i.label = "I";
+  var j = new Object;  j.x = 0; j.y = 0; j.label = "J";
+  var k = new Object;  k.x = 0; k.y = 0; k.label = "K";
+  var l = new Object;  l.x = 0; l.y = 0; l.label = "L";
+  var m = new Object;  m.x = 0; m.y = 0; m.label = "M";
+  var n = new Object;  n.x = 0; n.y = 0; n.label = "N";
+  var o = new Object;  o.x = 0; o.y = 0; o.label = "O";
+  var p = new Object;  p.x = 0 ; p.y = 0.5; p.label = "P";
+  var q = new Object;  q.x = -1; q.y = 0.5; q.label = "Q";
+
+  // Line objects, fields x1,y1,x2,y2
+  var L1 = new Object; L1.x1 = -2; L1.y1 = 0.5; L1.x2 = 2; L1.y2 = 0.5;
+  var L2 = new Object; L2.x1 = -2; L2.y1 = -1.5; L2.x2 = 2; L2.y2 = -1.5;
+  var L3 = new Object; L3.x1 = -2; L3.y1 = 0.5; L3.x2 = -2; L3.y2 = -1.5;
+  var L4 = new Object;
+  var L5 = new Object;
+  var L6 = new Object;
+  var L7 = new Object;
+  var L8 = new Object;
+  var L9 = new Object;
+
+  // Circle objects, fields x,y,r
+  var c1 = new Object; c1.x = a.x; c1.y = a.y; c1.r = 2;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var movable_pts = [a];
+  
+  function reset()
+  { a.x = 2; a.y = 1; 
+    e.x = a.x; e.y = a.y-2; 
+    p.x = 0 ; p.y = 0.5; 
+    q.x = -1; q.y = 0.5; 
+  }
+  
+  reset();
+  
+  function calc_points() // calculate entire construction
+  { c1.x = a.x; c1.y = a.y; c1.r = 2;
+    e.x = a.x; e.y = a.y-2;
+    line_line(L1,L3,b);
+    line_line(L2,L3,c);
+    d.x = (b.x+c.x)/2; 
+    d.y = (b.y+c.y)/2;
+    L4.x1 = d.x; L4.y1 = d.y; L4.x2 = L4.x1+(L1.x2-L1.x1); L4.y2 = L4.y1+(L1.y2-L1.y1);
+    L5.x1 = a.x; L5.y1 = a.y; L5.x2 = a.x; L5.y2 = a.y-c1.r;
+    c2.x = e.x; c2.y = e.y; c2.r = dist(b,d);
+    line_circle(L5,c2,f,g); if ( dist(f,a) < dist(g,a) ) { f.x = g.x; f.y = g.y; }
+    c3.x = a.x; c3.y = a.y; c3.r = dist(a,f);
+    line_circle(L4,c3,g,h); if ( dist(d,h) < dist(d,g) ) { g.x = h.x; g.y = h.y; } 
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_point(a,"red",NE);
+    draw_arc(a,c1.r,0,2*Math.PI);
+    draw_line_L(L1);
+    draw_line_L(L2);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_line_L(L3);
+    draw_point(b,"black",NE);
+    draw_point(c,"black",NE);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_point(d,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_line_L(L4);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_ray(a,e);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    angle = Math.atan2(e.y-a.y,e.x-a.x);
+    draw_arc(e,dist(b,d),angle-0.2,angle+0.2);
+    draw_point(f,"black",NE);
+
+    if ( draw_stage == 5 ) return;
+
+    angle_1 = Math.atan2(f.y-a.y,f.x-a.x);
+    angle_2 = Math.atan2(g.y-a.y,g.x-a.x);
+    draw_arc(a,dist(a,f),angle_2-0.1,angle_1+0.1);
+    draw_point(g,"black",NW);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_arc(g,dist(c,d),0,2*Math.PI);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 32 <br>
+   与给定平行线和给定圆相切的圆
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 平行线的任意垂线 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. BC 的中点 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 过 D 作 BC 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 从 A 出发的任意射线<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 将 BD 加到 AE 上得到 F<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以 A 为圆心过 F 的弧<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. 以 G 为圆心、BD 为半径的圆<br>
+<tr><td>
+原理说明：我们知道相切圆的圆心必须在平行线的中线上，这也给出了圆的半径。
+然后将这个半径加到给定圆的半径上，就得到了相切圆圆心的另一个轨迹，类似于作图 28 的方法。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="33-AngleCircTan.html">下一个作图：33 角平分线上与圆相切</a>
+<tr><td>
+  <a href="31B-CircleTangentsInner.html">上一个作图：31B 圆的内公切线</a>
+</table>
+</table>
+<script>
+
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

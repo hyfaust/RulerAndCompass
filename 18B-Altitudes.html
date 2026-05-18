@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title> 三角形的高线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var j = new Object;  j.label = "J";
+  var m = new Object;  m.label = "M";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var k = new Object;  k.label = "K";
+  var l = new Object;  l.label = "L";
+  var n = new Object;  n.label = "N";
+  var p = new Object;  p.label = "P";
+
+  var line1 = new Object;
+  var line2 = new Object;
+  var line3 = new Object;
+  var line4 = new Object;
+  var line5 = new Object;
+  var line6 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  { a.x = -2; a.y = 0.6; 
+    b.x = 2; b.y = a.y;
+    c.x = -0.5; c.y = a.y-3;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { dot = (c.x-a.x)*(b.x-a.x) + (c.y-a.y)*(b.y-a.y);
+    g.x = a.x + dot/dist(a,b)/dist(a,b)*(b.x-a.x);
+    g.y = a.y + dot/dist(a,b)/dist(a,b)*(b.y-a.y);
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    c1.x = c.x; c1.y = c.y; c1.r = 1.05*dist(c,g);
+    line_circle(line1,c1,d,e); if ( dist(d,a) > dist(e,a) ) swap(d,e);
+    f.x = g.x + 0.3*(g.x-c.x); f.y = g.y + 0.3*(g.y-c.y);
+    
+    dot = (a.x-c.x)*(b.x-c.x) + (a.y-c.y)*(b.y-c.y);
+    m.x = c.x + dot/dist(c,b)/dist(c,b)*(b.x-c.x);
+    m.y = c.y + dot/dist(c,b)/dist(c,b)*(b.y-c.y);
+    line2.x1 = c.x; line2.y1 = c.y; line2.x2 = b.x; line2.y2 = b.y;
+    c2.x = a.x; c2.y = a.y; c2.r = 1.05*dist(a,m);
+    line_circle(line2,c2,h,i); if ( dist(h,c) > dist(i,c) ) swap(h,i);
+    k.x = m.x + 0.3*(m.x-a.x); k.y = m.y + 0.3*(m.y-a.y);
+
+    line3.x1 = a.x; line3.y1 = a.y; line3.x2 = m.x; line3.y2 = m.y; 
+    line4.x1 = c.x; line4.y1 = c.y; line4.x2 = g.x; line4.y2 = g.y;
+    line_line(line3,line4,n);    
+    
+    line5.x1 = a.x; line5.y1 = a.y; line5.x2 = c.x; line5.y2 = c.y;
+    line6.x1 = b.x; line6.y1 = b.y; line6.x2 = n.x; line6.y2 = n.y;
+    line_line(line5,line6,p);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_segment(a,b);
+    draw_segment(b,c);
+    draw_segment(a,c);    
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    angle1 = Math.atan2(e.y-c.y,e.x-c.x);
+    angle2 = Math.atan2(d.y-c.y,d.x-c.x);
+    draw_arc(c,dist(c,e),angle1-0.1,angle2+0.1);
+    draw_point(d,"black",SW);
+    draw_point(e,"black",SE);
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,dist(d,f),angle-0.2,angle+0.2);
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,dist(e,f),angle-0.2,angle+0.2);
+    draw_point(f,"black",E);
+
+    draw_segment(c,f);
+
+    if ( draw_stage == 1 ) return;
+    draw_point(g,"black",NE); 
+
+    if ( draw_stage == 2 ) return;
+    
+    angle1 = Math.atan2(h.y-a.y,h.x-a.x);
+    angle2 = Math.atan2(i.y-a.y,i.x-a.x);
+    draw_arc(a,dist(a,i),angle1-0.1,angle2+0.1);
+
+    draw_point(h,"black",NE);
+    draw_point(i,"black",NE);
+
+    angle = Math.atan2(k.y-h.y,k.x-h.x);
+    draw_arc(h,dist(h,k),angle-0.2,angle+0.2);
+    angle = Math.atan2(k.y-i.y,k.x-i.x);
+    draw_arc(i,dist(i,k),angle-0.2,angle+0.2);
+    draw_point(k,"black",NE);
+
+    draw_segment(a,k);
+    if ( draw_stage == 3 ) return;
+
+    draw_point(m,"black",S);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(n,"black",E);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_ray(b,n);
+    if ( draw_stage == 6 ) return;
+    draw_point(p,"black",NW);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 18B <br>
+   三角形的三条高线交于垂心
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 从 C 向 AB 作垂线
+    (<a href="01-PerpBisector.html">作图 1</a>) <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 高线 CG<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 从 A 向 BC 作垂线<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 高线 AM<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 三条高线交于垂心 N <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 射线 BN<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. 第三条高线 BP<br>
+<tr><td> 原理说明：
+高线是从顶点垂直于对边的线段，因此需要两次使用"从一点向直线作垂线"的作图方法。根据几何定理，三角形的三条高线交于一点（垂心），因此第三条高线只需通过前两条高线的交点即可画出。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="19-GoldenRectangle.html">下一个作图</a>
+<tr><td>
+  <a href="18A-Medians.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

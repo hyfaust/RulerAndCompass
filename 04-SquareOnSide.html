@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>以线段为边作正方形 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+  // Point objects, fields x,y,label
+
+  var a = new Object;  a.x = -1.7; a.y =  0.5; a.label = "A";
+  var b = new Object;  b.x = a.x+2; b.y = a.y; b.label = "B";
+  var s = dist(a,b); // side length
+  var bb = new Object;  bb.x = 3.5; bb.y = a.y; bb.label = "BB";
+  var bbb = new Object;  bbb.x = b.x; bbb.y = 4.5; b.label = "BBB";
+  var r = 1.0;
+  var c = new Object;  c.x = b.x; c.y = b.y-s ; c.label = "C";
+  var cc = new Object;
+  var d = new Object;  d.x = a.x; d.y = a.y-s ; d.label = "D";
+  var dd = new Object;
+  var e = new Object;  e.x = b.x-r; e.y = b.y ; e.label = "E";
+  var f = new Object;  f.x = b.x+r; f.y = b.y ; f.label = "F";
+  var rr = 2.5;
+  var g = new Object; g.x = b.x; g.y = b.y - Math.sqrt(rr*rr-r*r); g.label = "G";
+  var gg = new Object; gg.x = b.x; gg.y = b.y - rr - 2; gg.label = "Q";
+  var line1 = new Object;
+  var line2 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var movable_pts = [a,b];
+  
+  function reset()
+  { a.x = -1.7; a.y =  0.5;
+    b.x = a.x+2; b.y = a.y; 
+  }
+  
+  function calc_points()
+  { s = dist(a,b); // side length
+    bb.x = 2*b.x-a.x; bb.y = 2*b.y-a.y;
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+	c1.x = b.x; c1.y = b.y; c1.r = r;
+	line_circle(line1,c1,e,f);
+	if ( dist(a,e) > dist(a,f) ) swap(e,f);
+	c2.x = e.x; c2.y = e.y; c2.r = rr;
+	c3.x = f.x; c3.y = f.y; c3.r = rr;
+	circle_circle(c2,c3,g,gg);
+	if ( (b.x-a.x)*(g.y-a.y)-(b.y-a.y)*(g.x-a.x) > 0 ) swap(g,gg);
+	line2.x1 = b.x; line2.y1 = b.y; line2.x2 = g.x; line2.y2 = g.y;
+
+	c4.x = b.x; c4.y = b.y; c4.r = dist(a,b);
+	line_circle(line2,c4,c,cc); 
+	if ( dist(c,g) > dist(cc,g) ) swap(c,cc);
+	c5.x = c.x; c5.y = c.y; c5.r = dist(a,b);
+	c6.x = a.x; c6.y = a.y; c6.r = dist(a,b);
+	circle_circle(c5,c6,d,dd);
+	if ( dist(d,b) < dist(dd,b) ) swap(d,dd);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+	
+	draw_segment(a,b);
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+
+
+    if ( draw_stage == 0 ) return;
+
+    draw_segment(b,bb);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_arc(b,r,0,2*Math.PI);
+    draw_point(e,"black",NW);
+    draw_point(f,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(g.y-e.y,g.x-e.x);
+    draw_arc(e,rr,angle-0.1,angle+0.1);
+    angle = Math.atan2(g.y-f.y,g.x-f.x);
+    draw_arc(f,rr,angle-0.1,angle+0.1); 
+    draw_point(g,"black",NE);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_ray(b,g);
+
+    if ( draw_stage == 4 ) return;
+
+    angle = Math.atan2((a.y+c.y)/2-b.y,(a.x+c.x)/2-b.x);
+    draw_arc(b,s,angle-0.9,angle+0.9);
+    draw_point(c,"black",NE);
+
+    if ( draw_stage == 5 ) return;
+
+    angle = Math.atan2(d.y-c.y,d.x-c.x);
+    draw_arc(c,s,angle-0.1,angle+0.1);
+
+    if ( draw_stage == 6 ) return;
+
+    angle = Math.atan2(d.y-a.y,d.x-a.x);
+    draw_arc(a,s,angle-0.1,angle+0.1);
+
+    draw_point(d,"black",NW);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_segment(a,d);
+    draw_segment(d,c);
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 4 <br>
+以给定线段为边作正方形  </H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 延长AB<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，任意半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以E和F为圆心，相同半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 垂直射线BG <br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 以B为圆心，以正方形边长为半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以C为圆心，以正方形边长为半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 以A为圆心，以正方形边长为半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8"  id="start">8. 正方形的边AD、DC <br>
+<tr><td> 原理说明：
+  通过垂直平分线构造点G得到一个直角。然后标记等长的边得到一个菱形，由于它有一个直角，所以它是一个正方形。
+  
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="05-EquilateralTriangle.html">下一个作图</a>
+<tr><td>
+  <a href="03-PerpAtPointOnLine.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   ctx = canvas.getContext('2d');
+   draw(100);
+
+</script>
+
+
+</body>
+</html>
+
+
+

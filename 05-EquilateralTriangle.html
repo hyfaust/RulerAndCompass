@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   等边三角形 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -s/2; a.y = 0.5; a.label = "A";
+  var b = new Object;  b.x = s/2; b.y = a.y; b.label = "B";
+  var c = new Object;  c.x = 0; c.y = a.y - s*Math.sqrt(3)/2; c.label = "C";
+
+  var movable_pts = [a,b];
+  
+  function reset()
+  {  a.x = -3/2; a.y = 0.5; 
+     b.x = 3/2; b.y = a.y;
+  }
+  
+  function calc_points()
+  { s = dist(a,b);
+    c.x = (a.x+b.x)/2 - Math.sqrt(3)/2*(a.y-b.y);
+        c.y = (a.y+b.y)/2 + Math.sqrt(3)/2*(a.x-b.x); 
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_segment(a,b);
+
+    if ( draw_stage == 0 ) return;
+
+    
+    angle = Math.atan2( (b.y+c.y)/2 - a.y, (b.x+c.x)/2 - a.x);
+    draw_arc(a,s,angle-0.6,angle+0.6);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2( (a.y+c.y)/2 - b.y, (a.x+c.x)/2 - b.x);
+    draw_arc(b,s,angle-0.6,angle+0.6);
+
+    
+    if ( draw_stage == 2 ) return;
+
+    draw_point(c,"black",N);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_segment(a,c);
+    draw_segment(b,c);
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 5<br>
+   以给定线段为边作等边三角形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置 <br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 以A为圆心，过B点作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，过A点作圆<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 交点C<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4" id="start">4. 三角形边AB、BC <br>
+<tr><td> 原理说明：
+   三条边长度相等，因此三角形是等边三角形。
+  
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="06-Hexagon.html">下一个作图</a>
+<tr><td>
+  <a href="04-SquareOnSide.html">上一个作图</a>
+
+</table>
+</table>
+<script>
+
+  // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

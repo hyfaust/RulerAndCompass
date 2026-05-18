@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title> 等距平行线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  function dist(pt,qt)
+  { return Math.sqrt((pt.x-qt.x)*(pt.x-qt.x)+(pt.y-qt.y)*(pt.y-qt.y));
+  }
+
+  // Point objects, fields x,y,label
+  var s = 1.5; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -2; a.y = 1; a.label = "A";
+  var b = new Object;  b.x = a.x+s; b.y = a.y; b.label = "B";
+  var p = new Object;  p.x = -2; p.y = 0; p.label = "P";
+  var q = new Object;  q.x = 2; q.y = p.y; q.label = "Q";
+
+  var c = new Object;  c.x = 0; c.y = p.y; c.label = "C";
+  var d = new Object;  d.x = c.x-s; d.y = c.y; d.label = "D";
+  var e = new Object;  e.x = c.x+s; e.y = c.y; e.label = "E";
+  qq = Math.sqrt(rr*rr-s*s);
+  var f = new Object;  f.x = c.x; f.y = c.y-qq; f.label = "F";
+  var g = new Object;  g.x = c.x; g.y = c.y-s; g.label = "G";
+  var h = new Object;   h.label = "H";
+  var i = new Object;   i.label = "I";
+  var l = new Object;   l.label = "L";
+  var m = new Object;   m.label = "M";
+  var line1 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  var movable_pts = [a,b,l,m];
+    
+  function reset()
+  { l.x = -2; l.y = 0; 
+    m.x = 2; m.y = l.y;
+    a.x = -1.5; a.y = 1;
+    b.x = 0.0; b.y = a.y;
+   
+  }
+  
+  reset();
+  
+  function calc_points()
+  { line1.x1 = l.x; line1.y1 = l.y; line1.x2 = m.x; line1.y2 = m.y;
+    c.x = (l.x + m.x)/2; c.y = (l.y + m.y)/2;
+    c1.x = c.x; c1.y = c.y; c1.r = dist(a,b);
+    line_circle(line1,c1,d,e); if ( dist(d,l) > dist(e,l) ) swap(d,e);
+    c2.x = d.x; c2.y = d.y; c2.r = 0.8*dist(d,e);
+    c3.x = e.x; c3.y = e.y; c3.r = c2.r;
+    circle_circle(c2,c3,f,g); if ( (f.x-d.x)*(c.y-d.y)-(f.y-d.y)*(c.x-d.x) < 0 ) swap(f,g);
+    g.x = c.x + (c.y-d.y); g.y = c.y - (c.x-d.x);
+    h.x = d.x + (c.y-d.y); h.y = d.y - (c.x-d.x);   
+  }
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_segment(a,b);
+    draw_line(l,m);    
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NE);
+    draw_point(l,"red",N);
+    draw_point(m,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_point(c,"black",NE);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(d.y-c.y,d.x-c.x);
+    draw_arc(c,dist(c,d),angle-0.1,angle+0.1);
+    draw_arc(c,dist(c,d),angle+Math.PI-0.1,angle+Math.PI+0.1);
+    draw_point(d,"black",NW);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,dist(d,f),angle-0.2,angle+0.2);
+   
+    if ( draw_stage == 3 ) return;
+
+    angle = Math.atan2(f.y-e.y,f.x-e.x);
+    draw_arc(e,dist(e,f),angle-0.2,angle+0.2);
+    draw_point(f,"black",E);
+
+
+    if ( draw_stage == 4 ) return;
+
+    draw_ray(c,f);
+
+    if ( draw_stage == 5 ) return;
+
+    angle = Math.atan2(g.y-c.y,g.x-c.x);
+    draw_arc(c,dist(a,b),angle-0.2,angle+0.2);
+    draw_point(g,"black",NE);
+
+
+    if ( draw_stage == 6 ) return;
+
+    angle = Math.atan2(h.y-d.y,h.x-d.x);
+    draw_arc(d,dist(a,b),angle-0.2,angle+0.2);
+
+
+    if ( draw_stage == 7 ) return;
+
+    angle = Math.atan2(h.y-g.y,h.x-g.x);
+    draw_arc(g,dist(a,b),angle-0.2,angle+0.2);
+    draw_point(h,"black",NW);
+
+    if ( draw_stage == 8 ) return;
+
+    draw_line(h,g);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 22<br>
+  作与给定直线 LM 距离为 AB 的平行线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 在直线上任取一点 C<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以 C 为圆心，半径 AB 作弧 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以 D 为圆心，任意半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以 E 为圆心，相同半径作弧<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 射线 CF，垂直于 LM<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以 C 为圆心，半径 AB 作弧<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 以 D 为圆心，半径 AB 作弧<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 以 G 为圆心，半径 AB 作弧<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9" id="start">9. 平行线 HG<br>
+<tr><td> 原理说明：
+该作图利用垂直于直线 LM 的垂线，构造出与 LM 距离为 AB 的点 G。然后通过点 H 完成一个正方形，正方形的对边互相平行。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="23-CircleInAngle.html">下一个作图</a>
+<tr><td>
+  <a href="21-DoubledCircle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

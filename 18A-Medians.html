@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title> 三角形的中线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+
+  var f = new Object;  f.label = "F";
+
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+
+  var j = new Object;  j.label = "J";
+  var k = new Object;  k.label = "K";
+
+  var line1 = new Object;
+  var line2 = new Object;
+  var line3 = new Object;
+  
+  var movable_pts = [a,b,c];
+    
+  function reset()
+  { a.x = -2; a.y = 0.6; 
+    b.x = 2; b.y = a.y;
+    c.x = -0.5; c.y = a.y-3;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { f.x = (a.x + b.x)/2; f.y = (a.y + b.y)/2;
+    i.x = (a.x + c.x)/2; i.y = (a.y + c.y)/2;
+    k.x = (b.x + c.x)/2; k.y = (b.y + c.y)/2;
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = k.x; line1.y2 = k.y;
+    line2.x1 = b.x; line2.y1 = b.y; line2.x2 = i.x; line2.y2 = i.y;
+    d.x = f.x + (f.y-a.y)/3; d.y = f.y - (f.x-a.x)/3;
+    e.x = f.x - (f.y-a.y)/3; e.y = f.y + (f.x-a.x)/3;
+    h.x = i.x + (i.y-a.y)/3; h.y = i.y - (i.x-a.x)/3;
+    g.x = i.x - (i.y-a.y)/3; g.y = i.y + (i.x-a.x)/3;
+    line_line(line1,line2,j);
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+    draw_segment(a,b);
+    draw_segment(b,c);
+    draw_segment(a,c);
+
+    if ( draw_stage == 0 ) return;
+
+    angle = Math.atan2(d.y-a.y,d.x-a.x);
+    draw_arc(a,dist(a,d),angle-0.2,angle+0.2);
+    angle = Math.atan2(e.y-a.y,e.x-a.x);
+    draw_arc(a,dist(a,d),angle-0.2,angle+0.2);
+ 
+    angle = Math.atan2(d.y-b.y,d.x-b.x);
+    draw_arc(b,dist(b,d),angle-0.2,angle+0.2);
+    angle = Math.atan2(e.y-b.y,e.x-b.x);
+    draw_arc(b,dist(b,d),angle-0.2,angle+0.2);
+   
+    draw_point(d,"black",E);
+    draw_point(e,"black",E);
+    draw_segment(d,e);
+    draw_point(f,"black",NE);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_segment(c,f);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(h.y-a.y,h.x-a.x);
+    draw_arc(a,dist(a,h),angle-0.2,angle+0.2);
+    angle = Math.atan2(g.y-a.y,g.x-a.x);
+    draw_arc(a,dist(a,g),angle-0.2,angle+0.2);
+ 
+    angle = Math.atan2(h.y-c.y,h.x-c.x);
+    draw_arc(c,dist(c,h),angle-0.2,angle+0.2);
+    angle = Math.atan2(g.y-c.y,g.x-c.x);
+    draw_arc(c,dist(c,g),angle-0.2,angle+0.2);
+   
+    draw_point(g,"black",NE);
+    draw_point(h,"black",NE);
+    draw_segment(g,h);
+    draw_point(i,"black",NW);
+
+    if ( draw_stage == 3 ) return;
+
+    draw_segment(b,i);
+
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(j,"black",NE);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_ray(a,j);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_point(k,"black",N);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 18A<br>
+   三角形的中线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 作 AB 的垂直平分线，得到中点 F
+     (<a href="01-PerpBisector.html">作图 1</a>) <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 中线 CF<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 作 AC 的垂直平分线，得到中点 I<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 中线 BI<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 三条中线交于点 J <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 射线 AJ<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. 中线 AK<br>
+<tr><td> 原理说明：
+中线是从顶点到对边中点的连线，因此需要对两条边分别作垂直平分线来找到中点。根据几何定理，三角形的三条中线交于一点（重心），因此第三条中线只需通过前两条中线的交点即可画出。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="18B-Altitudes.html">下一个作图</a>
+<tr><td>
+  <a href="17-CopyRatio.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

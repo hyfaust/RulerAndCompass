@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>圆的外公切线</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var m = new Object;  m.label = "M";
+  
+  // Line objects, fields x1,y1,x2,y2
+  var L1 = new Object;
+  var L2 = new Object;
+  var L3 = new Object;
+  var L4 = new Object;
+  var L5 = new Object;
+  var L6 = new Object;
+  var L7 = new Object;
+  var L8 = new Object;
+  var L9 = new Object;
+
+  // Circle objects, fields x,y,r
+  var c1 = new Object; c1.x = a.x; c1.y = a.y; c1.r = 1.2;
+  var c2 = new Object; c2.x = b.x; c2.y = b.y; c2.r = 0.65;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var movable_pts = [a,b];
+  
+  function reset()
+  { a.x = -1.7; a.y = 0; 
+    b.x = 0.3; b.y = a.y;
+    c1.x = a.x; c1.y = a.y; c1.r = 1.2;
+    c2.x = b.x; c2.y = b.y; c2.r = 0.65;
+  }
+  
+  reset();
+  
+  function calc_points() // calculate entire construction
+  {
+    perp_to_line(a,b,L1);
+    perp_to_line(b,a,L2);  
+    c1.x = a.x; c1.y = a.y; c1.r = 1.2;
+    c2.x = b.x; c2.y = b.y; c2.r = 0.65;    
+    line_circle(L1,c1,c,m); if ( m.y < c.y ) { c.x = m.x; c.y = m.y; }
+    line_circle(L2,c2,d,m); if ( m.y < d.y ) { d.x = m.x; d.y = m.y; }
+    L3.x1 = a.x; L3.y1 = a.y; L3.x2 = b.x; L3.y2 = b.y;
+    L4.x1 = c.x; L4.y1 = c.y; L4.x2 = d.x; L4.y2 = d.y;
+    line_line(L3,L4,e);
+    f.x = (a.x+e.x)/2; f.y = (a.y+e.y)/2;
+    c3.x = f.x, c3.y = f.y; c3.r = dist(f,a);
+    circle_circle(c1,c3,g,h);
+
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",NW);
+    draw_arc(a,c1.r,0,2*Math.PI);
+    draw_arc(b,c2.r,0,2*Math.PI);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_ray(a,b);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_line_L(L1);
+    draw_line_L(L2);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(c,"black",NE);
+    draw_point(d,"black",NE);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_ray(c,d);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_point(f,"black",NE);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_arc(f,dist(f,a),0,2*Math.PI);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_point(g,"black",NW);
+    draw_point(h,"black",S);
+
+    if ( draw_stage == 7 ) return;
+
+    draw_line(e,g);
+    draw_line(e,h);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 31A <br>
+   两圆的外公切线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 射线 AB<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 过 A 和 B 作 AB 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 两圆的顶点 C、D<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 射线 CD<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. AE 的中点 F <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以 F 为圆心过 A 的圆<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 切点 G、H<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8" id="start">8. 切线 EG、EH<br>
+
+<tr><td>
+原理说明：步骤 1-4 找到点 E，即两圆上对应点连线的交点。
+所求的切线也必须经过 E。然后利用作图 27 的方法找到切线。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="31B-CircleTangentsInner.html">下一个作图：31B 圆的内公切线</a>
+<tr><td>
+  <a href="30-SquareThru4Points.html">上一个作图：30 过四点的正方形</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

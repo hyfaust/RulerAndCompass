@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   相似三角形 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  function dist(pt,qt)
+  { return Math.sqrt((pt.x-qt.x)*(pt.x-qt.x)+(pt.y-qt.y)*(pt.y-qt.y));
+  }
+
+  // Point objects, fields x,y,label
+  var s = 2; // side length
+  var ss = 2.8;
+  var r = 0.7;
+  var rr = 2.5;
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var j = new Object;  j.label = "J";
+  var k = new Object;  k.label = "K";
+  var l = new Object;  l.label = "L";
+  var m = new Object;  m.label = "M";
+  var n = new Object;  n.label = "N";
+  var q = new Object;  q.label = "Q";
+  var line1 = new Object;
+  var line2 = new Object;
+  var line3 = new Object;
+  var line4 = new Object;
+  var line5 = new Object;
+  var line6 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object; 
+  
+  var movable_pts = [a,b,c,d,e];
+    
+  function reset()
+  { a.x = -2.5; a.y = 1; 
+    b.x = -2.5+s; b.y = a.y;
+    c.x = -1.8; c.y = b.y-2; 
+    d.x = -0.5; d.y = 0; 
+    e.x = d.x+ss; e.y = d.y;
+  }
+  
+  reset();
+  
+  function calc_points()
+  { line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    line2.x1 = a.x; line2.y1 = a.y; line2.x2 = c.x; line2.y2 = c.y;
+    c1.x = a.x; c1.y = a.y; c1.r = Math.min(dist(a,b),dist(a,c))/3;
+    line_circle(line1,c1,f,q); if ( dist(f,b) > dist(q,b) ) swap(f,q);
+    line_circle(line2,c1,g,q); if ( dist(g,c) > dist(q,c) ) swap(g,q);
+    c2.x = d.x; c2.y = d.y; c2.r = c1.r;
+    line3.x1 = d.x; line3.y1 = d.y; line3.x2 = e.x; line3.y2 = e.y;
+    line_circle(line3,c2,h,q); if ( dist(h,e) > dist(q,e) ) swap(h,q);
+    c3.x = h.x; c3.y = h.y; c3.r = dist(f,g);
+    circle_circle(c2,c3,i,q); if ( (i.x-d.x)*(h.y-d.y)-(i.y-d.y)*(h.x-d.x) < 0 ) swap(i,q);
+    
+    c4.x = b.x; c4.y = b.y; c4.r = Math.min(dist(a,b),dist(b,c))/3;
+    line4.x1 = b.x; line4.y1 = b.y; line4.x2 = c.x; line4.y2 = c.y;
+    line_circle(line1,c4,j,q); if ( dist(j,a) > dist(q,a) ) swap(j,q);
+    line_circle(line4,c4,k,q); if ( dist(k,c) > dist(q,c) ) swap(k,q);
+    c5.x = e.x; c5.y = e.y; c5.r = c4.r;
+    line_circle(line3,c5,l,q); if ( dist(l,d) > dist(q,d) ) swap(l,q);
+    c6.x = l.x; c6.y = l.y; c6.r = dist(j,k);
+    circle_circle(c5,c6,m,q); if ( dist(m,i) > dist(q,i) ) swap(m,q);
+    
+    line5.x1 = d.x; line5.y1 = d.y; line5.x2 = i.x; line5.y2 = i.y;
+    line6.x1 = e.x; line6.y1 = e.y; line6.x2 = m.x; line6.y2 = m.y;
+    line_line(line5,line6,n);
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+ 
+    draw_segment(a,b);
+    draw_segment(c,b);
+    draw_segment(a,c); 
+    draw_segment(d,e);
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+    draw_point(d,"red",W);
+    draw_point(e,"red",E);
+
+
+    if ( draw_stage == 0 ) return;
+
+    angle1 = Math.atan2(g.y-a.y,g.x-a.x);
+    angle2 = Math.atan2(f.y-a.y,f.x-a.x);
+    draw_arc(a,c1.r,angle1-0.2,angle2+0.2);
+    draw_point(f,"black",NE);
+    draw_point(g,"black",NW);
+    draw_segment(g,f); 
+
+    angle1 = Math.atan2(i.y-d.y,i.x-d.x);
+    angle2 = Math.atan2(h.y-d.y,h.x-d.x);    
+    draw_arc(d,c2.r,angle1-0.2,angle2+0.2);
+    draw_point(h,"black",NE);
+    draw_point(i,"black",NW);
+    angle = Math.atan2(i.y-h.y,i.x-h.x);
+    draw_arc(h,c3.r,angle-0.3,angle+0.3);
+    draw_ray(d,i);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(j.y-b.y,j.x-b.x);
+    angle2 = Math.atan2(k.y-b.y,k.x-b.x);
+    draw_arc(b,c4.r,angle1-0.2,angle2+0.2);
+    draw_point(j,"black",SW);
+    draw_point(k,"black",N);
+    draw_segment(k,j); 
+
+    angle1 = Math.atan2(l.y-e.y,l.x-e.x);
+    angle2 = Math.atan2(m.y-e.y,m.x-e.x);
+    draw_arc(e,c5.r,angle1-0.2,angle2+0.2);
+    draw_point(l,"black",NW);
+    draw_point(m,"black",N);
+    angle = Math.atan2(m.y-l.y,m.x-l.x);
+    draw_arc(l,c6.r,angle-0.3,angle+0.3);
+    draw_ray(e,m);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(n,"black",E);
+   
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_point(c,"red",N);
+    draw_point(d,"red",W);
+    draw_point(e,"red",E);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 16 <br>
+   在给定线段上作相似三角形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 复制角A（<a href="07-CopyAngle.html">作图7</a>）。 <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 复制角B。 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3" id="start">3. 交点N即为三角形的第三个顶点。<br>
+<tr><td> 原理说明：
+  根据AA相似准则，这两个三角形相似。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="17-CopyRatio.html">下一个作图</a>
+<tr><td>
+  <a href="15-Rectangle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

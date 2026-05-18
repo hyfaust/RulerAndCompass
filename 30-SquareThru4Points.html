@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>过四点的正方形</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var r = 1.0;
+  var rr = 2.5;
+  var a = new Object;  a.x = -1; a.y = -1; a.label = "A";
+  var b = new Object;  b.x = 0; b.y = 1; b.label = "B";
+  var c = new Object;  c.x = 2; c.y = 0; c.label = "C";
+  var d = new Object;  d.x = 1.5; d.y = -2; d.label = "D";
+
+  var e = new Object;  e.x = 0; e.y = 0; e.label = "E";
+  var f = new Object;  f.x = 0; f.y = 0; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var h = new Object;  h.x = 0; h.y = 0; h.label = "H";
+  var i = new Object;  i.x = 0; i.y = 0; i.label = "I";
+  var j = new Object;  j.x = 0; j.y = 0; j.label = "J";
+  var k = new Object;  k.x = 0; k.y = 0; k.label = "K";
+  var l = new Object;  l.x = 0; l.y = 0; l.label = "L";
+  var m = new Object;  m.x = 0; m.y = 0; m.label = "M";
+  var n = new Object;  n.x = 0; n.y = 0; n.label = "N";
+  var o = new Object;  o.x = 0; o.y = 0; o.label = "O";
+  var p = new Object;  p.x = 0; p.y = 0; p.label = "P";
+  var q = new Object;  q.x = 0; q.y = 0; q.label = "Q";
+
+  // Line objects, fields x1,y1,x2,y2
+  var L1 = new Object;
+  var L2 = new Object;
+  var L3 = new Object;
+  var L4 = new Object;
+  var L5 = new Object;
+  var L6 = new Object;
+  var L7 = new Object;
+  var L8 = new Object;
+  var L9 = new Object;
+
+  // Circle objects, fields x,y,r
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  var c7 = new Object;
+  var c8 = new Object;
+  var c9 = new Object;
+
+  var movable_pts = [a,b,c,d];
+  
+  function reset()
+  { a.x = -1; a.y = -1; 
+    b.x = 0; b.y = 1; 
+    c.x = 2; c.y = 0; 
+    d.x = 1.5; d.y = -2; 
+  }
+  
+  reset();
+  
+  function calc_points() // calculate entire construction
+  {
+    // perp line to AC through B
+    L1.x1 = b.x; L1.y1 = b.y;
+    L1.x2 = b.x + (a.y-c.y); L1.y2 = b.y-(a.x-c.x);
+
+    c2.x = b.x; c2.y = b.y; c2.r = dist(a,c);
+    line_circle(L1,c2,e,k);
+    if ( dist(e,d) > dist(k,d) ) {e.x = k.x; e.y = k.y};
+
+    // Line DE
+    L2.x1 = e.x; L2.y1 = e.y; L2.x2 = d.x; L2.y2 = d.y;
+
+    // line through A perp to DE
+    L3.x1 = a.x; L3.y1 = a.y; 
+    L3.x2 = a.x+(d.y-e.y); L3.y2 = a.y-(d.x-e.x);
+    line_line(L2,L3,f);
+
+    // Line through B perp to AF
+    L4.x1 = b.x; L4.y1 = b.y;
+    L4.x2 = b.x+(a.y-f.y); L4.y2 = b.y-(a.x-f.x);
+    line_line(L3,L4,g);
+
+    // Line through C perp to GB
+    L5.x1 = c.x; L5.y1 = c.y;
+    L5.x2 = c.x+(g.y-b.y); L5.y2 = c.y-(g.x-b.x);
+    line_line(L4,L5,h);
+    line_line(L2,L5,i);
+
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+    
+    calc_points();
+
+    draw_point(a,"red",W);
+    draw_point(b,"red",NW);
+    draw_point(c,"red",E);
+    draw_point(d,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_segment(a,c);
+
+
+    if ( draw_stage == 1 ) return;
+
+    draw_line_L(L1);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(e.y-b.y,e.x-b.x);
+    draw_arc(b,dist(a,c),angle-0.2,angle+0.2);
+    draw_point(e,"black",NW);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_line_L(L2);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_line_L(L3);
+    draw_point(f,"black",NW);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_line_L(L4);
+    draw_point(g,"black",NW);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_line_L(L5);
+    draw_point(h,"black",NW);
+    draw_point(i,"black",NW);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 30 <br>
+   过四点的正方形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 线段 AC <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 过 B 作 AC 的垂线<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以 B 为圆心、AC 为半径的弧；交点 E<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 直线 DE<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 过 A 作 DE 的垂线；交点 F<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 过 B 作 FA 的垂线；交点 G<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 过 C 作 GB 的垂线；交点 H、I<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8" id="start">8. 正方形 FGHI<br>
+<tr><td>
+<b>原理说明：</b>
+观察最终构型，可以发现直线 FG 与 IH 之间的斜截距 AB
+必须等于 90 度旋转后的截距在直线 FI 与 GH 之间的斜截距。因此我们构造旋转后的截距 BE，
+并量取距离 AC 来确定点 E。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="31A-CircleTangents.html">下一个作图：31A 圆的外公切线</a>
+<tr><td>
+  <a href="29-ParallelMidline.html">上一个作图：29 平行中线</a>
+</table>
+</table>
+<script>
+
+    // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+

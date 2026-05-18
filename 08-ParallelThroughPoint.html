@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title> 过点作平行线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = -1.5; a.y = 0; a.label = "A";
+  var b = new Object;  b.x = 2; b.y = a.y; b.label = "B";
+  var c = new Object;  c.x = 0.3; c.y = -1.0; c.label = "C";
+  var r = dist(a,c);
+  var d = new Object;  d.x = a.x+r; d.y = a.y; d.label = "D";
+  var rr = dist(d,c);
+  var e = new Object;  e.x = c.x-r; e.y = c.y; e.label = "E";
+  var f = new Object;  f.x = 0; f.y = 0; f.label = "F";
+  var g = new Object;  g.x = 0; g.y = 0; g.label = "G";
+  var line1 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  var movable_pts = [a,b,c];
+
+  function reset()
+  {  a.x = -3/2; a.y = 0.0; 
+     b.x = 2; b.y = a.y;
+     c.x = 0.3; c.y = -1.0; 
+  }
+  
+  function calc_points()
+  { line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    c1.x = a.x; c1.y = a.y, c1.r = dist(a,c);
+    line_circle(line1,c1,d,g); if ( dist(d,b) > dist(g,b) ) swap(d,g);
+
+    c2.x = c.x; c2.y = c.y; c2.r = dist(a,c);
+    c3.x = a.x; c3.y = a.y; c3.r = dist(c,d);
+    circle_circle(c2,c3,e,f);
+    if ( (e.x-c.x)*(a.y-c.y)-(e.y-c.y)*(a.x-c.y)  < 0 ) swap(e,f);
+  }
+    
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    calc_points();
+    
+    ctx.font="0.15px Verdana";
+
+    draw_line(a,b);
+    draw_point(a,"red",S);
+    draw_point(b,"red",S);
+    draw_point(c,"red",NE);
+
+    if ( draw_stage == 0 ) return;
+   
+    draw_line(a,c);
+
+    if ( draw_stage == 1 ) return;
+
+    angle1 = Math.atan2(c.y-a.y,c.x-a.x);
+    angle2 = Math.atan2(d.y-a.y,d.x-a.x);
+    draw_arc(a,c1.r,angle1-0.1,angle2+0.2);
+    draw_point(d,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_arc(c,c2.r,angle1+Math.PI-0.1,angle2+Math.PI+0.2);  
+  
+    if ( draw_stage == 3 ) return;
+
+    draw_segment(d,c);
+    angle = Math.atan2(e.y-a.y,e.x-a.x);
+    draw_arc(a,rr,angle-0.2,angle+0.2);
+    draw_point(e,"black",NE);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_line(e,c);
+    draw_point(a,"red",S);
+    draw_point(b,"red",S);
+    draw_point(c,"red",NE);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 8 <br>
+  过点作平行线
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 截线AC <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以A为圆心，过点C作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以C为圆心，相同半径作圆<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以F为圆心，半径CD作圆<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5" id="start">5. 平行线CE<br>
+<tr><td> 原理说明：
+  该作图将角CAD复制到角ACE，因此AC是直线AB和EC的截线，且内错角相等，所以直线EC平行于直线AB。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="09-ThreeParts.html">下一个作图</a>
+<tr><td>
+  <a href="07-CopyAngle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+  // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

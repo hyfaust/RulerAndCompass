@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>按给定比例分割线段</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var j = new Object;  j.label = "J";
+  var k = new Object;  k.label = "K";
+  var l = new Object;  l.label = "L";
+  var m = new Object;  m.y = a.y; m.label = "M";
+  var q = new Object; 
+
+  var line1 = new Object;
+  var line2 = new Object;
+  var line3 = new Object;
+  var line4 = new Object;
+      
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  
+  var movable_pts = [a,b,c,d,e];
+    
+  function reset()
+  { a.x = -1; a.y = 0; 
+    b.x = 2.5; b.y = a.y; 
+
+    c.x = -2.5; c.y = 1; 
+    d.x = 0; d.y = c.y;
+    e.x = -1.0; e.y = c.y
+  }
+  
+  reset();
+  
+  function calc_points()
+  { f.x = b.x + (b.y-a.y)/1.5; f.y = b.y - (b.x-a.x)/1.5;
+    g.x = a.x + dist(c,e)*(f.x-a.x)/dist(a,f);
+    g.y = a.y + dist(c,e)*(f.y-a.y)/dist(a,f);
+    h.x = a.x + dist(c,d)*(f.x-a.x)/dist(a,f);
+    h.y = a.y + dist(c,d)*(f.y-a.y)/dist(a,f);
+    c1.x = h.x; c1.y = h.y; c1.r = dist(h,b)/3;
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = f.x; line1.y2 = f.y;
+    line2.x1 = h.x; line2.y1 = h.y; line2.x2 = b.x; line2.y2 = b.y;
+    line_circle(line2,c1,i,q); if ( dist(i,b) > dist(q,b) ) swap(i,q);
+    line_circle(line1,c1,j,q); if ( dist(j,a) > dist(q,a) ) swap(j,q);
+    c2.x = g.x; c2.y = g.y; c2.r = c1.r;
+    line_circle(line1,c2,k,q); if ( dist(k,a) > dist(q,a) ) swap(k,q);
+    c3.x = k.x; c3.y = k.y; c3.r = dist(i,j);
+    circle_circle(c2,c3,l,q); if ( dist(l,b) > dist(q,b) ) swap(l,q);
+    line3.x1 = g.x; line3.y1 = g.y; line3.x2 = l.x; line3.y2 = l.y;
+    line4.x1 = a.x; line4.y1 = a.y; line4.x2 = b.x; line4.y2 = b.y;
+    line_line(line3,line4,m);    
+  
+  }
+  
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+
+    draw_segment(a,b);    
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+
+    draw_segment(c,d);
+    draw_point(c,"red",NW);
+    draw_point(d,"red",NE);
+    draw_point(e,"red",N);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_ray(a,f);
+    draw_point(f,"black",N);
+
+    if ( draw_stage == 1 ) return;
+
+    draw_point(g,"black",NW);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(h,"black",NW);
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_segment(h,b);
+
+    if ( draw_stage == 4 ) return;
+
+    angle1 = Math.atan2(i.y-h.y,i.x-h.x);
+    angle2 = Math.atan2(j.y-h.y,j.x-h.x);
+    draw_arc(h,c1.r,angle1-0.2,angle2+0.2);
+    draw_point(i,"black",E);
+    draw_point(j,"black",N);
+
+
+    draw_segment(i,j);
+
+    draw_arc(g,c2.r,angle1-0.2,angle2+0.2);
+    draw_point(k,"black",W);
+    draw_point(l,"black",E);
+    angle = Math.atan2(l.y-k.y,l.x-k.x);
+    draw_arc(k,dist(i,j),angle-0.2,angle+0.2);
+    draw_point(l);
+    draw_ray(g,l);
+    
+    if ( draw_stage == 5 ) return;
+
+    draw_point(m,"black",SW);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 17 <br>
+   将线段AB按E分割CD的比例进行分割
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 任意射线AF <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 将长度CE复制到AG<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 将长度CD复制到AH<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 线段HB<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 将H处的角复制到G
+   (<a href="07-CopyAngle.html">作图7</a>)<br>
+ <input type="radio" name="step" onclick="draw(6)" value="6">6. 交点M<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7" id="start">7. AM/AB = CE/CD（比例相同） <br>
+<tr><td> 原理说明：
+   利用平行线分线段成比例的定理。构造直线GM平行于直线HB，可以自然假设
+   有一条平行线经过A点，因此AB被以与AH相同的比例分割。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="18A-Medians.html">下一个作图</a>
+<tr><td>
+  <a href="16-SimilarTriangle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

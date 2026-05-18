@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>点关于圆的反演</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+ 
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = 0.0; a.y = 0.0; a.label = "A";
+
+  var b = new Object;  b.x = 0.5; b.y = -0.5; b.label = "B";
+  var rad = dist(a,q);
+  var c = new Object;  c.x = a.x + (b.x-a.x)*rad/dist(a,b); c.y = a.y + (b.y-a.y)*rad/dist(a,b) ; c.label = "C";
+  var d = new Object;  d.x = a.x - (b.x-a.x)*rad/dist(a,b); d.y = a.y - (b.y-a.y)*rad/dist(a,b) ; d.label = "D";
+  var e = new Object;  e.x =  a.x - (b.x-a.x); e.y = a.y - (b.y - a.y); e.label = "E";
+  var f = new Object;  f.x = a.x + Math.sqrt(3)*(c.y-a.y); f.y = a.y - Math.sqrt(3)*(c.x-a.x) ; f.label = "F";
+  var g = new Object;  g.x = a.x +(c.y-a.y); g.y = a.y - (c.x-a.x) ; g.label = "G";
+  var h = new Object;  h.x = g.x -(g.x-e.x)/2; h.y = g.y - (g.y-e.y)/2 ; h.label = "H";
+  var i = new Object;  i.x = g.x +(g.x-e.x)/2; i.y = g.y + (g.y-e.y)/2 ; i.label = "I";
+  var j = new Object;  j.x = g.x + Math.sqrt(3)*(i.y-g.y); j.y = g.y - Math.sqrt(3)*(i.x-g.x) ; j.label = "J";
+  var k = new Object; k.x = a.x + (b.x-a.x)*rad*rad/dist(a,b)/dist(a,b);
+                       k.y = a.y + (b.y-a.y)*rad*rad/dist(a,b)/dist(a,b);
+                       k.label = "K";
+
+  
+  var movable_pts = [a,b,q];
+  
+  function reset()
+  { a.x = 0.0; a.y = 0.0; a.label = "A";
+    q.x = 1.0; q.y = 1.0; q.label = "Q";
+    b.x = 0.5; b.y = -0.5; b.label = "B";
+  }
+  function calc_points()
+  {
+    rad = dist(a,q);
+    c.x = a.x + (b.x-a.x)*rad/dist(a,b); c.y = a.y + (b.y-a.y)*rad/dist(a,b) ; c.label = "C";
+    d.x = a.x - (b.x-a.x)*rad/dist(a,b); d.y = a.y - (b.y-a.y)*rad/dist(a,b) ; d.label = "D";
+    e.x =  a.x - (b.x-a.x); e.y = a.y - (b.y - a.y); e.label = "E";
+    f.x = a.x + Math.sqrt(3)*(c.y-a.y); f.y = a.y - Math.sqrt(3)*(c.x-a.x) ; f.label = "F";
+    g.x = a.x +(c.y-a.y); g.y = a.y - (c.x-a.x) ; g.label = "G";
+    h.x = g.x -(g.x-e.x)/2; h.y = g.y - (g.y-e.y)/2 ; h.label = "H";
+    i.x = g.x +(g.x-e.x)/2; i.y = g.y + (g.y-e.y)/2 ; i.label = "I";
+    j.x = g.x + Math.sqrt(3)*(i.y-g.y); j.y = g.y - Math.sqrt(3)*(i.x-g.x) ; j.label = "J";
+    k.x = a.x + (b.x-a.x)*rad*rad/dist(a,b)/dist(a,b);
+                       k.y = a.y + (b.y-a.y)*rad*rad/dist(a,b)/dist(a,b);
+                       k.label = "K";
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(b,"red",SE);
+    draw_point(q,"red",SE);
+    draw_arc(a,rad,0.0,2*Math.PI);
+    
+    if ( draw_stage == 0 ) return;
+
+    draw_line(a,b);
+    draw_point(c,"black",NE);
+    draw_point(d,"black",SW);
+	
+    if ( draw_stage == 1 ) return;
+
+	draw_point(e,"black",SE);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(f.y-c.y,f.x-c.x);
+    draw_arc(c,dist(c,f),angle-0.1,angle+0.1);
+    angle = Math.atan2(f.y-d.y,f.x-d.x);
+    draw_arc(d,dist(d,f),angle-0.1,angle+0.1);
+    draw_point(f,"black",NE);
+	draw_ray(a,f);
+    draw_point(g,"black",W);
+    
+    if ( draw_stage == 3 ) return;
+  
+    draw_ray(e,g);
+   
+    if ( draw_stage == 4 ) return;
+    
+    draw_point(h,"black",E);
+    draw_point(i,"black",E);
+    angle = Math.atan2(j.y-h.y,j.x-h.x);
+    draw_arc(h,dist(h,j),angle-0.2,angle+0.2);
+    angle = Math.atan2(j.y-i.y,j.x-i.x);
+    draw_arc(i,dist(i,j),angle-0.2,angle+0.2);
+    draw_point(j,"black",NE)       
+    draw_line(g,j);
+    
+    if ( draw_stage == 5 ) return;
+    
+	draw_point(k,"red",N);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 <br>
+点关于圆的反演  </H3>
+
+<table>
+<tr>
+<td>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置。B 是待反演的点。<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 过 A、B 的直线，与圆相交于 C、D<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 点 E 是 B 关于 A 的对称点 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 射线 AG 垂直于 CD <br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 射线 EG <br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 射线 GJ 垂直于 EG <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6" id="start">6. 反演点 K <br>
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="03-PerpAtPointOnLine.html">下一个作图</a>
+<tr><td>
+  <a href="01-PerpBisector.html">上一个作图</a>
+</table>
+</table>
+
+<script>
+
+// Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+
+
+</body>
+</html>
+
+
+

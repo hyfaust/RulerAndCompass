@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>与三圆相切的圆</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+ <script>
+
+ 
+  // Point objects, fields x,y,label
+  var a = new Object;  a.x = -2.3; a.y = -0.9; a.label = "A";
+  var o = new Object;  o.x = -2.3; o.y = -1.5; o.label = "O";
+  var b = new Object;  b.x = 0.5; b.y = -1.5; b.label = "B";
+  var c = new Object;  c.x = b.x + 0.8; c.y = b.y  ; c.label = "C";
+  var circle1 = new Object;
+  circle1.x = b.x; circle1.y = b.y; circle1.r = dist(b,c);
+  var l = new Object;  l.x = b.x; l.y = 1.0; l.label = "L";
+  var m = new Object;  m.x = c.x-0.2; m.y = l.y; m.label = "M";
+  var m = new Object;  m.x = c.x-0.2; m.y = l.y; m.label = "M";
+  var circlex = new Object; circlex.x = l.x; circlex.y = l.y; circlex.r = dist(l,m);
+  var line1= new Object;
+  line1.x1 = l.x; line1.y1 = l.y; line1.x2 = m.x; line1.y2 = m.y;
+  var line2= new Object; line2.x1 = b.x; line2.y1 = b.y; line2.x2 = l.x; line2.y2 = l.y;
+
+  
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F"; 
+  line_circle(line2,circlex,d,f); if ( dist(d,b) > dist(f,b) ) swap(d,f);
+  line_circle(line2,circle1,e,f); if ( dist(e,l) > dist(f,l) ) swap(e,f);
+  f.x = (e.x+d.x)/2; f.y = (e.y+d.y)/2;
+  var circle2 = new Object; circle2.x = b.x; circle2.y = b.y; circle2.r = dist(b,f);
+  var circle22 = new Object; circle22.x = l.x; circle22.y = l.y; circle22.r = dist(l,f);
+  var circle3 = new Object; circle3.x = o.x; circle3.y = b.y; circle3.r = dist(e,f) + dist(a,o);
+  var g = new Object;  g.x = 0.3; g.y = 1.5 ; g.label = "G";
+  var circleinv = new Object; circleinv.x = f.x; circleinv.y = f.y; circleinv.r = dist(f,g);
+  var h = new Object;   h.label = "H";
+  var i = new Object;   i.label = "I"; circle_circle(circle2,circleinv,h,i);
+  var lineh = new Object; lineh.x1 = h.x; lineh.y1 = h.y; lineh.x2 = i.x; lineh.y2 = i.y;
+  var hh = new Object;   hh.label = "HH";
+  var ii = new Object;   ii.label = "II"; circle_circle(circle22,circleinv,hh,ii);  
+  var j = new Object;  j.x = o.x - circle3.r*(o.x-f.x)/dist(o,f); j.y = o.y - circle3.r*(o.y-f.y)/dist(o,f); j.label = "J";
+  var k = new Object;  k.x = o.x + circle3.r*(o.x-f.x)/dist(o,f); k.y = o.y + circle3.r*(o.y-f.y)/dist(o,f); k.label = "K";
+  var p = new Object;  inversion(j,circleinv,p); p.label = "P"; 
+  var q = new Object;  inversion(k,circleinv,q); q.label = "Q"; 
+  var r = new Object;  r.x = (p.x+q.x)/2; r.y = (p.y+q.y)/2; r.label = "R";
+
+  var lineFZ = new Object;     perp_to_line(f,b,lineFZ);
+  var z = new Object;  z.x = lineFZ.x2; z.y = lineFZ.y2; z.label = "Z";
+  
+  var midline = new Object; midline.x1 = (hh.x+h.x)/2; midline.y1 = (hh.y+h.y)/2;
+                            midline.x2 = (ii.x+i.x)/2; midline.y2 = (ii.y+i.y)/2;
+  var y = new Object; line_line(line2,midline,y); y.label = "Y";
+  var yy = new Object; line_line(line2,lineh,yy); yy.label = "YY";
+  var circle4 = new Object; circle4.x = r.x; circle4.y = r.y; circle4.r = dist(r,p) + dist(y,yy);
+  var s = new Object; s.label = "S";
+  var t = new Object; t.label = "T";
+  line_circle(midline,circle4,s,t); if ( dist(s,f) < dist(t,f) ) swap(s,t);
+  var line3 = new Object; line3.x1 = f.x; line3.y1 = f.y; line3.x2 = s.x; line3.y2 = s.y; 
+  var circletan = new Object; circletan.x = s.x; circletan.y = s.y; circletan.r = dist(y,yy);
+  var u = new Object; line_circle(line3,circletan,t,u); u.label = "U";
+  var v = new Object; inversion(t,circleinv,u);  v.label = "V";
+  var w = new Object; inversion(u,circleinv,w);  w.label = "W";
+  var x = new Object; x.x = (v.x+w.x)/2; x.y = (v.y+w.y)/2; x.label = "X";
+
+  
+  
+
+  var movable_pts = [a,b,c,l,m,g,o];
+  
+  function reset()
+  { a.x = -2.3; a.y = -0.9; 
+    o.x = -2.3; o.y = -1.5;
+    b.x = 0.5; b.y = -1.5; 
+    c.x = b.x + 0.8; c.y = b.y;  
+    l.x = b.x; l.y = 1.0; 
+    m.x = c.x-0.2; m.y = l.y; 
+    g.x = 0.3; g.y = 1.5 ; 
+  }
+  function calc_points()
+  {
+    circle1.x = b.x; circle1.y = b.y; circle1.r = dist(b,c);
+    circlex.x = l.x; circlex.y = l.y; circlex.r = dist(l,m);
+    line2.x1 = b.x; line2.y1 = b.y; line2.x2 = l.x; line2.y2 = l.y;
+    line_circle(line2,circlex,d,f); if ( dist(d,b) > dist(f,b) ) swap(d,f);
+    line_circle(line2,circle1,e,f); if ( dist(e,l) > dist(f,l) ) swap(e,f);
+    f.x = (e.x+d.x)/2; f.y = (e.y+d.y)/2;
+    circle2.x = b.x; circle2.y = b.y; circle2.r = dist(b,f);
+    circle22.x = l.x; circle22.y = l.y; circle22.r = dist(l,f);
+    circle3.x = a.x; circle3.y = b.y; circle3.r = dist(e,f)+dist(a,o);
+    circleinv.x = f.x; circleinv.y = f.y; circleinv.r = dist(f,g);
+    circle_circle(circle2,circleinv,h,i);
+    lineh.x1 = h.x; lineh.y1 = h.y; lineh.x2 = i.x; lineh.y2 = i.y;
+    circle_circle(circle22,circleinv,hh,ii);
+    j.x = o.x - circle3.r*(o.x-f.x)/dist(o,f); j.y = o.y - circle3.r*(o.y-f.y)/dist(o,f); 
+    k.x = o.x + circle3.r*(o.x-f.x)/dist(o,f); k.y = o.y + circle3.r*(o.y-f.y)/dist(o,f); 
+    inversion(j,circleinv,p); 
+    inversion(k,circleinv,q); 
+    r.x = (p.x+q.x)/2; r.y = (p.y+q.y)/2;
+    perp_to_line(f,b,lineFZ);
+    z.x = lineFZ.x2; z.y = lineFZ.y2; 
+    midline.x1 = (hh.x+h.x)/2; midline.y1 = (hh.y+h.y)/2;
+    midline.x2 = (ii.x+i.x)/2; midline.y2 = (ii.y+i.y)/2;
+    line_line(line2,midline,y);   
+    line_line(line2,lineh,yy);
+    circle4.x = r.x; circle4.y = r.y; circle4.r = dist(r,p) + dist(y,yy);
+    line_circle(midline,circle4,s,t); if ( dist(s,f) < dist(t,f) ) swap(s,t);
+    line3.x1 = f.x; line3.y1 = f.y; line3.x2 = s.x; line3.y2 = s.y; 
+    circletan.x = s.x; circletan.y = s.y; circletan.r = dist(y,yy);
+    line_circle(line3,circletan,t,u);
+    inversion(t,circleinv,v);
+    inversion(u,circleinv,w);
+    x.x = (v.x+w.x)/2; x.y = (v.y+w.y)/2;
+
+  
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+      
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+
+	calc_points();
+
+    draw_point(a,"red",NW);
+    draw_point(o,"red",NW);
+    draw_arc_color(o,dist(a,o),0.0,2*Math.PI,"blue");
+    draw_point(b,"red",SE);
+    draw_point(c,"red",SE);
+    draw_arc_color(b,circle1.r,0.0,2*Math.PI,"blue");
+    draw_point(l,"red",E);
+    draw_point(m,"red",E);
+    draw_arc_color(l,dist(l,m),0.0,2*Math.PI,"blue");
+    
+    if ( draw_stage == 0 ) return;
+
+    draw_line(b,d);
+    draw_point(e,"black",NE);
+    draw_point(d,"black",SW);
+	
+    if ( draw_stage == 1 ) return;
+
+	draw_point(f,"black",SE);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_point(z,"black",N);
+    draw_line(f,z);
+    
+    if ( draw_stage == 3 ) return;
+  
+    draw_arc(b,circle2.r,0.0,2*Math.PI);
+    draw_arc(l,dist(l,f),0.0,2*Math.PI);
+    
+    if ( draw_stage == 4 ) return;
+    
+
+    draw_arc(o,circle3.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 5 ) return;
+    
+    draw_point(g,"red",SW);
+    draw_arc(f,circleinv.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 6 ) return;
+    
+    draw_point(h,"black",NE);
+    draw_point(i,"black",NW);
+    draw_line(h,i);
+    draw_point(hh,"black",NE);
+    draw_point(ii,"black",SE);
+    draw_line(hh,ii);
+
+    if ( draw_stage == 7 ) return;
+    
+    draw_ray(f,o);
+    draw_point(j,"black",NE);
+    draw_point(k,"black",NW);
+    
+    if ( draw_stage == 8 ) return;
+    
+    draw_point(p,"black",NW);
+    draw_point(q,"black",NE);
+ 
+    if ( draw_stage == 9 ) return; 
+    
+    draw_point(r,"black",NE);
+    draw_arc(r,dist(r,p),0.0,2*Math.PI);
+    
+    if ( draw_stage == 10 ) return;
+    
+    draw_line_L(midline);
+    draw_point(y,"black",NE);
+    draw_point(yy,"black",NE);
+    
+    if ( draw_stage == 11 ) return;
+    
+    draw_arc(circle4,circle4.r,0.0,2*Math.PI);
+    draw_point(s,"black",NW);
+    
+    if ( draw_stage == 12 ) return;    
+    
+    draw_arc(circletan,circletan.r,0.0,2*Math.PI);
+    
+    if ( draw_stage == 13 ) return; 
+            
+    draw_ray(f,s);
+    draw_point(t,"black",NE);
+    draw_point(u,"black",NW);
+    
+    if ( draw_stage == 14 ) return; 
+    
+    draw_point(v,"black",NW);
+    draw_point(w,"black",NE);
+
+    if ( draw_stage == 15 ) return; 
+    
+    draw_point(x,"black",NE);
+                
+    if ( draw_stage == 16 ) return; 
+    
+    draw_arc_color(x,dist(x,o)-dist(a,o),0.0,2*Math.PI,"red");
+    
+    
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 39 <br>
+阿波罗尼奥斯问题：与三圆相切的圆</H3>
+
+<table>
+<tr>
+<td>
+  <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置。直线 LM，圆 BC，点 A。<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 过 B 作 LM 的垂线。<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 圆与直线之间的中点 F。<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 过 F 作平行于 LM 的直线 FZ。<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 扩展圆，以 B 和 L 为圆心，在 F 处相交。<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 圆 OA 扩展相同的量。<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以 F 为圆心的反演圆，任意半径。<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 圆 BF 反演为直线 HI，圆 LF 反演为 HH-II。<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 射线 FO，交点 J、K。<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. J 和 K 反演为 P 和 Q。<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10">10. P 和 Q 的中点 R 是反演圆的圆心。<br>
+ <input type="radio" name="step" onclick="ddraw(11)" value="11">11. 直线 HI 和 HH-II 之间的中线。<br>
+ <input type="radio" name="step" onclick="ddraw(12)" value="12">12. 以 R 为圆心，PR 与 FY 之和为半径的圆。<br>
+ <input type="radio" name="step" onclick="ddraw(13)" value="13">13. 以 S 为圆心，FY 为半径的圆，与圆 RP 相切。<br>
+ <input type="radio" name="step" onclick="ddraw(14)" value="14">14. 射线 FS，交点 T、U。<br>
+ <input type="radio" name="step" onclick="ddraw(15)" value="15">15. T、U 的反演点 V、W。<br>
+ <input type="radio" name="step" onclick="ddraw(16)" value="16">16. T、U 的中点 X。<br>
+
+ <input type="radio" name="step" onclick="ddraw(17)" value="17" id="start">17. 以 X 为圆心，到 O 的距离减去 OA 为半径的圆。与原直线和圆相切。<br>
+
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="40-RegularPentagon.html">下一个作图：40 正五边形</a>
+<tr><td>
+  <a href="38-TwoCirclesLine.html">上一个作图：38 与一条线和两个圆相切的圆</a>
+</table>
+</table>
+
+<script>
+
+// Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title> 等分线段 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+
+  // Point objects, fields x,y,label
+
+  var a = new Object; a.label = "A";
+  var b = new Object; b.label = "B";
+  var c = new Object; c.label = "C";
+  var d = new Object; d.label = "D";
+  var e = new Object; e.label = "E";
+  var f = new Object; f.label = "F";
+  var g = new Object; g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var j = new Object;  j.label = "J";
+  var k = new Object;  k.label = "K";
+  var z = new Object;
+  
+  var line0 = new Object;
+  var line1 = new Object;
+  var line2 = new Object;
+  var line3 = new Object;
+  var line4 = new Object;
+  
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  var c6 = new Object;
+  
+  var movable_pts = [a,b];
+  
+  function reset()
+  {  a.x = -2; a.y = 0;
+     b.x = 2; b.y = a.y;
+  }
+  
+  reset();  // execute on loading
+  
+  function calc_points()
+  { line0.x1 = a.x; line0.y1 = a.y; line0.x2 = b.x; line0.y2 = b.y;
+    c.x = b.x + (b.y-a.y)/2.5;
+    c.y = a.y - (b.x-a.x)/2.5;
+    c1.x = a.x; c1.y = a.y; c1.r = dist(a,c)/3.5;
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = c.x; line1.y2 = c.y;
+    line_circle(line1,c1,d,z); if ( dist(z,c) < dist(d,c) ) swap(d,z);
+    
+    c2.x = d.x; c2.y = d.y; c2.r = c1.r;
+    line_circle(line1,c2,e,z); if ( dist(z,c) < dist(e,c) ) swap(e,z);
+        
+    c3.x = e.x; c3.y = e.y; c3.r = c2.r;
+    line_circle(line1,c3,f,z); if ( dist(z,c) < dist(f,c) ) swap(f,z);
+    
+    line2.x1 = b.x; line2.y1 = b.y; line2.x2 = f.x; line2.y2 = f.y;
+    c4.x = f.x; c4.y = f.y; c4.r = c3.r;
+    line_circle(line2,c4,g,z); if ( dist(g,b) > dist(z,b) ) swap(g,z);
+    
+    c5.x = d.x; c5.y = d.y; c5.r = dist(e,g);
+    circle_circle(c5,c3,h,z); if ( dist(h,b) > dist(z,b) ) swap(h,z);
+    
+    line3.x1 = e.x; line3.y1 = e.y; line3.x2 = h.x; line3.y2 = h.y;
+    line_line(line3,line0,i);
+    
+    c6.x = a.x; c6.y = a.y; c6.r = dist(e,g);
+    circle_circle(c6,c2,j,z); if ( dist(j,h) > dist(z,h) ) swap(j,z);
+    
+    line4.x1 = d.x; line4.y1 = d.y; line4.x2 = j.x; line4.y2 = j.y;
+    line_line(line4,line0,k);
+  }
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+
+    calc_points();
+    
+    draw_point(a,"red",W);
+    draw_point(b,"red",E);
+    draw_segment(a,b);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_segment(a,c);
+    draw_point(c,"black",NE);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(c.y-a.y,c.x-a.x);
+    draw_arc(a,c1.r,angle-0.1,angle+0.1);
+    draw_point(d,"black",N);
+
+    if ( draw_stage == 2 ) return;
+
+    angle2 = Math.atan2(b.y-f.y,b.x-f.x);
+    draw_arc(d,c2.r,angle-0.1,angle2+0.1);
+    draw_point(e,"black",N);
+
+   
+    if ( draw_stage == 3 ) return;
+
+    draw_arc(e,c3.r,angle-0.1,angle2+0.1);
+    draw_point(f,"black",N);
+
+
+    if ( draw_stage == 4 ) return;
+
+    draw_segment(b,f);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_arc(f,c4.r,angle2-0.2,angle+Math.PI+0.2);
+    draw_point(g,"black",NE);
+
+    if ( draw_stage == 6 ) return;
+
+    draw_segment(e,g);
+    
+    angle4 = Math.atan2(h.y-d.y,h.x-d.x);
+    draw_arc(d,c5.r,angle4-0.1,angle4+0.1);
+    draw_point(h,"black",SE);
+
+
+    if ( draw_stage == 7 ) return;
+
+    draw_ray(e,h);
+    draw_point(i,"black",NW);
+
+
+    if ( draw_stage == 8 ) return;
+
+    draw_arc(a,c6.r,angle4-0.1,angle4+0.1);
+    draw_point(j,"black",E);
+
+    if ( draw_stage == 9 ) return;
+
+    draw_ray(d,j);
+    draw_point(k,"black",NE);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 9<br>
+  等分线段
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 作任意斜线段AC <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以A为圆心，任意半径作圆 <br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以D为圆心，半径AD作圆<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以E为圆心，半径AD作圆<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 线段FB <br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 以F为圆心，过点E作圆<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 以D为圆心，半径EG作圆<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 射线EH与AB交于点I<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9">9. 以A为圆心，半径EG作圆<br>
+ <input type="radio" name="step" onclick="ddraw(10)" value="10">10. 射线DJ与AB交于点K。 <br>
+ <input type="radio" name="step" onclick="ddraw(11)" value="11" id="start">11. AK = KI = IB <br>
+<tr><td> 原理说明：
+    通过将角EFB复制到D和E点，构造出平行于FB的直线DJ和EH。因此AF和AB是平行线的截线，所以被等比例分割。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="10-AngleBisector.html">下一个作图</a>
+<tr><td>
+  <a href="08-ParallelThroughPoint.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+     // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

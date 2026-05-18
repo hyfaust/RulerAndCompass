@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>   给定边长的矩形 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  // canvas size, pixels
+  var height = 600; 
+  var width  = 600; 
+
+  // canvas world bounds
+  var xright = 3.0;
+  var xleft = -3.0;
+  var ytop = 3.0;
+  var ybottom = -3.0;
+
+
+  // Point objects, fields x,y,label
+  var s = 3; // side length
+  var ss = 1.7 // other side length
+
+  var a = new Object;  a.label = "A";
+  var b = new Object;  b.label = "B";
+  var c = new Object;  c.label = "C";
+  var d = new Object;  d.label = "D";
+  var e = new Object;  e.label = "E";
+  var f = new Object;  f.label = "F";
+  var g = new Object;  g.label = "G";
+  var h = new Object;  h.label = "H";
+  var i = new Object;  i.label = "I";
+  var q = new Object;  q.label = "Q";
+  var line1 = new Object;
+  var line2 = new Object;
+  var c1 = new Object;
+  var c2 = new Object;
+  var c3 = new Object;
+  var c4 = new Object;
+  var c5 = new Object;
+  
+  var movable_pts = [a,b,c,d];
+    
+  function reset()
+  { a.x = -2; a.y = 0;
+    b.x = a.x+s; b.y = a.y; 
+    c.x = -2; c.y = 1.0; 
+    d.x = c.x+ss; d.y = c.y; 
+  }
+  
+  reset();
+  
+  function calc_points()
+  { c1.x = b.x; c1.y = b.y, c1.r = dist(c,d);
+    line1.x1 = a.x; line1.y1 = a.y; line1.x2 = b.x; line1.y2 = b.y;
+    line_circle(line1,c1,e,f); if ( dist(e,a) > dist(f,a) ) swap(e,f);
+    c2.x = e.x; c2.y = e.y; c2.r = 1.6*c1.r;
+    c3.x = f.x; c3.y = f.y; c3.r = 1.6*c1.r;
+    circle_circle(c2,c3,g,q); if ( (g.x-a.x)*(b.y-a.y)-(g.y-a.y)*(b.x-a.x) < 0 ) swap(g,q);
+    line2.x1 = b.x; line2.y1 = b.y; line2.x2 = g.x; line2.y2 = g.y;
+    line_circle(line2,c1,h,q); if ( dist(h,g) > dist(q,g) ) swap(h,q);
+    c4.x = h.x; c4.y = h.y; c4.r = dist(a,b);
+    c5.x = a.x; c5.y = a.y; c5.r = dist(c,d);
+    circle_circle(c4,c5,i,q); if ( dist(i,f) < dist(q,f) ) swap(i,q);
+  }
+  
+
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(100,100);  // keep y going down so text is right side up
+    ctx.translate(3,3);
+    
+    ctx.font="0.15px Verdana";
+    
+    calc_points();
+
+    draw_segment(a,b);
+    draw_segment(c,d);
+    draw_point(a,"red",SW);
+    draw_point(b,"red",S);
+    draw_point(c,"red",NW);
+    draw_point(d,"red",NE);
+
+    if ( draw_stage == 0 ) return;
+
+    draw_ray(a,b);
+
+    if ( draw_stage == 1 ) return;
+
+    angle = Math.atan2(b.y-a.y,b.x-a.x);
+    draw_arc(b,c1.r,angle-Math.PI-0.1,angle+0.1);
+    draw_point(e,"black",NW);
+    draw_point(f,"black",NE);
+
+    if ( draw_stage == 2 ) return;
+
+    angle = Math.atan2(g.y-e.y,g.x-e.x);
+    draw_arc(e,c2.r,angle-0.2,angle+0.2);
+   
+    if ( draw_stage == 3 ) return;
+
+    angle = Math.atan2(g.y-f.y,g.x-f.x);
+    draw_arc(f,c3.r,angle-0.2,angle+0.2);
+    draw_point(g,"black",E);
+
+    if ( draw_stage == 4 ) return;
+
+    draw_ray(b,g);
+
+    if ( draw_stage == 5 ) return;
+
+    draw_point(h,"black",SE);
+
+    if ( draw_stage == 6 ) return;
+
+    angle = Math.atan2(i.y-h.y,i.x-h.x);
+    draw_arc(h,c4.r,angle-0.2,angle+0.2);
+
+    if ( draw_stage == 7 ) return;
+
+    angle = Math.atan2(i.y-a.y,i.x-a.x);
+    draw_arc(a,c5.r,angle-0.2,angle+0.2);
+    draw_point(i,"black",NW);
+
+    if ( draw_stage == 8 ) return;
+
+    draw_segment(i,h);
+    draw_segment(a,i);
+
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 15<br>
+   给定边长的矩形
+</H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset();ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(1)" value="1">1. 延长射线AB <br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">2. 以B为圆心，CD为半径作半圆<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">3. 以E为圆心，任意半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4">4. 以F为圆心，相同半径作圆弧；交点G<br>
+ <input type="radio" name="step" onclick="ddraw(5)" value="5">5. 射线BG，垂直于AB<br>
+ <input type="radio" name="step" onclick="ddraw(6)" value="6">6. 交点H，即为矩形的一个顶点<br>
+ <input type="radio" name="step" onclick="ddraw(7)" value="7">7. 以H为圆心，AB为半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(8)" value="8">8. 以A为圆心，CD为半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(9)" value="9" id="start">9. 矩形ABHI<br>
+<tr><td> 原理说明：
+  矩形有直角，因此作图过程在点B处作AB的垂线，方便地使用了CD作为半径。然后通过构造第四个点I来完成矩形，使得对边相等，形成一个平行四边形。由于该平行四边形在B处已有一个直角，所以它必定是矩形。
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="16-SimilarTriangle.html">下一个作图</a>
+<tr><td>
+  <a href="14-Incircle.html">上一个作图</a>
+</table>
+</table>
+<script>
+
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+   
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   ctx = canvas.getContext('2d');
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+   draw();
+
+
+</script>
+
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+<title>1. 垂直平分线 </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<script type="text/javascript" src="rc-common.js"></script>
+
+ <script>
+
+  
+  // Point objects, fields x,y,label
+  var r = 2;
+  var a = new Object;  a.x = -1.5; a.y = -1.0; a.label = "A";
+  var b = new Object;  b.x = 1.5; b.y = -1.0; b.label = "B";
+  var c = new Object;  c.x = (a.x+b.x)/2; c.y = a.y-1.5 ; c.label = "C";
+  var d = new Object;  d.x = (a.x+b.x)/2; d.y = a.y+1.5 ; d.label = "D";
+  var c1 = new Object;  // circles
+  var c2 = new Object;
+  
+  var movable_pts = [a,b];
+  
+  function calc_points()
+  { r = dist(a,b)*2/3; 
+    c1.r = r; c1.x = a.x; c1.y = a.y;
+	c2.r = r; c2.x = b.x; c2.y = b.y;
+	circle_circle(c1,c2,c,d)
+  }
+  
+  function reset()
+  { a.x = -1.5; a.y = -1.0;
+    b.x = 1.5; b.y = -1.0;
+  }
+	
+  function draw()
+  {  
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+
+    ctx.scale(scale,scale);  // keep y going down so text is right side up
+    ctx.translate(xtrans,ytrans);
+    
+    ctx.font="0.15px Verdana";
+	
+    calc_points();
+	
+    draw_segment(a,b);
+    draw_point(a,"red",SW);
+    draw_point(b,"red",SE);
+
+    if ( draw_stage == 0 ) return;
+
+    if ( draw_stage == 1 ) return;
+
+
+    var angle = Math.atan2(b.y-a.y,b.x-a.x);
+    draw_arc(a,r,angle-1,angle+1);
+
+    if ( draw_stage == 2 ) return;
+
+    draw_arc(b,r,angle+Math.PI-1,angle+Math.PI+1);
+
+    if ( draw_stage == 3 ) return;
+  
+    draw_segment(c,d);
+    draw_point(c,"black",N);
+    draw_point(d,"black",S);
+  }
+
+  </script>
+
+
+</head>
+
+<body>
+<H3>尺规作图 1<br>
+线段的垂直平分线 </H3>
+
+<table>
+<tr>
+<td>
+    <canvas id="myCanvas" width="600" height="600"></canvas>
+  <td style="vertical-align:top">
+  <table>
+  <tr>
+  <td>
+ <input type="radio" name="step" onclick="reset(); ddraw(0)" value="0">重置<br>
+ <input type="radio" name="step" onclick="ddraw(2)" value="2">1. 以A为圆心，任意半径作圆弧<br>
+ <input type="radio" name="step" onclick="ddraw(3)" value="3">2. 以B为圆心，相同半径作圆弧 <br>
+ <input type="radio" name="step" onclick="ddraw(4)" value="4"  id="start">3. 垂直平分线<br>
+<tr><td>原理说明：
+<tr><td>
+  点C和点D到A和B的距离相等，因此根据垂直平分线定理，C和D位于AB的垂直平分线上。  
+<tr><td>
+  <a href="default.html">返回作图主页</a>
+<tr><td>
+  <a href="02-PerpToLine.html">下一个作图</a>
+</table>
+</table>
+
+<script>
+
+   document.getElementById("start").checked = true;
+   canvas = document.getElementById('myCanvas');
+   
+   canvas.onmousedown = handleMouseDown;
+   document.onmouseup = handleMouseUp;
+   document.onmousemove = handleMouseMove;
+
+   // Browser detection, since Chrome seems not to do filltext
+   chrome_flag = (navigator.userAgent.indexOf("Chrome") > -1) || (navigator.userAgent.indexOf("Safari") > -1);
+
+   ctx = canvas.getContext('2d');
+   draw(10);
+
+</script>
+
+
+</body>
+</html>
+
+
+
