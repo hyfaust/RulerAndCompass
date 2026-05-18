@@ -5,27 +5,23 @@
 ---
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/hyfaust/RulerAndCompass)](LICENSE)
 [![HTML](https://img.shields.io/badge/language-HTML%20%2F%20JavaScript-orange.svg)]()
-[![Constructions](https://img.shields.io/badge/constructions-41-brightgreen.svg)]()
 
 > An interactive geometry teaching website that demonstrates 41 classic ruler and compass constructions through step-by-step animations, helping learners intuitively understand geometric principles.
 
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Features](#features)
 - [Live Demo](#live-demo)
-- [Quick Start](#quick-start)
 - [Project Structure](#project-structure)
 - [Construction List](#construction-list)
 - [Architecture](#architecture)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
 
-**Ruler and Compass** is a web-based interactive geometry teaching tool developed by Professor Ken Brakke. The project implements step-by-step visual demonstrations of 41 classic ruler and compass constructions using pure HTML, CSS, and JavaScript — ranging from basic perpendicular bisectors to the advanced regular 17-gon.
+**Ruler and Compass** is a web-based interactive geometry teaching tool developed by [Professor Ken Brakke](https://kenbrakke.com/default.htm). The project implements step-by-step visual demonstrations of 41 classic ruler and compass constructions using pure HTML, CSS, and JavaScript — ranging from basic perpendicular bisectors to the advanced regular 17-gon.
 
 Each construction page provides:
 - Step-by-step interactive animations controlled via radio buttons
@@ -33,45 +29,11 @@ Each construction page provides:
 - Draggable dynamic geometric figures
 - A complete "Why it works" section explaining the mathematical reasoning
 
-## Features
-
-- 🎯 **41 Classic Constructions** — A complete tutorial from beginner to expert level
-- 🖱️ **Interactive Controls** — Drag control points and observe geometric changes in real time
-- 📖 **Step-by-Step Demonstrations** — Each construction is broken down into clear steps
-- 📐 **Mathematical Explanations** — Every construction includes a "Why it works" section
-- 🌐 **Static Deployment** — No backend server required; deployable to any static hosting platform
-- 📱 **Cross-Platform** — Works on all major modern browsers
+This project is a Simplified Chinese translation of Professor Ken Brakke's [Ruler and compass constructions](https://kenbrakke.com/RulerAndCompass/default.html), intended for educational use only.
 
 ## Live Demo
 
 Visit the [GitHub Pages deployment](https://brakke-doc.github.io/RulerAndCompass/) for a live demo.
-
-## Quick Start
-
-**Option 1: Open Directly**
-```bash
-# Double-click default.html or open in browser
-start default.html          # Windows
-open default.html           # macOS
-xdg-open default.html       # Linux
-```
-
-**Option 2: Python Built-in Server**
-```bash
-# Python 3
-python -m http.server 8000
-
-# Then visit http://localhost:8000 in your browser
-```
-
-**Option 3: Node.js Server**
-```bash
-# One-liner with npx
-npx serve .
-
-# Or use http-server
-npx http-server . -p 8000
-```
 
 ## Project Structure
 
@@ -206,19 +168,7 @@ RulerAndCompass/
 - `rc-common.js` is the shared utility library
 - Each construction page (spoke) loads independently and calls the shared library
 
-## Contributing
-
-Contributions of new constructions or improvements to existing content are welcome!
-
-1. Fork this repository
-2. Create a feature branch: `git checkout -b feature/new-construction`
-3. Create a new HTML file following the structure of existing construction pages
-4. Add the new construction link to `default.html`
-5. Commit your changes: `git commit -m "Add: new construction"`
-6. Push the branch: `git push origin feature/new-construction`
-7. Open a Pull Request
-
-### Steps to Add a New Construction
+## Steps to Add a New Construction
 
 1. Copy an existing construction file as a template (e.g., `06-Hexagon.html`)
 2. Modify the title, geometry object definitions, and `calc_points()` function
@@ -228,7 +178,7 @@ Contributions of new constructions or improvements to existing content are welco
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the GPLV3 License. See the [LICENSE](LICENSE) file for details.
 
 ---
 

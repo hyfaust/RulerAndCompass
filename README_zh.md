@@ -5,7 +5,7 @@
 ---
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
-[![License](https://img.shields.io/badge/license-GPLV3-green.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/hyfaust/RulerAndCompass)](LICENSE)
 [![HTML](https://img.shields.io/badge/language-HTML%20%2F%20JavaScript-orange.svg)]()
 
 > 一个交互式尺规作图教学网站，通过逐步动画演示 41 种经典几何作图方法，帮助学习者直观理解几何原理。
