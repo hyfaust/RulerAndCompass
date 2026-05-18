@@ -16,7 +16,6 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Live Demo](#live-demo)
-- [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
 - [Project Structure](#project-structure)
 - [Construction List](#construction-list)
@@ -47,16 +46,7 @@ Each construction page provides:
 
 Visit the [GitHub Pages deployment](https://brakke-doc.github.io/RulerAndCompass/) for a live demo.
 
-## Prerequisites
-
-This is a purely static website — **no dependencies need to be installed**.
-
-| Requirement | Version | Notes |
-|-------------|---------|-------|
-| Modern Browser | Chrome / Firefox / Edge / Safari | Any browser with HTML5 Canvas support |
-| Web Server | Optional | Open HTML files directly or use any static server |
-
-### Local Viewing Options
+## Quick Start
 
 **Option 1: Open Directly**
 ```bash

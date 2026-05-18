@@ -5,9 +5,8 @@
 ---
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-blue?logo=github)](https://brakke-doc.github.io/RulerAndCompass/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-GPLV3-green.svg)](LICENSE)
 [![HTML](https://img.shields.io/badge/language-HTML%20%2F%20JavaScript-orange.svg)]()
-[![Constructions](https://img.shields.io/badge/constructions-41-brightgreen.svg)]()
 
 > 一个交互式尺规作图教学网站，通过逐步动画演示 41 种经典几何作图方法，帮助学习者直观理解几何原理。
 
@@ -16,8 +15,6 @@
 - [项目简介](#项目简介)
 - [功能特性](#功能特性)
 - [在线演示](#在线演示)
-- [环境依赖](#环境依赖)
-- [快速开始](#快速开始)
 - [项目结构](#项目结构)
 - [作图列表](#作图列表)
 - [技术架构](#技术架构)
@@ -26,7 +23,7 @@
 
 ## 项目简介
 
-**Ruler and Compass** 是一个基于 Web 的交互式几何教学工具，由 Ken Brakke 教授开发。项目通过纯 HTML、CSS 和 JavaScript 实现了 41 种经典尺规作图法的逐步可视化演示，涵盖从基础的垂直平分线到高级的正十七边形作图。
+**Ruler and Compass** 是一个基于 Web 的交互式几何教学工具，由 [Ken Brakke]([Ken Brakke's Home Page](https://kenbrakke.com/default.htm)) 教授开发。项目通过纯 HTML、CSS 和 JavaScript 实现了 41 种经典尺规作图法的逐步可视化演示，涵盖从基础的垂直平分线到高级的正十七边形作图。
 
 每个作图页面都提供了：
 - 逐步交互式动画，通过单选按钮控制作图进度
@@ -34,54 +31,11 @@
 - 可拖拽的动态几何图形
 - 完整的"原理说明"（Why it works）部分
 
-## 功能特性
-
-- 🎯 **41 种经典作图法** — 从入门到专家级的完整教程
-- 🖱️ **交互式操作** — 拖拽控制点，实时观察几何图形变化
-- 📖 **逐步演示** — 每个作图分解为清晰的步骤
-- 📐 **原理讲解** — 每个作图附带数学原理说明
-- 🌐 **纯静态部署** — 无需后端服务器，可部署到任何静态托管平台
-- 📱 **跨平台兼容** — 支持主流现代浏览器
+本项目是Ken 教授 [Ruler and compass constructions](https://kenbrakke.com/RulerAndCompass/default.html) 的简体中文翻译，仅用于学习用途
 
 ## 在线演示
 
 访问 [GitHub Pages 部署地址](https://brakke-doc.github.io/RulerAndCompass/) 查看在线演示。
-
-## 环境依赖
-
-本项目为纯静态网站，**无需安装任何依赖**。
-
-| 依赖项 | 版本要求 | 说明 |
-|--------|---------|------|
-| 现代浏览器 | Chrome / Firefox / Edge / Safari | 支持 HTML5 Canvas 即可 |
-| Web 服务器 | 可选 | 本地浏览可直接打开 HTML 文件，或使用任意静态服务器 |
-
-### 本地浏览方式
-
-**方式一：直接打开**
-```bash
-# 双击 default.html 或在浏览器中打开
-start default.html          # Windows
-open default.html           # macOS
-xdg-open default.html       # Linux
-```
-
-**方式二：使用 Python 内置服务器**
-```bash
-# Python 3
-python -m http.server 8000
-
-# 然后在浏览器中访问 http://localhost:8000
-```
-
-**方式三：使用 Node.js 服务器**
-```bash
-# 使用 npx 一键启动
-npx serve .
-
-# 或使用 http-server
-npx http-server . -p 8000
-```
 
 ## 项目结构
 
@@ -214,19 +168,7 @@ RulerAndCompass/
 - `rc-common.js` 为共享功能库
 - 各作图页面（Spoke）独立加载并调用公共库
 
-## 参与贡献
-
-欢迎贡献新的作图方法或改进现有内容！
-
-1. Fork 本仓库
-2. 创建功能分支：`git checkout -b feature/new-construction`
-3. 参考现有作图页面的结构创建新的 HTML 文件
-4. 在 `default.html` 中添加新作图的链接
-5. 提交更改：`git commit -m "Add: new construction"`
-6. 推送分支：`git push origin feature/new-construction`
-7. 创建 Pull Request
-
-### 添加新作图的步骤
+## 添加新作图的步骤
 
 1. 复制一个现有作图文件作为模板（如 `06-Hexagon.html`）
 2. 修改标题、几何对象定义和 `calc_points()` 函数
@@ -236,7 +178,7 @@ RulerAndCompass/
 
 ## 许可证
 
-本项目基于 MIT 许可证开源。详情请参阅 [LICENSE](LICENSE) 文件。
+本项目基于 GPLV3许可证开源。详情请参阅 [LICENSE](LICENSE) 文件。
 
 ---
 
