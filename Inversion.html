@@ -12,6 +12,7 @@
   var a = new Object;  a.x = 0.0; a.y = 0.0; a.label = "A";
 
   var b = new Object;  b.x = 0.5; b.y = -0.5; b.label = "B";
+  var q = new Object;  q.x = 1.0; q.y = 1.0; q.label = "Q";
   var rad = dist(a,q);
   var c = new Object;  c.x = a.x + (b.x-a.x)*rad/dist(a,b); c.y = a.y + (b.y-a.y)*rad/dist(a,b) ; c.label = "C";
   var d = new Object;  d.x = a.x - (b.x-a.x)*rad/dist(a,b); d.y = a.y - (b.y-a.y)*rad/dist(a,b) ; d.label = "D";
@@ -160,6 +161,5 @@
 
 </body>
 </html>
-
 
 
