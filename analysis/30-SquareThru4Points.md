@@ -6,7 +6,9 @@
 
 源码默认参数：
 
-$$A = (-1,\,-1),\quad B = (0,\,1),\quad C = (2,\,0),\quad D = (1.5,\,-2)$$
+$$
+A = (-1,\,-1),\quad B = (0,\,1),\quad C = (2,\,0),\quad D = (1.5,\,-2)
+$$
 
 ---
 
@@ -16,9 +18,13 @@ $$A = (-1,\,-1),\quad B = (0,\,1),\quad C = (2,\,0),\quad D = (1.5,\,-2)$$
 
 设正方形的中心为 $O$，半边长为 $a$（边长 $= 2a$），正方形的一对平行边的法向量方向为 $\mathbf{n} = (\cos\theta,\;\sin\theta)$，则与之垂直的方向为 $\mathbf{n}_\perp = (-\sin\theta,\;\cos\theta)$。正方形的四条边分别为：
 
-$$\ell_1:\; \mathbf{n} \cdot \mathbf{X} = O \cdot \mathbf{n} - a \qquad \ell_2:\; \mathbf{n} \cdot \mathbf{X} = O \cdot \mathbf{n} + a$$
+$$
+\ell_1:\; \mathbf{n} \cdot \mathbf{X} = O \cdot \mathbf{n} - a \qquad \ell_2:\; \mathbf{n} \cdot \mathbf{X} = O \cdot \mathbf{n} + a
+$$
 
-$$\ell_3:\; \mathbf{n}_\perp \cdot \mathbf{X} = O \cdot \mathbf{n}_\perp - a \qquad \ell_4:\; \mathbf{n}_\perp \cdot \mathbf{X} = O \cdot \mathbf{n}_\perp + a$$
+$$
+\ell_3:\; \mathbf{n}_\perp \cdot \mathbf{X} = O \cdot \mathbf{n}_\perp - a \qquad \ell_4:\; \mathbf{n}_\perp \cdot \mathbf{X} = O \cdot \mathbf{n}_\perp + a
+$$
 
 ### 2.2 点在边上的约束
 
@@ -26,21 +32,29 @@ $$\ell_3:\; \mathbf{n}_\perp \cdot \mathbf{X} = O \cdot \mathbf{n}_\perp - a \qq
 
 对于默认参数的正方形（$\theta = 0$，即轴对齐）：
 
-$$\mathbf{n} = (1,\,0),\quad \mathbf{n}_\perp = (0,\,1)$$
+$$
+\mathbf{n} = (1,\,0),\quad \mathbf{n}_\perp = (0,\,1)
+$$
 
 四条边简化为：
 
-$$x = O_x - a,\quad x = O_x + a,\quad y = O_y - a,\quad y = O_y + a$$
+$$
+x = O_x - a,\quad x = O_x + a,\quad y = O_y - a,\quad y = O_y + a
+$$
 
 ### 2.3 对边约束方程
 
 当 $A$、$C$ 分别在一对对边上，$B$、$D$ 分别在另一对对边上时：
 
-$$(C - A) \cdot \mathbf{n} = 2a \qquad (D - B) \cdot \mathbf{n}_\perp = 2a$$
+$$
+(C - A) \cdot \mathbf{n} = 2a \qquad (D - B) \cdot \mathbf{n}_\perp = 2a
+$$
 
 或
 
-$$(C - A) \cdot \mathbf{n}_\perp = 2a \qquad (D - B) \cdot \mathbf{n} = 2a$$
+$$
+(C - A) \cdot \mathbf{n}_\perp = 2a \qquad (D - B) \cdot \mathbf{n} = 2a
+$$
 
 不同的边分配对应不同的约束方程组。每种分配确定一个方程组，通过消去 $a$ 和 $O$ 可解出 $\theta$ 和 $a$，进而求出 $O$。
 
@@ -59,7 +73,9 @@ $$(C - A) \cdot \mathbf{n}_\perp = 2a \qquad (D - B) \cdot \mathbf{n} = 2a$$
 
 连接 $A(-1,-1)$ 和 $C(2,0)$，方向向量 $\vec{AC} = (3,\,1)$，长度：
 
-$$|AC| = \sqrt{3^2 + 1^2} = \sqrt{10} \approx 3.162$$
+$$
+|AC| = \sqrt{3^2 + 1^2} = \sqrt{10} \approx 3.162
+$$
 
 ```javascript
 draw_segment(a, c);
@@ -69,11 +85,15 @@ draw_segment(a, c);
 
 $L_1$ 过点 $B(0,1)$，方向为 $\vec{AC}$ 逆时针旋转 $90°$：
 
-$$\vec{d}_{L_1} = (-(a_y - c_y),\; a_x - c_x) = (-(-1-0),\; -1-2) = (1,\;-3)$$
+$$
+\vec{d}_{L_1} = (-(a_y - c_y),\; a_x - c_x) = (-(-1-0),\; -1-2) = (1,\;-3)
+$$
 
 等价方向 $(-1, 3)$（取反方向）。点积验证：
 
-$$(-1, 3) \cdot (3, 1) = -3 + 3 = 0 \quad \checkmark$$
+$$
+(-1, 3) \cdot (3, 1) = -3 + 3 = 0 \quad \checkmark
+$$
 
 ```javascript
 L1.x2 = b.x + (a.y - c.y);   // = 0 + (-1) = -1
@@ -87,13 +107,21 @@ L1.y2 = b.y - (a.x - c.x);   // = 1 - (-3) = 4
 
 $L_1$ 方向为 $(-1, 3)$，模为 $\sqrt{1^2 + 3^2} = \sqrt{10}$，恰好等于半径。因此沿方向 $(-1, 3)$ 走一个模长即到达圆上：
 
-$$E_1 = B + (-1, 3) = (-1, 4)$$
-$$E_2 = B - (-1, 3) = (1, -2)$$
+$$
+E_1 = B + (-1, 3) = (-1, 4)
+$$
+$$
+E_2 = B - (-1, 3) = (1, -2)
+$$
 
 取距 $D(1.5, -2)$ 较近的交点：
 
-$$|E_1 D| = \sqrt{(-1-1.5)^2 + (4+2)^2} = \sqrt{6.25 + 36} = 6.5$$
-$$|E_2 D| = \sqrt{(1-1.5)^2 + (-2+2)^2} = \sqrt{0.25} = 0.5$$
+$$
+|E_1 D| = \sqrt{(-1-1.5)^2 + (4+2)^2} = \sqrt{6.25 + 36} = 6.5
+$$
+$$
+|E_2 D| = \sqrt{(1-1.5)^2 + (-2+2)^2} = \sqrt{0.25} = 0.5
+$$
 
 故 $E = E_2 = (1, -2)$。
 
@@ -106,7 +134,9 @@ if (dist(e, d) > dist(k, d)) { e.x = k.x; e.y = k.y; }
 
 ### 步骤 4：直线 $DE$（即 $L_2$）
 
-$$\vec{DE} = E - D = (1 - 1.5,\; -2 - (-2)) = (-0.5,\; 0)$$
+$$
+\vec{DE} = E - D = (1 - 1.5,\; -2 - (-2)) = (-0.5,\; 0)
+$$
 
 $L_2$ 为**水平线** $y = -2$。
 
@@ -118,11 +148,15 @@ L2.x1 = e.x; L2.y1 = e.y; L2.x2 = d.x; L2.y2 = d.y;
 
 $L_2$ 为水平线，其垂线 $L_3$ 为竖直线，过 $A(-1, -1)$：
 
-$$L_3:\quad x = -1$$
+$$
+L_3:\quad x = -1
+$$
 
 $L_2 \cap L_3$：
 
-$$F = (-1,\, -2)$$
+$$
+F = (-1,\, -2)
+$$
 
 ```javascript
 off_perp_to_line(L3, a, L2);
@@ -131,15 +165,21 @@ line_line(L3, L2, f);
 
 ### 步骤 6：过 $B$ 作 $AF$ 的垂线 $L_4$，$G = L_3 \cap L_4$
 
-$$\vec{AF} = F - A = (-1-(-1),\; -2-(-1)) = (0,\; -1)$$
+$$
+\vec{AF} = F - A = (-1-(-1),\; -2-(-1)) = (0,\; -1)
+$$
 
 $AF$ 为竖直线段 $x = -1$，长度 $|AF| = 1$。其垂线 $L_4$ 为水平线，过 $B(0, 1)$：
 
-$$L_4:\quad y = 1$$
+$$
+L_4:\quad y = 1
+$$
 
 $L_3 \cap L_4$（$x = -1$ 与 $y = 1$）：
 
-$$G = (-1,\, 1)$$
+$$
+G = (-1,\, 1)
+$$
 
 ```javascript
 off_perp_to_line(L4, b, AF);
@@ -149,16 +189,24 @@ line_line(L3, L4, g);
 
 ### 步骤 7：过 $C$ 作 $GB$ 的垂线 $L_5$，得 $H = L_4 \cap L_5$，$I = L_2 \cap L_5$
 
-$$\vec{GB} = B - G = (0-(-1),\; 1-1) = (1,\; 0)$$
+$$
+\vec{GB} = B - G = (0-(-1),\; 1-1) = (1,\; 0)
+$$
 
 $GB$ 为水平线段，$|GB| = 1$。其垂线 $L_5$ 为竖直线，过 $C(2, 0)$：
 
-$$L_5:\quad x = 2$$
+$$
+L_5:\quad x = 2
+$$
 
 求交点：
 
-$$H = L_4 \cap L_5 = (2,\, 1)$$
-$$I = L_2 \cap L_5 = (2,\, -2)$$
+$$
+H = L_4 \cap L_5 = (2,\, 1)
+$$
+$$
+I = L_2 \cap L_5 = (2,\, -2)
+$$
 
 ```javascript
 off_perp_to_line(L5, c, GB);
@@ -187,7 +235,9 @@ line_line(L2, L5, i);
 
 四边形 $FGHI$ 的顶点：
 
-$$F(-1,-2),\quad G(-1,1),\quad H(2,1),\quad I(2,-2)$$
+$$
+F(-1,-2),\quad G(-1,1),\quad H(2,1),\quad I(2,-2)
+$$
 
 ---
 
@@ -199,21 +249,33 @@ $$F(-1,-2),\quad G(-1,1),\quad H(2,1),\quad I(2,-2)$$
 
 **边长：**
 
-$$|FG| = \sqrt{(-1-(-1))^2 + (1-(-2))^2} = \sqrt{0 + 9} = 3$$
+$$
+|FG| = \sqrt{(-1-(-1))^2 + (1-(-2))^2} = \sqrt{0 + 9} = 3
+$$
 
-$$|GH| = \sqrt{(2-(-1))^2 + (1-1)^2} = \sqrt{9 + 0} = 3$$
+$$
+|GH| = \sqrt{(2-(-1))^2 + (1-1)^2} = \sqrt{9 + 0} = 3
+$$
 
-$$|HI| = \sqrt{(2-2)^2 + (-2-1)^2} = \sqrt{0 + 9} = 3$$
+$$
+|HI| = \sqrt{(2-2)^2 + (-2-1)^2} = \sqrt{0 + 9} = 3
+$$
 
-$$|IF| = \sqrt{(-1-2)^2 + (-2-(-2))^2} = \sqrt{9 + 0} = 3$$
+$$
+|IF| = \sqrt{(-1-2)^2 + (-2-(-2))^2} = \sqrt{9 + 0} = 3
+$$
 
 四边相等：$|FG| = |GH| = |HI| = |IF| = 3$。
 
 **相邻边正交：**
 
-$$\vec{FG} \cdot \vec{GH} = (0)(3) + (3)(0) = 0$$
+$$
+\vec{FG} \cdot \vec{GH} = (0)(3) + (3)(0) = 0
+$$
 
-$$\vec{GH} \cdot \vec{HI} = (3)(0) + (0)(-3) = 0$$
+$$
+\vec{GH} \cdot \vec{HI} = (3)(0) + (0)(-3) = 0
+$$
 
 四边相等且相邻边正交 $\implies$ $FGHI$ 是正方形。$\blacksquare$
 
@@ -255,81 +317,127 @@ $$\vec{GH} \cdot \vec{HI} = (3)(0) + (0)(-3) = 0$$
 
 给定四点 $A, B, C, D$，每个点分别在正方形的四条边上。设正方形中心为 $O$，半边长为 $a$，方向角为 $\theta$（边相对于水平轴的夹角）。定义：
 
-$$\vec{u} = (\cos\theta, \sin\theta), \quad \vec{v} = (-\sin\theta, \cos\theta)$$
+$$
+\vec{u} = (\cos\theta, \sin\theta), \quad \vec{v} = (-\sin\theta, \cos\theta)
+$$
 
 正方形四条边所在直线为：
 
-$$\text{边 1: } \vec{u} \cdot (\mathbf{r} - O) = +a \qquad \text{边 2: } \vec{v} \cdot (\mathbf{r} - O) = +a$$
-$$\text{边 3: } \vec{u} \cdot (\mathbf{r} - O) = -a \qquad \text{边 4: } \vec{v} \cdot (\mathbf{r} - O) = -a$$
+$$
+\text{边 1: } \vec{u} \cdot (\mathbf{r} - O) = +a \qquad \text{边 2: } \vec{v} \cdot (\mathbf{r} - O) = +a
+$$
+$$
+\text{边 3: } \vec{u} \cdot (\mathbf{r} - O) = -a \qquad \text{边 4: } \vec{v} \cdot (\mathbf{r} - O) = -a
+$$
 
 将 $A, B, C, D$ 分配到四条边（不同排列给出不同正方形），得到两个独立约束方程。以 $A$ 在边 3、$B$ 在边 2、$C$ 在边 1、$D$ 在边 4 为例：
 
-$$\vec{u} \cdot (C - A) = 2a \qquad (1)$$
-$$\vec{v} \cdot (B - D) = 2a \qquad (2)$$
+$$
+\vec{u} \cdot (C - A) = 2a \qquad (1)
+$$
+$$
+\vec{v} \cdot (B - D) = 2a \qquad (2)
+$$
 
 由 $(1)/(2)$ 消去 $a$：
 
-$$\frac{\vec{u} \cdot (C - A)}{\vec{v} \cdot (B - D)} = 1 \qquad (3)$$
+$$
+\frac{\vec{u} \cdot (C - A)}{\vec{v} \cdot (B - D)} = 1 \qquad (3)
+$$
 
 ### 5.2 默认点位的求解
 
 对默认点 $A(-1,-1),\, B(0,1),\, C(2,0),\, D(1.5,-2)$：
 
-$$C - A = (3, 1), \quad B - D = (-1.5, 3)$$
+$$
+C - A = (3, 1), \quad B - D = (-1.5, 3)
+$$
 
 方程 $(3)$ 化为：
 
-$$3\cos\theta + \sin\theta = 1.5\sin\theta + 3\cos\theta$$
+$$
+3\cos\theta + \sin\theta = 1.5\sin\theta + 3\cos\theta
+$$
 
-$$\sin\theta = 1.5\sin\theta + 3\cos\theta - 3\cos\theta$$
+$$
+\sin\theta = 1.5\sin\theta + 3\cos\theta - 3\cos\theta
+$$
 
 化简：
 
-$$-0.5\sin\theta = 0 \implies \sin\theta = 0$$
+$$
+-0.5\sin\theta = 0 \implies \sin\theta = 0
+$$
 
 因此 $\theta = 0$（或 $\theta = \pi$，但这两个解代表同一正方形），即边平行于坐标轴。代入 $(1)$：
 
-$$2a = 3\cos(0) + 1\sin(0) = 3 \implies a = 1.5$$
+$$
+2a = 3\cos(0) + 1\sin(0) = 3 \implies a = 1.5
+$$
 
 正方形中心由 $A$ 在边 3、$B$ 在边 2 的约束确定。由 $\vec{u} \cdot (A - O) = -a$：
 
-$$A_x - O_x = -a \implies -1 - O_x = -1.5 \implies O_x = 0.5$$
+$$
+A_x - O_x = -a \implies -1 - O_x = -1.5 \implies O_x = 0.5
+$$
 
 由 $\vec{v} \cdot (B - O) = +a$：
 
-$$B_y - O_y = +a \implies 1 - O_y = 1.5 \implies O_y = -0.5$$
+$$
+B_y - O_y = +a \implies 1 - O_y = 1.5 \implies O_y = -0.5
+$$
 
-$$O = (0.5,\, -0.5) \quad \checkmark$$
+$$
+O = (0.5,\, -0.5) \quad \checkmark
+$$
 
 
 ### 5.3 另一种边分配方案
 
 四点在正方形四条边上的分配有多种排列。除上述 $A$-边3、$B$-边2、$C$-边1、$D$-边4 外，另一种有效分配为 $A$-边4、$B$-边1、$C$-边3、$D$-边2：
 
-$$\vec{v} \cdot (C - A) = 2a \qquad (1')$$
-$$\vec{u} \cdot (B - D) = 2a \qquad (2')$$
+$$
+\vec{v} \cdot (C - A) = 2a \qquad (1')
+$$
+$$
+\vec{u} \cdot (B - D) = 2a \qquad (2')
+$$
 
 由 $(1')/(2')$ 消去 $a$：
 
-$$\vec{v} \cdot (C - A) = \vec{u} \cdot (B - D)$$
+$$
+\vec{v} \cdot (C - A) = \vec{u} \cdot (B - D)
+$$
 
 代入 $C - A = (3, 1)$，$B - D = (-1.5, 3)$：
 
-$$-3\sin\theta + \cos\theta = -1.5\cos\theta + 3\sin\theta$$
+$$
+-3\sin\theta + \cos\theta = -1.5\cos\theta + 3\sin\theta
+$$
 
-$$\cos\theta + 1.5\cos\theta = 3\sin\theta + 3\sin\theta$$
+$$
+\cos\theta + 1.5\cos\theta = 3\sin\theta + 3\sin\theta
+$$
 
-$$2.5\cos\theta = 6\sin\theta \implies \tan\theta = \frac{2.5}{6} = \frac{5}{12}$$
+$$
+2.5\cos\theta = 6\sin\theta \implies \tan\theta = \frac{2.5}{6} = \frac{5}{12}
+$$
 
-$$\theta = \arctan\!\left(\frac{5}{12}\right) \approx 22.62°$$
+$$
+\theta = \arctan\!\left(\frac{5}{12}\right) \approx 22.62°
+$$
 
 代入 $(1')$ 求 $a$：
 
-$$\vec{v} \cdot (C - A) = -3\sin\theta + \cos\theta$$
+$$
+\vec{v} \cdot (C - A) = -3\sin\theta + \cos\theta
+$$
 
 由 $\tan\theta = 5/12$，$\sin\theta = 5/13$，$\cos\theta = 12/13$：
 
-$$-3 \cdot \frac{5}{13} + \frac{12}{13} = \frac{-15 + 12}{13} = -\frac{3}{13}$$
+$$
+-3 \cdot \frac{5}{13} + \frac{12}{13} = \frac{-15 + 12}{13} = -\frac{3}{13}
+$$
 
 取绝对值：$2a = 3/13$，$a = 3/26$。但 $a > 0$ 且 $2a = |{-3/13}|$ 需为正，这里符号取决于法线方向的选择。取绝对值后 $a = 3/(2 \times 13) = 3/26$。
 

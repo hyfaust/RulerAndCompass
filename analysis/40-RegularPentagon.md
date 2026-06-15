@@ -19,41 +19,59 @@
 
 正五边形的五个顶点均匀分布在圆周上，相邻顶点对圆心的张角为：
 
-$$\theta = \frac{360°}{5} = 72° = \frac{2\pi}{5}$$
+$$
+\theta = \frac{360°}{5} = 72° = \frac{2\pi}{5}
+$$
 
 设半径为 $R$，则边长（弦长）为：
 
-$$s = 2R \sin\frac{\pi}{5} = 2R \sin 36°$$
+$$
+s = 2R \sin\frac{\pi}{5} = 2R \sin 36°
+$$
 
 利用三角恒等式 $\sin^2 36° = \frac{5 - \sqrt{5}}{8}$，可得：
 
-$$s = R\sqrt{\frac{5 - \sqrt{5}}{2}} \approx 1.1756\,R$$
+$$
+s = R\sqrt{\frac{5 - \sqrt{5}}{2}} \approx 1.1756\,R
+$$
 
 对角线长度为：
 
-$$d = 2R \sin\frac{2\pi}{5} = 2R \sin 72° = R\sqrt{\frac{5 + \sqrt{5}}{2}} \approx 1.9021\,R$$
+$$
+d = 2R \sin\frac{2\pi}{5} = 2R \sin 72° = R\sqrt{\frac{5 + \sqrt{5}}{2}} \approx 1.9021\,R
+$$
 
 ### 2.2 黄金分割比与正五边形
 
 黄金分割比定义为：
 
-$$\varphi = \frac{1 + \sqrt{5}}{2} \approx 1.6180$$
+$$
+\varphi = \frac{1 + \sqrt{5}}{2} \approx 1.6180
+$$
 
 正五边形中，对角线与边长之比恰好等于黄金比：
 
-$$\frac{d}{s} = \frac{2R\sin 72°}{2R\sin 36°} = \frac{\sin 72°}{\sin 36°} = 2\cos 36° = \frac{1 + \sqrt{5}}{2} = \varphi$$
+$$
+\frac{d}{s} = \frac{2R\sin 72°}{2R\sin 36°} = \frac{\sin 72°}{\sin 36°} = 2\cos 36° = \frac{1 + \sqrt{5}}{2} = \varphi
+$$
 
 其倒数为：
 
-$$\frac{1}{\varphi} = \varphi - 1 = \frac{\sqrt{5} - 1}{2} \approx 0.6180$$
+$$
+\frac{1}{\varphi} = \varphi - 1 = \frac{\sqrt{5} - 1}{2} \approx 0.6180
+$$
 
 ### 2.3 关键三角恒等式
 
 本构造方案的核心依赖以下两个恒等式：
 
-$$\cos 36° = \frac{1 + \sqrt{5}}{4} = \frac{\varphi}{2} \approx 0.8090$$
+$$
+\cos 36° = \frac{1 + \sqrt{5}}{4} = \frac{\varphi}{2} \approx 0.8090
+$$
 
-$$\cos 72° = \frac{\sqrt{5} - 1}{4} = \frac{1}{2\varphi} \approx 0.3090$$
+$$
+\cos 72° = \frac{\sqrt{5} - 1}{4} = \frac{1}{2\varphi} \approx 0.3090
+$$
 
 注意 $\cos 72° = \frac{\sqrt{5}-1}{4}$ 将 $\sqrt{5}$ 与正五边形的几何结构直接联系起来。只要能在尺规作图中提取出长度 $\frac{R(\sqrt{5}-1)}{2}$，就能确定正五边形的边长。
 
@@ -79,14 +97,20 @@ $$\cos 72° = \frac{\sqrt{5} - 1}{4} = \frac{1}{2\varphi} \approx 0.3090$$
 
 **作法**：过 $A$ 和 $B$ 作直线（直径），取 $E$ 为 $B$ 关于 $A$ 的对称点：
 
-$$E = 2A - B = (2, -0.5)$$
+$$
+E = 2A - B = (2, -0.5)
+$$
 
 则 $BE$ 是一条直径，$|BE| = 2R$。
 
 再作 $BE$ 的垂直平分线（过 $A$ 且垂直于 $BE$），与圆交于 $C$ 和 $D$：
 
-$$C = A - (B_y - A_y, -(B_x - A_x)) = (0, -2.5)$$
-$$D = A + (B_y - A_y, -(B_x - A_x)) = (0, 1.5)$$
+$$
+C = A - (B_y - A_y, -(B_x - A_x)) = (0, -2.5)
+$$
+$$
+D = A + (B_y - A_y, -(B_x - A_x)) = (0, 1.5)
+$$
 
 **验证**：
 - $|AC| = \sqrt{0^2 + (-2.5+0.5)^2} = 2 = R$ ✓
@@ -98,7 +122,9 @@ $$D = A + (B_y - A_y, -(B_x - A_x)) = (0, 1.5)$$
 
 ### 步骤 2：求半径 AE 的中点 H
 
-$$H = \frac{A + E}{2} = (1, -0.5)$$
+$$
+H = \frac{A + E}{2} = (1, -0.5)
+$$
 
 $H$ 在直径 $BE$ 上，且 $|AH| = \frac{R}{2} = 1$。
 
@@ -113,7 +139,9 @@ $H$ 在直径 $BE$ 上，且 $|AH| = \frac{R}{2} = 1$。
 
 由勾股定理：
 
-$$|CH| = \sqrt{|AC|^2 + |AH|^2} = \sqrt{R^2 + \frac{R^2}{4}} = \frac{R\sqrt{5}}{2}$$
+$$
+|CH| = \sqrt{|AC|^2 + |AH|^2} = \sqrt{R^2 + \frac{R^2}{4}} = \frac{R\sqrt{5}}{2}
+$$
 
 **数值验证**：$|CH| = \frac{2\sqrt{5}}{2} = \sqrt{5} \approx 2.2361$ ✓
 
@@ -125,23 +153,33 @@ $$|CH| = \sqrt{|AC|^2 + |AH|^2} = \sqrt{R^2 + \frac{R^2}{4}} = \frac{R\sqrt{5}}{
 
 **参数化求解**：设 $P = H + t(C - H)$ 为直线 $CH$ 上的点，$|PH| = \frac{R}{2}$ 要求：
 
-$$|t| \cdot |CH| = \frac{R}{2} \implies |t| = \frac{R/2}{R\sqrt{5}/2} = \frac{1}{\sqrt{5}}$$
+$$
+|t| \cdot |CH| = \frac{R}{2} \implies |t| = \frac{R/2}{R\sqrt{5}/2} = \frac{1}{\sqrt{5}}
+$$
 
 取 $t = \frac{1}{\sqrt{5}}$（靠近 $C$ 的解）：
 
-$$I = H + \frac{1}{\sqrt{5}}(C - H)$$
+$$
+I = H + \frac{1}{\sqrt{5}}(C - H)
+$$
 
 代入数值：$I = (1, -0.5) + \frac{1}{\sqrt{5}}(0-1, -2.5+0.5) = (1 - \frac{1}{\sqrt{5}}, -0.5 - \frac{2}{\sqrt{5}})$
 
-$$I \approx (0.5528, -1.3944)$$
+$$
+I \approx (0.5528, -1.3944)
+$$
 
 **关键长度**：
 
-$$|CI| = |CH| - |HI| = \frac{R\sqrt{5}}{2} - \frac{R}{2} = \frac{R(\sqrt{5} - 1)}{2}$$
+$$
+|CI| = |CH| - |HI| = \frac{R\sqrt{5}}{2} - \frac{R}{2} = \frac{R(\sqrt{5} - 1)}{2}
+$$
 
 注意到：
 
-$$\frac{|CI|}{R} = \frac{\sqrt{5} - 1}{2} = \frac{1}{\varphi}$$
+$$
+\frac{|CI|}{R} = \frac{\sqrt{5} - 1}{2} = \frac{1}{\varphi}
+$$
 
 因此 $|CI| = \frac{R}{\varphi}$。
 
@@ -161,21 +199,33 @@ $$\frac{|CI|}{R} = \frac{\sqrt{5} - 1}{2} = \frac{1}{\varphi}$$
 
 两式相减得：
 
-$$(y + 0.5)^2 - (y + 2.5)^2 = 4 - (6 - 2\sqrt{5})$$
+$$
+(y + 0.5)^2 - (y + 2.5)^2 = 4 - (6 - 2\sqrt{5})
+$$
 
-$$-4y - 6 = -2 + 2\sqrt{5}$$
+$$
+-4y - 6 = -2 + 2\sqrt{5}
+$$
 
-$$y = \frac{-4 - 2\sqrt{5}}{4} = -1 - \frac{\sqrt{5}}{2} \approx -2.1180$$
+$$
+y = \frac{-4 - 2\sqrt{5}}{4} = -1 - \frac{\sqrt{5}}{2} \approx -2.1180
+$$
 
 代入第一个方程：
 
-$$x^2 + (-2.1180 + 0.5)^2 = 4 \implies x^2 = 4 - (-1.6180)^2 = 4 - 2.6180 = 1.3820$$
+$$
+x^2 + (-2.1180 + 0.5)^2 = 4 \implies x^2 = 4 - (-1.6180)^2 = 4 - 2.6180 = 1.3820
+$$
 
-$$x = \pm\sqrt{\frac{5 - \sqrt{5}}{2}} \approx \pm 1.1756$$
+$$
+x = \pm\sqrt{\frac{5 - \sqrt{5}}{2}} \approx \pm 1.1756
+$$
 
 因此：
 
-$$K \approx (-1.1756, -2.1180), \quad J \approx (1.1756, -2.1180)$$
+$$
+K \approx (-1.1756, -2.1180), \quad J \approx (1.1756, -2.1180)
+$$
 
 **验证**：
 - $|KA| = \sqrt{1.1756^2 + 1.6180^2} = \sqrt{1.3820 + 2.6180} = 2 = R$ ✓
@@ -235,25 +285,39 @@ $K$ 和 $J$ 是正五边形的两个相邻顶点。
 
 由余弦定理：
 
-$$|CK|^2 = |AC|^2 + |AK|^2 - 2|AC||AK|\cos(\angle CAK)$$
+$$
+|CK|^2 = |AC|^2 + |AK|^2 - 2|AC||AK|\cos(\angle CAK)
+$$
 
-$$\frac{R^2(\sqrt{5}-1)^2}{4} = R^2 + R^2 - 2R^2\cos(\angle CAK)$$
+$$
+\frac{R^2(\sqrt{5}-1)^2}{4} = R^2 + R^2 - 2R^2\cos(\angle CAK)
+$$
 
-$$\frac{(\sqrt{5}-1)^2}{4} = 2 - 2\cos(\angle CAK)$$
+$$
+\frac{(\sqrt{5}-1)^2}{4} = 2 - 2\cos(\angle CAK)
+$$
 
-$$\frac{6 - 2\sqrt{5}}{4} = 2(1 - \cos(\angle CAK))$$
+$$
+\frac{6 - 2\sqrt{5}}{4} = 2(1 - \cos(\angle CAK))
+$$
 
-$$\cos(\angle CAK) = 1 - \frac{6 - 2\sqrt{5}}{8} = \frac{8 - 6 + 2\sqrt{5}}{8} = \frac{2 + 2\sqrt{5}}{8} = \frac{1 + \sqrt{5}}{4}$$
+$$
+\cos(\angle CAK) = 1 - \frac{6 - 2\sqrt{5}}{8} = \frac{8 - 6 + 2\sqrt{5}}{8} = \frac{2 + 2\sqrt{5}}{8} = \frac{1 + \sqrt{5}}{4}
+$$
 
 由已知恒等式 $\cos 36° = \frac{1 + \sqrt{5}}{4}$，得：
 
-$$\angle CAK = 36°$$
+$$
+\angle CAK = 36°
+$$
 
 同理，在三角形 $ACJ$ 中，$\angle CAJ = 36°$。
 
 因此：
 
-$$\angle KAJ = \angle CAK + \angle CAJ = 36° + 36° = 72° = \frac{360°}{5}$$
+$$
+\angle KAJ = \angle CAK + \angle CAJ = 36° + 36° = 72° = \frac{360°}{5}
+$$
 
 **证毕。** $\blacksquare$
 
@@ -261,7 +325,9 @@ $$\angle KAJ = \angle CAK + \angle CAJ = 36° + 36° = 72° = \frac{360°}{5}$$
 
 整个构造链形成闭环：
 
-$$\boxed{R} \xrightarrow{\text{直角三角形}} \boxed{\frac{R\sqrt{5}}{2}} \xrightarrow{\text{减法}} \boxed{\frac{R(\sqrt{5}-1)}{2}} \xrightarrow{\text{余弦定理}} \boxed{\cos 36° = \frac{1+\sqrt{5}}{4}} \xrightarrow{} \boxed{72° \text{ 弧}}$$
+$$
+\boxed{R} \xrightarrow{\text{直角三角形}} \boxed{\frac{R\sqrt{5}}{2}} \xrightarrow{\text{减法}} \boxed{\frac{R(\sqrt{5}-1)}{2}} \xrightarrow{\text{余弦定理}} \boxed{\cos 36° = \frac{1+\sqrt{5}}{4}} \xrightarrow{} \boxed{72° \text{ 弧}}
+$$
 
 每一步均为尺规作图的基本操作（直线交点、圆交点、取中点），因此整个构造是合法的尺规作图。
 
@@ -269,7 +335,9 @@ $$\boxed{R} \xrightarrow{\text{直角三角形}} \boxed{\frac{R\sqrt{5}}{2}} \xr
 
 五边形 $KJM DL$ 的五个顶点依次位于圆周上，相邻中心角均为 $72°$。由于等弧对等弦：
 
-$$|KJ| = |JM| = |MD| = |DL| = |LK| = 2R\sin 36° = R\sqrt{\frac{5-\sqrt{5}}{2}}$$
+$$
+|KJ| = |JM| = |MD| = |DL| = |LK| = 2R\sin 36° = R\sqrt{\frac{5-\sqrt{5}}{2}}
+$$
 
 因此该五边形为正五边形。
 
@@ -373,9 +441,13 @@ $$|KJ| = |JM| = |MD| = |DL| = |LK| = 2R\sin 36° = R\sqrt{\frac{5-\sqrt{5}}{2}}$
 
 在三角形 $ACK$ 中：
 
-$$\cos(\angle CAK) = \frac{|AC|^2 + |AK|^2 - |CK|^2}{2|AC||AK|} = \frac{4 + 4 - 1.5279}{8} = \frac{6.4721}{8} = 0.8090 = \cos 36°$$
+$$
+\cos(\angle CAK) = \frac{|AC|^2 + |AK|^2 - |CK|^2}{2|AC||AK|} = \frac{4 + 4 - 1.5279}{8} = \frac{6.4721}{8} = 0.8090 = \cos 36°
+$$
 
-$$\angle CAK = 36° \implies \angle KAJ = 2 \times 36° = 72° = \frac{360°}{5} \quad \checkmark$$
+$$
+\angle CAK = 36° \implies \angle KAJ = 2 \times 36° = 72° = \frac{360°}{5} \quad \checkmark
+$$
 
 **所有数值验证均通过，确认构造的正确性。**
 

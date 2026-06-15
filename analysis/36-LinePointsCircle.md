@@ -20,7 +20,9 @@
 
 **约束 1：圆过 $A$ 和 $B$**
 
-$$|HA| = |HB| = r$$
+$$
+|HA| = |HB| = r
+$$
 
 由于 $|HA| = |HB|$，圆心 $H$ 必在 $AB$ 的垂直平分线上。
 
@@ -28,7 +30,9 @@ $$|HA| = |HB| = r$$
 
 圆心到直线 $L_1$ 的距离等于半径：
 
-$$d(H, L_1) = r$$
+$$
+d(H, L_1) = r
+$$
 
 对于 $L_1: y = 1$，有 $|h_y - 1| = r$。
 
@@ -40,11 +44,15 @@ $AB$ 的方向向量为 $(b_x - a_x, b_y - a_y)$，垂直方向为 $(-(b_y - a_y
 
 垂直平分线 $L_3$ 过 $D$ 且垂直于 $AB$，其方程为：
 
-$$2(b_x - a_x)(h_x - D_x) + 2(b_y - a_y)(h_y - D_y) = 0$$
+$$
+2(b_x - a_x)(h_x - D_x) + 2(b_y - a_y)(h_y - D_y) = 0
+$$
 
 即
 
-$$(b_x - a_x) h_x + (b_y - a_y) h_y = \frac{(b_x - a_x)(a_x+b_x) + (b_y - a_y)(a_y+b_y)}{2}$$
+$$
+(b_x - a_x) h_x + (b_y - a_y) h_y = \frac{(b_x - a_x)(a_x+b_x) + (b_y - a_y)(a_y+b_y)}{2}
+$$
 
 对于 $A = (-2, -2)$，$B = (1, 0)$：
 
@@ -56,60 +64,94 @@ $$(b_x - a_x) h_x + (b_y - a_y) h_y = \frac{(b_x - a_x)(a_x+b_x) + (b_y - a_y)(a
 
 由约束 1 和约束 2 联立：
 
-$$|HA|^2 = (h_y - 1)^2$$
+$$
+|HA|^2 = (h_y - 1)^2
+$$
 
-$$(h_x - a_x)^2 + (h_y - a_y)^2 = (h_y - 1)^2$$
+$$
+(h_x - a_x)^2 + (h_y - a_y)^2 = (h_y - 1)^2
+$$
 
 展开并化简（$L_1: y = 1$，$A = (-2, -2)$）：
 
-$$(h_x + 2)^2 + (h_y + 2)^2 = (h_y - 1)^2$$
+$$
+(h_x + 2)^2 + (h_y + 2)^2 = (h_y - 1)^2
+$$
 
-$$h_x^2 + 4h_x + 4 + h_y^2 + 4h_y + 4 = h_y^2 - 2h_y + 1$$
+$$
+h_x^2 + 4h_x + 4 + h_y^2 + 4h_y + 4 = h_y^2 - 2h_y + 1
+$$
 
-$$h_x^2 + 4h_x + 6h_y + 7 = 0 \quad \cdots (*)$$
+$$
+h_x^2 + 4h_x + 6h_y + 7 = 0 \quad \cdots (*)
+$$
 
 联立垂直平分线 $6h_x + 4h_y + 7 = 0$，即 $h_y = -\frac{6h_x + 7}{4}$，代入 $(*)$：
 
-$$h_x^2 + 4h_x + 6\left(-\frac{6h_x+7}{4}\right) + 7 = 0$$
+$$
+h_x^2 + 4h_x + 6\left(-\frac{6h_x+7}{4}\right) + 7 = 0
+$$
 
-$$h_x^2 + 4h_x - 9h_x - \frac{21}{2} + 7 = 0$$
+$$
+h_x^2 + 4h_x - 9h_x - \frac{21}{2} + 7 = 0
+$$
 
-$$h_x^2 - 5h_x - \frac{7}{2} = 0$$
+$$
+h_x^2 - 5h_x - \frac{7}{2} = 0
+$$
 
-$$2h_x^2 - 10h_x - 7 = 0$$
+$$
+2h_x^2 - 10h_x - 7 = 0
+$$
 
 **判别式**：$\Delta = 100 + 56 = 156 > 0$，有两个不等实根：
 
-$$h_x = \frac{5 \pm \sqrt{39}}{2}$$
+$$
+h_x = \frac{5 \pm \sqrt{39}}{2}
+$$
 两个解为：
 
 **解 1（大圆）**：
 
-$$h_x^{(1)} = \frac{5 + \sqrt{39}}{2} \approx 5.6225, \quad h_y^{(1)} = -\frac{6h_x^{(1)}+7}{4} \approx -10.1837$$
+$$
+h_x^{(1)} = \frac{5 + \sqrt{39}}{2} \approx 5.6225, \quad h_y^{(1)} = -\frac{6h_x^{(1)}+7}{4} \approx -10.1837
+$$
 
-$$r^{(1)} = |h_y^{(1)} - 1| \approx 11.1837$$
+$$
+r^{(1)} = |h_y^{(1)} - 1| \approx 11.1837
+$$
 
 **解 2（小圆）**：
 
-$$h_x^{(2)} = \frac{5 - \sqrt{39}}{2} \approx -0.6225, \quad h_y^{(2)} = -\frac{6h_x^{(2)}+7}{4} \approx -0.8163$$
+$$
+h_x^{(2)} = \frac{5 - \sqrt{39}}{2} \approx -0.6225, \quad h_y^{(2)} = -\frac{6h_x^{(2)}+7}{4} \approx -0.8163
+$$
 
-$$r^{(2)} = |h_y^{(2)} - 1| \approx 1.8163$$
+$$
+r^{(2)} = |h_y^{(2)} - 1| \approx 1.8163
+$$
 
 ### 2.4 圆幂定理与切割线定理
 
 设 $C$ 为直线 $AB$ 与 $L_1$ 的交点。由**切割线定理**，从 $C$ 向所求圆作切线，切点为 $T$，则：
 
-$$CT^2 = CA \cdot CB$$
+$$
+CT^2 = CA \cdot CB
+$$
 
 其中 $CA$、$CB$ 分别为 $C$ 到 $A$、$B$ 的距离（有向距离的绝对值）。
 
 **推导**：设圆与 $L_1$ 切于点 $T$，则 $CT$ 为从 $C$ 到圆的切线长。同时，直线 $CAB$ 是圆的一条割线（过 $A$、$B$）。由切割线定理：
 
-$$CT^2 = CA \cdot CB$$
+$$
+CT^2 = CA \cdot CB
+$$
 
 因此，切点 $T$ 到 $C$ 的距离为：
 
-$$CT = \sqrt{CA \cdot CB}$$
+$$
+CT = \sqrt{CA \cdot CB}
+$$
 
 这是 $CA$ 和 $CB$ 的**几何平均值**。
 
@@ -132,7 +174,9 @@ $$CT = \sqrt{CA \cdot CB}$$
 
 $L_1: y = 1$ 代入 $L_2$：$-2 + 2t = 1 \Rightarrow t = \frac{3}{2}$
 
-$$C = \left(-2 + 3 \cdot \frac{3}{2},\; 1\right) = \left(\frac{5}{2},\; 1\right)$$
+$$
+C = \left(-2 + 3 \cdot \frac{3}{2},\; 1\right) = \left(\frac{5}{2},\; 1\right)
+$$
 
 ### 步骤 3：作 $AB$ 的垂直平分线 $L_3$
 
@@ -158,21 +202,33 @@ $L_4$ 过 $B(1, 0)$，方向 $(-2, 3)$（垂直于 $AB$ 方向 $(3, 2)$）。
 
 将 $L_4$ 代入 $c_1$ 的方程 $(x - \frac{1}{4})^2 + (y + \frac{1}{2})^2 = \frac{117}{16}$：
 
-$$\left(\frac{3}{4} - 2s\right)^2 + \left(3s + \frac{1}{2}\right)^2 = \frac{117}{16}$$
+$$
+\left(\frac{3}{4} - 2s\right)^2 + \left(3s + \frac{1}{2}\right)^2 = \frac{117}{16}
+$$
 
 展开：
 
-$$\frac{9}{16} - 3s + 4s^2 + 9s^2 + 3s + \frac{1}{4} = \frac{117}{16}$$
+$$
+\frac{9}{16} - 3s + 4s^2 + 9s^2 + 3s + \frac{1}{4} = \frac{117}{16}
+$$
 
-$$13s^2 + \frac{13}{16} = \frac{117}{16}$$
+$$
+13s^2 + \frac{13}{16} = \frac{117}{16}
+$$
 
-$$13s^2 = \frac{104}{16} = \frac{13}{2}$$
+$$
+13s^2 = \frac{104}{16} = \frac{13}{2}
+$$
 
-$$s^2 = \frac{1}{2}, \quad s = \pm\frac{1}{\sqrt{2}}$$
+$$
+s^2 = \frac{1}{2}, \quad s = \pm\frac{1}{\sqrt{2}}
+$$
 
 取 $s = -\frac{1}{\sqrt{2}}$（代码取 $y$ 值较小的交点）：
 
-$$F = \left(1 + \sqrt{2},\; -\frac{3}{\sqrt{2}}\right) \approx (2.4142,\; -2.1213)$$
+$$
+F = \left(1 + \sqrt{2},\; -\frac{3}{\sqrt{2}}\right) \approx (2.4142,\; -2.1213)
+$$
 ### 步骤 7：关键引理 — $CF^2 = CA \cdot CB$
 
 **定理**：设 $F$ 为 $L_4$（过 $B$ 垂直于 $AB$ 的直线）与 $c_1$（以 $AC$ 为直径的圆）的交点，则 $CF^2 = CA \cdot CB$。
@@ -189,23 +245,35 @@ $L_4$ 上的点：$d_2 \mathbf{u} + s\mathbf{v}$
 
 $F$ 在 $c_1$ 上：
 
-$$\left|d_2 \mathbf{u} + s\mathbf{v} - \frac{d_1}{2}\mathbf{u}\right|^2 = \frac{d_1^2}{4}$$
+$$
+\left|d_2 \mathbf{u} + s\mathbf{v} - \frac{d_1}{2}\mathbf{u}\right|^2 = \frac{d_1^2}{4}
+$$
 
-$$\left(d_2 - \frac{d_1}{2}\right)^2 + s^2 = \frac{d_1^2}{4}$$
+$$
+\left(d_2 - \frac{d_1}{2}\right)^2 + s^2 = \frac{d_1^2}{4}
+$$
 
-$$s^2 = \frac{d_1^2}{4} - \left(d_2 - \frac{d_1}{2}\right)^2 = d_1 d_2 - d_2^2 = d_2(d_1 - d_2)$$
+$$
+s^2 = \frac{d_1^2}{4} - \left(d_2 - \frac{d_1}{2}\right)^2 = d_1 d_2 - d_2^2 = d_2(d_1 - d_2)
+$$
 
 因此：
 
-$$CF^2 = |d_2 \mathbf{u} + s\mathbf{v}|^2 = d_2^2 + s^2 = d_2^2 + d_2(d_1 - d_2) = d_1 d_2 = CA \cdot CB$$
+$$
+CF^2 = |d_2 \mathbf{u} + s\mathbf{v}|^2 = d_2^2 + s^2 = d_2^2 + d_2(d_1 - d_2) = d_1 d_2 = CA \cdot CB
+$$
 
 $\blacksquare$
 
 **数值验证**：
 
-$$CF = \sqrt{\left(\sqrt{2} - \frac{3}{2}\right)^2 + \left(-\frac{3}{\sqrt{2}} - 1\right)^2} = \sqrt{\frac{39}{4}} = \frac{\sqrt{39}}{2} \approx 3.1225$$
+$$
+CF = \sqrt{\left(\sqrt{2} - \frac{3}{2}\right)^2 + \left(-\frac{3}{\sqrt{2}} - 1\right)^2} = \sqrt{\frac{39}{4}} = \frac{\sqrt{39}}{2} \approx 3.1225
+$$
 
-$$CA \cdot CB = \frac{3\sqrt{13}}{2} \cdot \frac{\sqrt{13}}{2} = \frac{39}{4} = 9.7500 \quad \checkmark$$
+$$
+CA \cdot CB = \frac{3\sqrt{13}}{2} \cdot \frac{\sqrt{13}}{2} = \frac{39}{4} = 9.7500 \quad \checkmark
+$$
 
 ### 步骤 8：以 $C$ 为圆心、$CF$ 为半径作圆 $c_2$
 
@@ -215,13 +283,19 @@ $c_2$：圆心 $C(\frac{5}{2}, 1)$，半径 $r_2 = CF = \frac{\sqrt{39}}{2}$。
 
 $L_1: y = 1$ 代入 $c_2$：
 
-$$\left(x - \frac{5}{2}\right)^2 = \frac{39}{4}$$
+$$
+\left(x - \frac{5}{2}\right)^2 = \frac{39}{4}
+$$
 
-$$x = \frac{5}{2} \pm \frac{\sqrt{39}}{2}$$
+$$
+x = \frac{5}{2} \pm \frac{\sqrt{39}}{2}
+$$
 
 代码取较小的 $x$ 值：
 
-$$G = \left(\frac{5 - \sqrt{39}}{2},\; 1\right) \approx (-0.6225,\; 1)$$
+$$
+G = \left(\frac{5 - \sqrt{39}}{2},\; 1\right) \approx (-0.6225,\; 1)
+$$
 
 注意 $|CG| = \frac{\sqrt{39}}{2} = CT$，即 $G$ 就是切割线定理中的切点 $T$。
 
@@ -233,15 +307,23 @@ $L_5$ 为过 $G$ 的竖直线：$x = \frac{5 - \sqrt{39}}{2}$
 
 $H$ 为垂直平分线 $6x + 4y + 7 = 0$ 与 $L_5$ 的交点：
 
-$$6 \cdot \frac{5-\sqrt{39}}{2} + 4h_y + 7 = 0$$
+$$
+6 \cdot \frac{5-\sqrt{39}}{2} + 4h_y + 7 = 0
+$$
 
-$$h_y = \frac{-22 + 3\sqrt{39}}{4} \approx -0.8163$$
+$$
+h_y = \frac{-22 + 3\sqrt{39}}{4} \approx -0.8163
+$$
 
-$$H = \left(\frac{5 - \sqrt{39}}{2},\; \frac{-22 + 3\sqrt{39}}{4}\right) \approx (-0.6225,\; -0.8163)$$
+$$
+H = \left(\frac{5 - \sqrt{39}}{2},\; \frac{-22 + 3\sqrt{39}}{4}\right) \approx (-0.6225,\; -0.8163)
+$$
 
 ### 步骤 12：以 $H$ 为圆心、$|HA|$ 为半径作圆
 
-$$r = |HA| = \sqrt{(h_x + 2)^2 + (h_y + 2)^2} = 1 - h_y = \frac{26 - 3\sqrt{39}}{4} \approx 1.8163$$
+$$
+r = |HA| = \sqrt{(h_x + 2)^2 + (h_y + 2)^2} = 1 - h_y = \frac{26 - 3\sqrt{39}}{4} \approx 1.8163
+$$
 
 此即所求的切圆。
 ## 4. 正确性证明
@@ -256,7 +338,9 @@ $H$ 在 $AB$ 的垂直平分线 $L_3$ 上，故 $|HA| = |HB|$。
 
 圆心 $H$ 到 $L_1: y = 1$ 的距离：
 
-$$d(H, L_1) = |h_y - 1| = 1 - h_y = \frac{26 - 3\sqrt{39}}{4} = r \quad \checkmark$$
+$$
+d(H, L_1) = |h_y - 1| = 1 - h_y = \frac{26 - 3\sqrt{39}}{4} = r \quad \checkmark
+$$
 
 距离等于半径，故圆与 $L_1$ 相切。
 
@@ -266,9 +350,13 @@ $$d(H, L_1) = |h_y - 1| = 1 - h_y = \frac{26 - 3\sqrt{39}}{4} = r \quad \checkma
 
 从 $C(\frac{5}{2}, 1)$ 到切点的距离：
 
-$$CT = \left|\frac{5}{2} - \frac{5 - \sqrt{39}}{2}\right| = \frac{\sqrt{39}}{2}$$
+$$
+CT = \left|\frac{5}{2} - \frac{5 - \sqrt{39}}{2}\right| = \frac{\sqrt{39}}{2}
+$$
 
-$$CT^2 = \frac{39}{4} = CA \cdot CB \quad \checkmark$$
+$$
+CT^2 = \frac{39}{4} = CA \cdot CB \quad \checkmark
+$$
 
 ### 4.4 构造正确性总结
 
@@ -296,7 +384,9 @@ $$CT^2 = \frac{39}{4} = CA \cdot CB \quad \checkmark$$
 
 将垂直平分线代入切线条件，得到关于 $h_x$ 的二次方程：
 
-$$2h_x^2 - 10h_x - 7 = 0$$
+$$
+2h_x^2 - 10h_x - 7 = 0
+$$
 
 判别式 $\Delta = 100 + 56 = 156 > 0$，故有 **两个不等实根**，即存在 **两个** 满足条件的圆。
 
@@ -340,13 +430,21 @@ $$2h_x^2 - 10h_x - 7 = 0$$
 
 ### 6.2 精确值
 
-$$C = \left(\frac{5}{2}, 1\right), \quad CA = \frac{3\sqrt{13}}{2}, \quad CB = \frac{\sqrt{13}}{2}$$
+$$
+C = \left(\frac{5}{2}, 1\right), \quad CA = \frac{3\sqrt{13}}{2}, \quad CB = \frac{\sqrt{13}}{2}
+$$
 
-$$CA \cdot CB = \frac{39}{4}, \quad CT = \frac{\sqrt{39}}{2}$$
+$$
+CA \cdot CB = \frac{39}{4}, \quad CT = \frac{\sqrt{39}}{2}
+$$
 
-$$H_2 = \left(\frac{5 - \sqrt{39}}{2},\; \frac{-22 + 3\sqrt{39}}{4}\right), \quad r_2 = \frac{26 - 3\sqrt{39}}{4}$$
+$$
+H_2 = \left(\frac{5 - \sqrt{39}}{2},\; \frac{-22 + 3\sqrt{39}}{4}\right), \quad r_2 = \frac{26 - 3\sqrt{39}}{4}
+$$
 
-$$H_1 = \left(\frac{5 + \sqrt{39}}{2},\; \frac{-22 - 3\sqrt{39}}{4}\right), \quad r_1 = \frac{26 + 3\sqrt{39}}{4}$$
+$$
+H_1 = \left(\frac{5 + \sqrt{39}}{2},\; \frac{-22 - 3\sqrt{39}}{4}\right), \quad r_1 = \frac{26 + 3\sqrt{39}}{4}
+$$
 
 ### 6.3 验证等式
 
@@ -362,6 +460,8 @@ $$H_1 = \left(\frac{5 + \sqrt{39}}{2},\; \frac{-22 - 3\sqrt{39}}{4}\right), \qua
 
 构造中 $CF = \sqrt{CA \cdot CB}$ 的代数证明（见第 3 节步骤 7）可通过以下数值交叉验证：
 
-$$CF^2 = \left(\sqrt{2} - \frac{3}{2}\right)^2 + \left(-\frac{3}{\sqrt{2}} - 1\right)^2 = 2 - 3\sqrt{2} + \frac{9}{4} + \frac{9}{2} + 3\sqrt{2} + 1 = \frac{39}{4}$$
+$$
+CF^2 = \left(\sqrt{2} - \frac{3}{2}\right)^2 + \left(-\frac{3}{\sqrt{2}} - 1\right)^2 = 2 - 3\sqrt{2} + \frac{9}{4} + \frac{9}{2} + 3\sqrt{2} + 1 = \frac{39}{4}
+$$
 
 注意中间项 $-3\sqrt{2}$ 与 $+3\sqrt{2}$ 恰好抵消，最终结果仅含整数和分数，与 $CA \cdot CB = \frac{39}{4}$ 完全一致。

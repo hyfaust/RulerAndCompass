@@ -8,7 +8,9 @@
 
 **等价代数问题**：在单位圆上，正十七边形的顶点是方程 $z^{17} = 1$ 的 17 个根。除去 $z = 1$ 之外，其余 16 个根为：
 
-$$\zeta^k = e^{2\pi i k/17}, \quad k = 1, 2, \ldots, 16$$
+$$
+\zeta^k = e^{2\pi i k/17}, \quad k = 1, 2, \ldots, 16
+$$
 
 其中 $\zeta = e^{2\pi i/17}$ 是**本原 17 次单位根**。构造正十七边形等价于求出 $\cos\!\left(\dfrac{2\pi}{17}\right)$ 的值——一旦得到这个值，就能在圆上标出所有顶点。
 
@@ -22,17 +24,23 @@ $$\zeta^k = e^{2\pi i k/17}, \quad k = 1, 2, \ldots, 16$$
 
 17 次分圆多项式为：
 
-$$\Phi_{17}(z) = z^{16} + z^{15} + \cdots + z + 1 = \sum_{k=0}^{16} z^k$$
+$$
+\Phi_{17}(z) = z^{16} + z^{15} + \cdots + z + 1 = \sum_{k=0}^{16} z^k
+$$
 
 其 16 个根即为 $\zeta, \zeta^2, \ldots, \zeta^{16}$。伽罗瓦群 $\text{Gal}(\mathbb{Q}(\zeta)/\mathbb{Q}) \cong (\mathbb{Z}/17\mathbb{Z})^{\times}$ 是 16 阶循环群。
 
 关键观察：$16 = 2^4$，因此伽罗瓦群可以进行**4 次正规子群降链**：
 
-$$(\mathbb{Z}/17\mathbb{Z})^{\times} = G_0 \supset G_1 \supset G_2 \supset G_3 \supset G_4 = \{1\}$$
+$$
+(\mathbb{Z}/17\mathbb{Z})^{\times} = G_0 \supset G_1 \supset G_2 \supset G_3 \supset G_4 = \{1\}
+$$
 
 其中 $|G_k| = 2^{4-k}$。每一步商群 $G_{k-1}/G_k$ 的阶为 2，对应一个**二次扩张**。因此 $\mathbb{Q}(\zeta)$ 可以通过 4 层二次扩张从 $\mathbb{Q}$ 得到：
 
-$$\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset K_3 \subset K_4 = \mathbb{Q}(\zeta)$$
+$$
+\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset K_3 \subset K_4 = \mathbb{Q}(\zeta)
+$$
 
 其中 $[K_{k}: K_{k-1}] = 2$。由于二次扩张恰好对应尺规作图中的开平方运算，**4 次嵌套的二次方程**即可完成构造。
 
@@ -40,26 +48,40 @@ $$\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset K_3 \subset K_4 = \mathbb{Q}(
 
 取 $K = 3$ 作为模 17 的**原根**，即 3 的幂次遍历 $(\mathbb{Z}/17\mathbb{Z})^{\times}$ 的所有元素：
 
-$$3^0 \equiv 1,\; 3^1 \equiv 3,\; 3^2 \equiv 9,\; 3^3 \equiv 10,\; 3^4 \equiv 13,\; 3^5 \equiv 5,$$
-$$3^6 \equiv 15,\; 3^7 \equiv 11,\; 3^8 \equiv 16,\; 3^9 \equiv 14,\; 3^{10} \equiv 8,\; 3^{11} \equiv 7,$$
-$$3^{12} \equiv 4,\; 3^{13} \equiv 12,\; 3^{14} \equiv 2,\; 3^{15} \equiv 6 \pmod{17}$$
+$$
+3^0 \equiv 1,\; 3^1 \equiv 3,\; 3^2 \equiv 9,\; 3^3 \equiv 10,\; 3^4 \equiv 13,\; 3^5 \equiv 5,
+$$
+$$
+3^6 \equiv 15,\; 3^7 \equiv 11,\; 3^8 \equiv 16,\; 3^9 \equiv 14,\; 3^{10} \equiv 8,\; 3^{11} \equiv 7,
+$$
+$$
+3^{12} \equiv 4,\; 3^{13} \equiv 12,\; 3^{14} \equiv 2,\; 3^{15} \equiv 6 \pmod{17}
+$$
 
 按此顺序排列 16 个本原单位根（不含 1）：
 
-$$\zeta^1,\; \zeta^3,\; \zeta^9,\; \zeta^{10},\; \zeta^{13},\; \zeta^5,\; \zeta^{15},\; \zeta^{11},$$
-$$\zeta^{16},\; \zeta^{14},\; \zeta^8,\; \zeta^7,\; \zeta^4,\; \zeta^{12},\; \zeta^2,\; \zeta^6$$
+$$
+\zeta^1,\; \zeta^3,\; \zeta^9,\; \zeta^{10},\; \zeta^{13},\; \zeta^5,\; \zeta^{15},\; \zeta^{11},
+$$
+$$
+\zeta^{16},\; \zeta^{14},\; \zeta^8,\; \zeta^7,\; \zeta^4,\; \zeta^{12},\; \zeta^2,\; \zeta^6
+$$
 
 ### 2.3 高斯和（Gaussian Periods）
 
 **定义**：对正整数 $m \mid 16$ 和起始指标 $i$（$0 \le i < m$），定义 $m$ 阶高斯和：
 
-$$\eta_i^{(m)} = \sum_{j=0}^{16/m - 1} \zeta^{3^{i + jm}}$$
+$$
+\eta_i^{(m)} = \sum_{j=0}^{16/m - 1} \zeta^{3^{i + jm}}
+$$
 
 即从列表中第 $i$ 个根开始，每隔 $m$ 个取一个，求和。
 
 #### 第一层：$m = 1$（整体和）
 
-$$\eta_0^{(1)} = \sum_{k=1}^{16} \zeta^k = -1$$
+$$
+\eta_0^{(1)} = \sum_{k=1}^{16} \zeta^k = -1
+$$
 
 （因为 $\sum_{k=0}^{16} \zeta^k = 0$，故去掉 $\zeta^0 = 1$ 后和为 $-1$。）
 
@@ -67,41 +89,65 @@ $$\eta_0^{(1)} = \sum_{k=1}^{16} \zeta^k = -1$$
 
 将 16 个根分为两组，每组 8 个：
 
-$$p_1 = \eta_0^{(2)} = \zeta^1 + \zeta^9 + \zeta^{13} + \zeta^{15} + \zeta^{16} + \zeta^8 + \zeta^4 + \zeta^2$$
+$$
+p_1 = \eta_0^{(2)} = \zeta^1 + \zeta^9 + \zeta^{13} + \zeta^{15} + \zeta^{16} + \zeta^8 + \zeta^4 + \zeta^2
+$$
 
-$$q_1 = \eta_1^{(2)} = \zeta^3 + \zeta^{10} + \zeta^5 + \zeta^{11} + \zeta^{14} + \zeta^7 + \zeta^{12} + \zeta^6$$
+$$
+q_1 = \eta_1^{(2)} = \zeta^3 + \zeta^{10} + \zeta^5 + \zeta^{11} + \zeta^{14} + \zeta^7 + \zeta^{12} + \zeta^6
+$$
 
 满足：
-$$p_1 + q_1 = \eta_0^{(1)} = -1$$
-$$p_1 \cdot q_1 = -4$$
+$$
+p_1 + q_1 = \eta_0^{(1)} = -1
+$$
+$$
+p_1 \cdot q_1 = -4
+$$
 
 （$p_1 \cdot q_1 = -4$ 可通过展开 $\zeta^a \cdot \zeta^b = \zeta^{a+b}$ 并按模 17 分组化简得到，每个余数类恰好出现 4 次，总和为 $4 \times (-1) = -4$。）
 
 因此 $p_1, q_1$ 是二次方程的根：
 
-$$\boxed{x^2 + x - 4 = 0}$$
+$$
+\boxed{x^2 + x - 4 = 0}
+$$
 
-$$p_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.5616, \quad q_1 = \frac{-1 - \sqrt{17}}{2} \approx -2.5616$$
+$$
+p_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.5616, \quad q_1 = \frac{-1 - \sqrt{17}}{2} \approx -2.5616
+$$
 
 #### 第三层：$m = 4$（四个 4 阶和）
 
 将 $p_1$ 的 8 个根再分为两组：
 
-$$p_2 = \zeta^1 + \zeta^{13} + \zeta^{16} + \zeta^4, \quad q_2 = \zeta^9 + \zeta^{15} + \zeta^8 + \zeta^2$$
+$$
+p_2 = \zeta^1 + \zeta^{13} + \zeta^{16} + \zeta^4, \quad q_2 = \zeta^9 + \zeta^{15} + \zeta^8 + \zeta^2
+$$
 
 满足：
-$$p_2 + q_2 = p_1$$
-$$p_2 \cdot q_2 = -1$$
+$$
+p_2 + q_2 = p_1
+$$
+$$
+p_2 \cdot q_2 = -1
+$$
 
 （同样通过展开乘积并化简验证。）
 
 因此 $p_2, q_2$ 是方程的根：
 
-$$\boxed{x^2 - p_1 \cdot x - 1 = 0}$$
+$$
+\boxed{x^2 - p_1 \cdot x - 1 = 0}
+$$
 
-$$p_2 = \frac{p_1 - \sqrt{p_1^2 + 4}}{2} = \frac{-1 - \sqrt{17} + \sqrt{34 - 2\sqrt{17}}}{4} \approx -0.0121$$
+$$
+p_2 = \frac{p_1 - \sqrt{p_1^2 + 4}}{2} = \frac{-1 - \sqrt{17} + \sqrt{34 - 2\sqrt{17}}}{4} \approx -0.0121
+$$
 
-$$q_2 = \frac{p_1 + \sqrt{p_1^2 + 4}}{2} = \frac{-1 - \sqrt{17} - \sqrt{34 - 2\sqrt{17}}}{4} \approx -2.5495$$
+$$
+q_2 = \frac{p_1 + \sqrt{p_1^2 + 4}}{2} = \frac{-1 - \sqrt{17} - \sqrt{34 - 2\sqrt{17}}}{4} \approx -2.5495
+$$
 
 注意：$p_1^2 + 4 = \dfrac{17 - \sqrt{17}}{2} + 4 = \dfrac{25 - \sqrt{17}}{2}$，而 $\sqrt{p_1^2 + 4}$ 化简后恰好等于 $\dfrac{\sqrt{34 - 2\sqrt{17}}}{2}$（需验证 $\left(\frac{\sqrt{34-2\sqrt{17}}}{2}\right)^2 = \frac{34-2\sqrt{17}}{4}$，而 $p_1^2 + 4 = \frac{(-1+\sqrt{17})^2}{4} + 4 = \frac{18 - 2\sqrt{17} + 16}{4} = \frac{34 - 2\sqrt{17}}{4}$，验证成立）。
 
@@ -109,45 +155,67 @@ $$q_2 = \frac{p_1 + \sqrt{p_1^2 + 4}}{2} = \frac{-1 - \sqrt{17} - \sqrt{34 - 2\s
 
 将 $p_2$ 的 4 个根再分为两组：
 
-$$p_3 = \zeta^1 + \zeta^{16}, \quad q_3 = \zeta^{13} + \zeta^4$$
+$$
+p_3 = \zeta^1 + \zeta^{16}, \quad q_3 = \zeta^{13} + \zeta^4
+$$
 
 满足：
-$$p_3 + q_3 = p_2$$
-$$p_3 \cdot q_3 = (\zeta^1 + \zeta^{16})(\zeta^{13} + \zeta^4) = \zeta^{14} + \zeta^5 + \zeta^{12} + \zeta^3$$
+$$
+p_3 + q_3 = p_2
+$$
+$$
+p_3 \cdot q_3 = (\zeta^1 + \zeta^{16})(\zeta^{13} + \zeta^4) = \zeta^{14} + \zeta^5 + \zeta^{12} + \zeta^3
+$$
 
 注意 $\zeta^{14} + \zeta^5 + \zeta^{12} + \zeta^3$ 恰好是 $q_1$ 的子集，实际上：
 
-$$p_3 \cdot q_3 = -1$$
+$$
+p_3 \cdot q_3 = -1
+$$
 
 （验证：$\zeta^{14} + \zeta^5 + \zeta^{12} + \zeta^3$ 是 $q_1$ 的一半；由对称性及数值验证，乘积确实为 $-1$。）
 
 因此 $p_3, q_3$ 是方程的根：
 
-$$\boxed{x^2 - p_2 \cdot x - 1 = 0}$$
+$$
+\boxed{x^2 - p_2 \cdot x - 1 = 0}
+$$
 
-$$p_3 = \frac{p_2 - \sqrt{p_2^2 + 4}}{2} \approx 1.8649, \quad q_3 = \frac{p_2 + \sqrt{p_2^2 + 4}}{2} \approx 0.1845$$
+$$
+p_3 = \frac{p_2 - \sqrt{p_2^2 + 4}}{2} \approx 1.8649, \quad q_3 = \frac{p_2 + \sqrt{p_2^2 + 4}}{2} \approx 0.1845
+$$
 
 #### 第五层：$m = 16$（单个根的配对）
 
 最终，$p_3 = \zeta^1 + \zeta^{16} = 2\cos\!\left(\dfrac{2\pi}{17}\right)$ 的两个分量：
 
-$$\zeta^1 \cdot \zeta^{16} = \zeta^{17} = 1$$
+$$
+\zeta^1 \cdot \zeta^{16} = \zeta^{17} = 1
+$$
 
 因此 $\zeta^1$ 和 $\zeta^{16}$ 是方程的根：
 
-$$\boxed{x^2 - p_3 \cdot x + 1 = 0}$$
+$$
+\boxed{x^2 - p_3 \cdot x + 1 = 0}
+$$
 
-$$\zeta^1 = \frac{p_3 - \sqrt{p_3^2 - 4}}{2}, \quad \zeta^{16} = \frac{p_3 + \sqrt{p_3^2 - 4}}{2}$$
+$$
+\zeta^1 = \frac{p_3 - \sqrt{p_3^2 - 4}}{2}, \quad \zeta^{16} = \frac{p_3 + \sqrt{p_3^2 - 4}}{2}
+$$
 
 取实部即得：
 
-$$\cos\!\left(\frac{2\pi}{17}\right) = \frac{p_3}{2} = \frac{\zeta^1 + \zeta^{16}}{2}$$
+$$
+\cos\!\left(\frac{2\pi}{17}\right) = \frac{p_3}{2} = \frac{\zeta^1 + \zeta^{16}}{2}
+$$
 
 ### 2.4 $\cos(2\pi/17)$ 的完整闭合公式
 
 将四层二次方程逐层回代，得到**高斯经典公式**：
 
-$$\boxed{\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}}{16}}$$
+$$
+\boxed{\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}}{16}}
+$$
 
 各层嵌套结构如下：
 - **第一层**：$\sqrt{17}$ —— 来自 $x^2 + x - 4 = 0$ 的判别式 $1 + 16 = 17$
@@ -166,7 +234,9 @@ $$\boxed{\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34 - 
 **操作**：过 $A$ 作 $AB$ 的垂线，交圆于 $C, D$；延长 $BA$ 交圆于 $E$。
 
 **坐标**：
-$$B = (r, 0),\quad E = (-r, 0),\quad C = (0, r),\quad D = (0, -r)$$
+$$
+B = (r, 0),\quad E = (-r, 0),\quad C = (0, r),\quad D = (0, -r)
+$$
 
 $BE$ 为水平直径，$CD$ 为竖直直径，两直径互相垂直。建立坐标系后，$x$ 轴为 $BE$，$y$ 轴为 $CD$。
 
@@ -175,14 +245,18 @@ $BE$ 为水平直径，$CD$ 为竖直直径，两直径互相垂直。建立坐�
 **操作**：取 $AC$ 的中点。
 
 **坐标**：
-$$F = \frac{A + C}{2} = \left(0,\; \frac{r}{2}\right)$$
+$$
+F = \frac{A + C}{2} = \left(0,\; \frac{r}{2}\right)
+$$
 
 ### 步骤 3：AF 的中点 G（AC 的四等分点）
 
 **操作**：取 $AF$ 的中点。
 
 **坐标**：
-$$G = \frac{A + F}{2} = \left(0,\; \frac{r}{4}\right)$$
+$$
+G = \frac{A + F}{2} = \left(0,\; \frac{r}{4}\right)
+$$
 
 $G$ 将半径 $AC$ 四等分，$|AG| = r/4$。这个 $r/4$ 的比例在后续构造中至关重要——它是实现 $\sqrt{17}$ 出现的关键。
 
@@ -191,12 +265,16 @@ $G$ 将半径 $AC$ 四等分，$|AG| = r/4$。这个 $r/4$ 的比例在后续构
 **操作**：以 $G$ 为圆心，$|GE|$ 为半径作圆。
 
 **半径计算**：
-$$|GE| = \sqrt{\left(0 - (-r)\right)^2 + \left(\frac{r}{4} - 0\right)^2} = \sqrt{r^2 + \frac{r^2}{16}} = r\sqrt{\frac{17}{16}} = \frac{r\sqrt{17}}{4}$$
+$$
+|GE| = \sqrt{\left(0 - (-r)\right)^2 + \left(\frac{r}{4} - 0\right)^2} = \sqrt{r^2 + \frac{r^2}{16}} = r\sqrt{\frac{17}{16}} = \frac{r\sqrt{17}}{4}
+$$
 
 **代数意义**：$\sqrt{17}$ 首次出现！这是第一层二次方程 $x^2 + x - 4 = 0$ 的判别式 $\sqrt{17} = \sqrt{1 + 16}$ 的几何实现。圆的半径 $r\sqrt{17}/4$ 编码了 $\sqrt{17}$ 这一关键量。
 
 该圆与竖直直径 $CD$（$y$ 轴）交于两点 $P_+$ 和 $P_-$：
-$$P_{\pm} = \left(0,\; \frac{r}{4} \pm \frac{r\sqrt{17}}{4}\right) = \left(0,\; \frac{(1 \pm \sqrt{17})\,r}{4}\right)$$
+$$
+P_{\pm} = \left(0,\; \frac{r}{4} \pm \frac{r\sqrt{17}}{4}\right) = \left(0,\; \frac{(1 \pm \sqrt{17})\,r}{4}\right)
+$$
 
 构造选取 $P = P_- = \left(0,\; \dfrac{(1 - \sqrt{17})\,r}{4}\right)$（距 $A$ 较近的交点），因为 $|AP_-| = \dfrac{(\sqrt{17}-1)r}{4} < r < |AP_+|$。
 
@@ -228,7 +306,9 @@ $$P_{\pm} = \left(0,\; \frac{r}{4} \pm \frac{r\sqrt{17}}{4}\right) = \left(0,\; 
 
 **坐标计算**：设 $GI$ 的方向角为 $\theta$，则 $GK$ 的方向角为 $\theta + 45°$。方向向量为：
 
-$$(\cos(\theta + 45°),\; \sin(\theta + 45°)) = \left(\frac{\cos\theta - \sin\theta}{\sqrt{2}},\; \frac{\cos\theta + \sin\theta}{\sqrt{2}}\right)$$
+$$
+(\cos(\theta + 45°),\; \sin(\theta + 45°)) = \left(\frac{\cos\theta - \sin\theta}{\sqrt{2}},\; \frac{\cos\theta + \sin\theta}{\sqrt{2}}\right)
+$$
 
 若 $GI$ 方向为 $(u, v)$（单位向量），则 $GK$ 方向为 $\left(\dfrac{u - v}{\sqrt{2}},\; \dfrac{u + v}{\sqrt{2}}\right)$。
 
@@ -254,11 +334,15 @@ $$(\cos(\theta + 45°),\; \sin(\theta + 45°)) = \left(\frac{\cos\theta - \sin\t
 
 **核心结论**：数值验证表明：
 
-$$y_N = |AN| = r \cos\!\left(\frac{2\pi}{17}\right) \approx 0.9325\,r$$
+$$
+y_N = |AN| = r \cos\!\left(\frac{2\pi}{17}\right) \approx 0.9325\,r
+$$
 
 **这一步是整个构造的核心**。圆 $(M, ME)$ 与 $y$ 轴的交点方程为：
 
-$$\left(\frac{r}{4} - y\right)^2 + m_x^2 = \left(\frac{r}{4}\right)^2 + m_x^2 - 2 \cdot \frac{r}{4} \cdot (\cdots)$$
+$$
+\left(\frac{r}{4} - y\right)^2 + m_x^2 = \left(\frac{r}{4}\right)^2 + m_x^2 - 2 \cdot \frac{r}{4} \cdot (\cdots)
+$$
 
 展开后得到关于 $y$ 的二次方程，其两个解分别对应 $\cos(2\pi/17) \cdot r$ 和 $\cos(4\pi/17) \cdot r$（或其组合）。构造通过选取距 $G$ 较近的交点，正确地得到 $\cos(2\pi/17) \cdot r$。
 
@@ -268,7 +352,9 @@ $$\left(\frac{r}{4} - y\right)^2 + m_x^2 = \left(\frac{r}{4}\right)^2 + m_x^2 - 
 
 此圆与 $x$ 轴（直线 $AE$）交于两点 $Q$ 和 $R$：
 
-$$Q = (j_x - |JN|,\; 0), \quad R = (j_x + |JN|,\; 0)$$
+$$
+Q = (j_x - |JN|,\; 0), \quad R = (j_x + |JN|,\; 0)
+$$
 
 **代数意义**：$Q$ 和 $R$ 的 $x$ 坐标编码了 $\cos(2\pi/17)$ 的对称分布。由于 $|JQ| = |JN|$，点 $Q$ 和 $R$ 到 $J$ 等距，且 $|AN| = r\cos(2\pi/17)$。
 
@@ -284,13 +370,19 @@ $$Q = (j_x - |JN|,\; 0), \quad R = (j_x + |JN|,\; 0)$$
 
 **关键推导**：由步骤 11 的几何关系，$Q$ 和 $R$ 的横坐标满足：
 
-$$q_x = r\cos\!\left(\frac{2\pi}{17}\right), \quad r_x = r\cos\!\left(\frac{4\pi}{17}\right)$$
+$$
+q_x = r\cos\!\left(\frac{2\pi}{17}\right), \quad r_x = r\cos\!\left(\frac{4\pi}{17}\right)
+$$
 
 （或其对称排列，取决于 $J$ 的位置。）
 
 因此：
-$$S = \left(r\cos\frac{2\pi}{17},\; r\sin\frac{2\pi}{17}\right)$$
-$$T = \left(r\cos\frac{4\pi}{17},\; r\sin\frac{4\pi}{17}\right)$$
+$$
+S = \left(r\cos\frac{2\pi}{17},\; r\sin\frac{2\pi}{17}\right)
+$$
+$$
+T = \left(r\cos\frac{4\pi}{17},\; r\sin\frac{4\pi}{17}\right)
+$$
 
 $S$ 和 $T$ 是正十七边形的两个相邻顶点（或间隔一个顶点的两个顶点），它们之间的弧长为 $\dfrac{2\pi}{17}$（即一条边对应的弧）。
 
@@ -300,7 +392,9 @@ $S$ 和 $T$ 是正十七边形的两个相邻顶点（或间隔一个顶点的�
 
 **几何原理**：弦长 $|TS|$ 等于正十七边形的边长 $2r\sin(\pi/17)$。以 $T$ 为圆心、$|TS|$ 为半径的圆与圆 $O$ 的交点即为 $T$ 的相邻顶点。
 
-$$U = \text{从 } T \text{ 沿圆周再走一步得到的顶点}$$
+$$
+U = \text{从 } T \text{ 沿圆周再走一步得到的顶点}
+$$
 
 ### 步骤 15：重复步骤 14，得到所有顶点
 
@@ -334,18 +428,32 @@ $$U = \text{从 } T \text{ 沿圆周再走一步得到的顶点}$$
 
 数值验证（取 $r = 1$）：
 
-$$a_0 = -1$$
-$$a_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.561553$$
-$$a_2 = \frac{-1 - \sqrt{17}}{2} \approx -2.561553$$
-$$a_5 \approx -0.487928, \quad a_6 \approx -2.905704$$
-$$a_{13} \approx 1.478018, \quad a_{14} \approx 0.184537$$
-$$\cos\!\left(\frac{2\pi}{17}\right) = \frac{a_{14}}{2} \approx 0.092268$$
+$$
+a_0 = -1
+$$
+$$
+a_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.561553
+$$
+$$
+a_2 = \frac{-1 - \sqrt{17}}{2} \approx -2.561553
+$$
+$$
+a_5 \approx -0.487928, \quad a_6 \approx -2.905704
+$$
+$$
+a_{13} \approx 1.478018, \quad a_{14} \approx 0.184537
+$$
+$$
+\cos\!\left(\frac{2\pi}{17}\right) = \frac{a_{14}}{2} \approx 0.092268
+$$
 
 **注意**：上述 Mathematica 序列（来自 `17-gon.m.txt`）实际计算的是 $\cos(4\pi/17) = a_{13}/2 \approx 0.739009$，即第 2 号顶点的 $x$ 坐标。而 $\cos(2\pi/17)$ 对应的是 $a_{14}/2$。
 
 直接用高斯闭合公式验证：
 
-$$\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34-2\sqrt{17}} + 2\sqrt{17+3\sqrt{17}-\sqrt{34-2\sqrt{17}}-2\sqrt{34+2\sqrt{17}}}}{16} \approx 0.932472$$
+$$
+\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34-2\sqrt{17}} + 2\sqrt{17+3\sqrt{17}-\sqrt{34-2\sqrt{17}}-2\sqrt{34+2\sqrt{17}}}}{16} \approx 0.932472
+$$
 
 与 $\cos(2\pi/17)$ 的直接计算值完全一致（误差 $< 10^{-15}$）。$\blacksquare$
 
@@ -431,7 +539,9 @@ $$\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34-2\sqrt{17
 
 **高斯公式**：
 
-$$\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}}{16}$$
+$$
+\cos\!\left(\frac{2\pi}{17}\right) = \frac{-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}}{16}
+$$
 
 **逐层计算**（取 $r = 1$）：
 

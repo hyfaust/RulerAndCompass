@@ -23,7 +23,9 @@
 
 费马数定义为：
 
-$$F_m = 2^{2^m} + 1, \quad m = 0, 1, 2, 3, \ldots$$
+$$
+F_m = 2^{2^m} + 1, \quad m = 0, 1, 2, 3, \ldots
+$$
 
 前五个费马数为：
 
@@ -57,21 +59,29 @@ $$F_m = 2^{2^m} + 1, \quad m = 0, 1, 2, 3, \ldots$$
 
 考虑复数域上的单位圆。$N$ 次单位根是方程 $z^N = 1$ 的 $N$ 个复数解：
 
-$$\omega_k = e^{2\pi i k / N} = \cos\frac{2\pi k}{N} + i\sin\frac{2\pi k}{N}, \quad k = 0, 1, 2, \ldots, N-1$$
+$$
+\omega_k = e^{2\pi i k / N} = \cos\frac{2\pi k}{N} + i\sin\frac{2\pi k}{N}, \quad k = 0, 1, 2, \ldots, N-1
+$$
 
 这些根在复平面上均匀分布在单位圆上，恰好是正 $N$ 边形的顶点。因此，**构造正 $N$ 边形等价于在单位圆上标出所有 $N$ 次单位根**。
 
 在这些根中，$\omega_1 = e^{2\pi i / N}$ 是**本原** $N$ 次单位根，其余所有 $N$ 次单位根都可以表示为 $\omega_1$ 的幂。多项式
 
-$$z^N - 1 = \prod_{d \mid N} \Phi_d(z)$$
+$$
+z^N - 1 = \prod_{d \mid N} \Phi_d(z)
+$$
 
 其中 $\Phi_d(z)$ 是第 $d$ 个**分圆多项式**（cyclotomic polynomial）。特别地：
 
-$$\Phi_N(z) = \prod_{\substack{1 \leq k \leq N \\ \gcd(k,N)=1}} (z - \omega_k)$$
+$$
+\Phi_N(z) = \prod_{\substack{1 \leq k \leq N \\ \gcd(k,N)=1}} (z - \omega_k)
+$$
 
 当 $N = p$ 为素数时：
 
-$$\Phi_p(z) = z^{p-1} + z^{p-2} + \cdots + z + 1 = \frac{z^p - 1}{z - 1}$$
+$$
+\Phi_p(z) = z^{p-1} + z^{p-2} + \cdots + z + 1 = \frac{z^p - 1}{z - 1}
+$$
 
 分圆多项式 $\Phi_N(z)$ 在有理数域 $\mathbb{Q}$ 上不可约，其度数为 $\varphi(N)$（欧拉函数）。对于素数 $p$，$\varphi(p) = p - 1$。
 
@@ -79,7 +89,9 @@ $$\Phi_p(z) = z^{p-1} + z^{p-2} + \cdots + z + 1 = \frac{z^p - 1}{z - 1}$$
 
 设 $N = p$ 为奇素数。分圆域 $\mathbb{Q}(\omega_p)$ 是 $\Phi_p(z)$ 在 $\mathbb{Q}$ 上的分裂域，其伽罗瓦群为：
 
-$$\text{Gal}(\mathbb{Q}(\omega_p)/\mathbb{Q}) \cong (\mathbb{Z}/p\mathbb{Z})^\times$$
+$$
+\text{Gal}(\mathbb{Q}(\omega_p)/\mathbb{Q}) \cong (\mathbb{Z}/p\mathbb{Z})^\times
+$$
 
 这是一个 $p-1$ 阶循环群（因为 $(\mathbb{Z}/p\mathbb{Z})^\times$ 对素数 $p$ 总是循环的）。
 
@@ -92,7 +104,9 @@ $$\text{Gal}(\mathbb{Q}(\omega_p)/\mathbb{Q}) \cong (\mathbb{Z}/p\mathbb{Z})^\ti
 
 **证明 $n$ 必须是 2 的幂**：假设 $n$ 有奇因子 $d > 1$，令 $n = d \cdot s$，则：
 
-$$p = 2^{ds} + 1 = (2^s + 1)(2^{s(d-1)} - 2^{s(d-2)} + \cdots - 2^s + 1)$$
+$$
+p = 2^{ds} + 1 = (2^s + 1)(2^{s(d-1)} - 2^{s(d-2)} + \cdots - 2^s + 1)
+$$
 
 两个因子都大于 1，因此 $p$ 不是素数，矛盾。故 $n$ 必须没有奇因子，即 $n = 2^m$。
 
@@ -100,15 +114,21 @@ $$p = 2^{ds} + 1 = (2^s + 1)(2^{s(d-1)} - 2^{s(d-2)} + \cdots - 2^s + 1)$$
 
 当 $p = F_m = 2^{2^m} + 1$ 为费马素数时，伽罗瓦群 $G = (\mathbb{Z}/p\mathbb{Z})^\times$ 的阶为：
 
-$$|G| = p - 1 = 2^{2^m}$$
+$$
+|G| = p - 1 = 2^{2^m}
+$$
 
 这是一个 **$2$-群**（阶为 2 的幂的有限群）。2-群的关键性质是它具有完整的正规子群链：
 
-$$G = G_0 \supset G_1 \supset G_2 \supset \cdots \supset G_{2^m} = \{e\}$$
+$$
+G = G_0 \supset G_1 \supset G_2 \supset \cdots \supset G_{2^m} = \{e\}
+$$
 
 其中每个 $G_i$ 是 $G_{i-1}$ 的正规子群，且 $|G_{i-1}/G_i| = 2$。这对应于域扩张的中间域链：
 
-$$\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset \cdots \subset K_{2^m} = \mathbb{Q}(\omega_p)$$
+$$
+\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset \cdots \subset K_{2^m} = \mathbb{Q}(\omega_p)
+$$
 
 其中每个 $[K_{i+1}:K_i] = 2$。**这意味着每一步扩张都可以通过解一个二次方程来实现**——而这正是尺规作图所能完成的操作。
 
@@ -122,26 +142,36 @@ $$\mathbb{Q} = K_0 \subset K_1 \subset K_2 \subset \cdots \subset K_{2^m} = \mat
 
 将 $p - 1$ 个非平凡单位根按 $K$ 的幂次排列：
 
-$$\zeta^{K^0}, \zeta^{K^1}, \zeta^{K^2}, \ldots, \zeta^{K^{p-2}}$$
+$$
+\zeta^{K^0}, \zeta^{K^1}, \zeta^{K^2}, \ldots, \zeta^{K^{p-2}}
+$$
 
 对于 $p = 17$，$K = 3$，模 17 的幂次序列为：
 
-$$3^0 = 1, \quad 3^1 = 3, \quad 3^2 = 9, \quad 3^3 = 10, \quad 3^4 = 13, \quad 3^5 = 5, \quad 3^6 = 15,$$
+$$
+3^0 = 1, \quad 3^1 = 3, \quad 3^2 = 9, \quad 3^3 = 10, \quad 3^4 = 13, \quad 3^5 = 5, \quad 3^6 = 15,
+$$
 
-$$3^7 = 11, \quad 3^8 = 16, \quad 3^{14} = \cdots$$
+$$
+3^7 = 11, \quad 3^8 = 16, \quad 3^{14} = \cdots
+$$
 
 
 设 $\eta_j = \zeta^{K^j}$（$j = 0, 1, \ldots, p-2$）为按此顺序排列的单位根。
 
 **高斯周期**定义为：对于步长 $m$（$m$ 整除 $p - 1$）和起始索引 $i$（$0 \leq i < m$）：
 
-$$S(m, i) = \sum_{j=0}^{(p-1)/m - 1} \eta_{i + jm} = \zeta^{K^i} + \zeta^{K^{i+m}} + \zeta^{K^{i+2m}} + \cdots$$
+$$
+S(m, i) = \sum_{j=0}^{(p-1)/m - 1} \eta_{i + jm} = \zeta^{K^i} + \zeta^{K^{i+m}} + \zeta^{K^{i+2m}} + \cdots
+$$
 
 即从第 $i$ 个根开始，每隔 $m$ 个取一个，求和。
 
 **关键约定**：$S(1, 0)$ 包含所有 $p - 1$ 个非平凡单位根。由于 $\Phi_p(\zeta) = 0$ 意味着 $1 + \zeta + \zeta^2 + \cdots + \zeta^{p-1} = 0$，即所有 $p$ 个单位根之和为 0，因此：
 
-$$S(1, 0) = \sum_{k=1}^{p-1} \zeta^k = -1$$
+$$
+S(1, 0) = \sum_{k=1}^{p-1} \zeta^k = -1
+$$
 
 ### 3.2 周期的递归结构
 
@@ -149,17 +179,23 @@ $$S(1, 0) = \sum_{k=1}^{p-1} \zeta^k = -1$$
 
 **关系一（加法分解）**：
 
-$$S(m, i) = S(2m, i) + S(2m, i + m)$$
+$$
+S(m, i) = S(2m, i) + S(2m, i + m)
+$$
 
 这是显然的——步长为 $m$ 的周期可以拆分为两个步长为 $2m$ 的周期。
 
 **关系二（二次方程）**：$S(2m, i)$ 和 $S(2m, i+m)$ 是以下二次方程的两个根：
 
-$$X^2 - S(m, i) \cdot X + S(2m, i) \cdot S(2m, i + m) = 0$$
+$$
+X^2 - S(m, i) \cdot X + S(2m, i) \cdot S(2m, i + m) = 0
+$$
 
 其中 $S(2m, i) \cdot S(2m, i+m)$ 可以表示为已知的低阶周期 $S(m, j)$ 的整数系数线性组合。因此：
 
-$$S(2m, i), S(2m, i+m) = \frac{S(m, i) \pm \sqrt{S(m, i)^2 - 4 \cdot S(2m, i) \cdot S(2m, i+m)}}{2}$$
+$$
+S(2m, i), S(2m, i+m) = \frac{S(m, i) \pm \sqrt{S(m, i)^2 - 4 \cdot S(2m, i) \cdot S(2m, i+m)}}{2}
+$$
 
 ### 3.3 为什么乘积是线性组合？
 
@@ -177,7 +213,9 @@ $$S(2m, i), S(2m, i+m) = \frac{S(m, i) \pm \sqrt{S(m, i)^2 - 4 \cdot S(2m, i) \c
 
 当步长 $m = (p-1)/2$ 时，周期 $S((p-1)/2, i)$ 恰好包含**两个**单位根的和。设这两个根为 $\omega$ 和 $\bar{\omega}$（互为复共轭，因为它们在单位圆上关于实轴对称），则：
 
-$$S\!\left(\frac{p-1}{2}, i\right) = \omega + \bar{\omega} = 2\,\text{Re}(\omega) = 2\cos\frac{2\pi k}{p}$$
+$$
+S\!\left(\frac{p-1}{2}, i\right) = \omega + \bar{\omega} = 2\,\text{Re}(\omega) = 2\cos\frac{2\pi k}{p}
+$$
 
 因此，周期值的一半就给出了某个顶点的 $x$ 坐标。这是从抽象代数计算到几何构造的关键转换点。
 
@@ -266,61 +304,89 @@ $$S\!\left(\frac{p-1}{2}, i\right) = \omega + \bar{\omega} = 2\,\text{Re}(\omega
 
 **初始值**：
 
-$$a_0 = S(1, 0) = -1$$
+$$
+a_0 = S(1, 0) = -1
+$$
 
 这是所有 16 个非平凡单位根之和。
 
 **第一层**（$m = 1 \to 2$）：
 
-$$\text{prod} = 4 \cdot a_0 = -4$$
+$$
+\text{prod} = 4 \cdot a_0 = -4
+$$
 
-$$a_1 = \frac{a_0 + \sqrt{a_0^2 - 4 \cdot \text{prod}}}{2} = \frac{-1 + \sqrt{1 + 16}}{2} = \frac{-1 + \sqrt{17}}{2}$$
+$$
+a_1 = \frac{a_0 + \sqrt{a_0^2 - 4 \cdot \text{prod}}}{2} = \frac{-1 + \sqrt{1 + 16}}{2} = \frac{-1 + \sqrt{17}}{2}
+$$
 
-$$a_2 = \frac{a_0 - \sqrt{a_0^2 - 4 \cdot \text{prod}}}{2} = \frac{-1 - \sqrt{17}}{2}$$
+$$
+a_2 = \frac{a_0 - \sqrt{a_0^2 - 4 \cdot \text{prod}}}{2} = \frac{-1 - \sqrt{17}}{2}
+$$
 
 
 这里 $a_1 = S(2, 0)$ 和 $a_2 = S(2, 1)$ 分别是偶数位置和奇数位置的周期。注意 $a_1 + a_2 = a_0 = -1$（加法分解关系），$a_1 \cdot a_2 = 4 a_0 = -4$（乘积关系）。
 
 **第二层**（$m = 2 \to 4$）：
 
-$$\text{prod} = 1 \cdot a_0 = -1$$
+$$
+\text{prod} = 1 \cdot a_0 = -1
+$$
 
-$$a_5 = \frac{a_1 - \sqrt{a_1^2 - 4 \cdot \text{prod}}}{2} = \frac{a_1 - \sqrt{a_1^2 + 4}}{2}$$
+$$
+a_5 = \frac{a_1 - \sqrt{a_1^2 - 4 \cdot \text{prod}}}{2} = \frac{a_1 - \sqrt{a_1^2 + 4}}{2}
+$$
 
-$$a_6 = \frac{a_2 - \sqrt{a_2^2 - 4 \cdot \text{prod}}}{2} = \frac{a_2 - \sqrt{a_2^2 + 4}}{2}$$
+$$
+a_6 = \frac{a_2 - \sqrt{a_2^2 - 4 \cdot \text{prod}}}{2} = \frac{a_2 - \sqrt{a_2^2 + 4}}{2}
+$$
 
 这里 $a_5 = S(4, 1)$ 和 $a_6 = S(4, 2)$ 是步长为 4 的周期中的两个。乘积 $a_5 \cdot a_6 = a_0 = -1$ 是一个简洁的整数线性组合（仅含 1 项）。
 
 **第三层**（$m = 4 \to 8$）：
 
-$$\text{prod} = 1 \cdot a_6$$
+$$
+\text{prod} = 1 \cdot a_6
+$$
 
-$$a_{13} = \frac{a_5 + \sqrt{a_5^2 - 4 \cdot a_6}}{2}$$
+$$
+a_{13} = \frac{a_5 + \sqrt{a_5^2 - 4 \cdot a_6}}{2}
+$$
 
 这里 $a_{13} = S(8, 5)$ 是步长为 8 的周期，包含恰好两个共轭单位根之和。乘积 $S(8, 5) \cdot S(8, 1) = a_6$（在已知周期的线性组合中仅出现 1 项）。
 
 
 **最终结果**：
 
-$$x_2 = \frac{a_{13}}{2}$$
+$$
+x_2 = \frac{a_{13}}{2}
+$$
 
 $x_2$ 是从 $x$ 轴上的第一个顶点逆时针计数的**第 3 个顶点**的 $x$ 坐标。展开后：
 
-$$x_2 = \cos\frac{2\pi \cdot 2}{17} = \frac{1}{16}\!\left(-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}\right)$$
+$$
+x_2 = \cos\frac{2\pi \cdot 2}{17} = \frac{1}{16}\!\left(-1 + \sqrt{17} + \sqrt{34 - 2\sqrt{17}} + 2\sqrt{17 + 3\sqrt{17} - \sqrt{34 - 2\sqrt{17}} - 2\sqrt{34 + 2\sqrt{17}}}\right)
+$$
 
 ### 5.3 代数结构分析
 
 整个 17 边形的构造链可以用域扩张来描述：
 
-$$\mathbb{Q} \xrightarrow{\sqrt{17}} \mathbb{Q}(\sqrt{17}) \xrightarrow{\sqrt{\cdot}} \mathbb{Q}(\sqrt{17}, \sqrt{\cdot}) \xrightarrow{\sqrt{\cdot}} \mathbb{Q}(\omega_{17})$$
+$$
+\mathbb{Q} \xrightarrow{\sqrt{17}} \mathbb{Q}(\sqrt{17}) \xrightarrow{\sqrt{\cdot}} \mathbb{Q}(\sqrt{17}, \sqrt{\cdot}) \xrightarrow{\sqrt{\cdot}} \mathbb{Q}(\omega_{17})
+$$
 
 每一步都是度数为 2 的扩张，总度数 $[\mathbb{Q}(\omega_{17}):\mathbb{Q}] = 16 = 2^4$。
 
 对应的伽罗瓦群 $(\mathbb{Z}/17\mathbb{Z})^\times$ 的正规子群链为：
 
-$$(\mathbb{Z}/17\mathbb{Z})^\times \supset \langle 3^2 \rangle \supset \langle 3^4 \rangle \supset \langle 3^8 \rangle \supset \{1\}$$
+$$
+(\mathbb{Z}/17\mathbb{Z})^\times \supset \langle 3^2 \rangle \supset \langle 3^4 \rangle \supset \langle 3^8 \rangle \supset \{1\}
+$$
 
-$$16 \to 8 \to 4 \to 2 \to 1$$
+$$
+16 \to 8 \to 4 \to 2 \to 1
+$$
 
 每一步的商群都同构于 $\mathbb{Z}/2\mathbb{Z}$，对应一个二次扩张。
 
@@ -328,17 +394,29 @@ $$16 \to 8 \to 4 \to 2 \to 1$$
 
 利用 Mathematica 文件中的数值验证：
 
-$$a_0 = -1$$
+$$
+a_0 = -1
+$$
 
-$$a_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.5616$$
+$$
+a_1 = \frac{-1 + \sqrt{17}}{2} \approx 1.5616
+$$
 
-$$a_2 = \frac{-1 - \sqrt{17}}{2} \approx -2.5616$$
+$$
+a_2 = \frac{-1 - \sqrt{17}}{2} \approx -2.5616
+$$
 
-$$a_5 \approx 0.3621, \quad a_6 \approx -2.7676$$
+$$
+a_5 \approx 0.3621, \quad a_6 \approx -2.7676
+$$
 
-$$a_{13} \approx 1.4719$$
+$$
+a_{13} \approx 1.4719
+$$
 
-$$x_2 = a_{13}/2 \approx 0.7360$$
+$$
+x_2 = a_{13}/2 \approx 0.7360
+$$
 
 验证：$\cos(2\pi \cdot 2/17) \approx 0.7390\ldots$。实际上 $x_2$ 应当等于 $\cos(4\pi/17)$，与数值吻合。
 
@@ -368,16 +446,22 @@ $$x_2 = a_{13}/2 \approx 0.7360$$
 
 **第一层**（$m = 1 \to 2$）：从 $a_0 = -1$ 出发
 
-$$\text{prod} = 64 \cdot a_0 = -64$$
+$$
+\text{prod} = 64 \cdot a_0 = -64
+$$
 
-$$a_1 = \frac{-1 + \sqrt{1 + 256}}{2} = \frac{-1 + \sqrt{257}}{2}$$
+$$
+a_1 = \frac{-1 + \sqrt{1 + 256}}{2} = \frac{-1 + \sqrt{257}}{2}
+$$
 
 注意这里的系数 $64 = \frac{N-1}{4} = \frac{256}{4}$，反映了 257 个单位根的对称性质。
 
 
 **第二层**（$m = 2 \to 4$）：
 
-$$\text{prod} = 16 \cdot a_0 = -16$$
+$$
+\text{prod} = 16 \cdot a_0 = -16
+$$
 
 从 $a_1$ 和 $a_2$ 各产生一对新变量 $(a_3, a_5)$ 和 $(a_4, a_6)$。
 
@@ -385,7 +469,9 @@ $$\text{prod} = 16 \cdot a_0 = -16$$
 
 乘积表达式变得更加复杂。例如：
 
-$$\text{prod} = 5 \cdot a_0 - 1 \cdot a_1 - 2 \cdot a_3$$
+$$
+\text{prod} = 5 \cdot a_0 - 1 \cdot a_1 - 2 \cdot a_3
+$$
 
 系数不再是单纯的常数乘以 $a_0$，而是开始包含已知周期的线性组合。这体现了随着递归深入，伽罗瓦群作用的复杂性增加。
 
@@ -393,7 +479,9 @@ $$\text{prod} = 5 \cdot a_0 - 1 \cdot a_1 - 2 \cdot a_3$$
 
 乘积表达式中的线性组合项数逐步增加。例如在 $m = 8 \to 16$ 这一层：
 
-$$\text{prod} = 1 \cdot a_1 + 2 \cdot a_4 + 1 \cdot a_7 - 2 \cdot a_8 + 1 \cdot a_9$$
+$$
+\text{prod} = 1 \cdot a_1 + 2 \cdot a_4 + 1 \cdot a_7 - 2 \cdot a_8 + 1 \cdot a_9
+$$
 
 含 5 个项，系数为 $+1, +2, +1, -2, +1$。
 
@@ -401,17 +489,23 @@ $$\text{prod} = 1 \cdot a_1 + 2 \cdot a_4 + 1 \cdot a_7 - 2 \cdot a_8 + 1 \cdot 
 
 乘积表达式逐渐简化。在 $m = 64 \to 128$ 这一层：
 
-$$\text{prod} = 1 \cdot a_{30} + 1 \cdot a_{40} - 1 \cdot a_{46}$$
+$$
+\text{prod} = 1 \cdot a_{30} + 1 \cdot a_{40} - 1 \cdot a_{46}
+$$
 
 仅含 3 项。最终阶段更简化为仅含 1-2 项。
 
 ### 6.3 最终结果
 
-$$x_{32} = \frac{a_{239}}{2}$$
+$$
+x_{32} = \frac{a_{239}}{2}
+$$
 
 这是从 $x$ 轴上第 1 个顶点逆时针计数的**第 33 个顶点**的 $x$ 坐标，即：
 
-$$x_{32} = \cos\frac{2\pi \times 32}{257}$$
+$$
+x_{32} = \cos\frac{2\pi \times 32}{257}
+$$
 
 选择第 33 个顶点是因为在 $K = 3$ 的幂次序列中，这个顶点位于链的末端，从它可以推导出所有其他顶点的位置。
 
@@ -480,7 +574,9 @@ Ken Brakke 编写了专用程序 `ngon.c` 来计算这些二次方程。程序�
 
 **定理（高斯-Wantzel）**：正 $n$ 边形可以用尺规构造，当且仅当 $n$ 具有形式：
 
-$$n = 2^a \cdot p_1 \cdot p_2 \cdots p_k$$
+$$
+n = 2^a \cdot p_1 \cdot p_2 \cdots p_k
+$$
 
 其中 $a \geq 0$，$p_1, p_2, \ldots, p_k$ 是**互不相同**的费马素数。
 
@@ -496,7 +592,9 @@ $$n = 2^a \cdot p_1 \cdot p_2 \cdots p_k$$
 
 根据上述定理，可构造的正 $n$ 边形的边数 $n$ 必须形如：
 
-$$n = 2^a \cdot 3^{b_0} \cdot 5^{b_1} \cdot 17^{b_2} \cdot 257^{b_3} \cdot 65537^{b_4}$$
+$$
+n = 2^a \cdot 3^{b_0} \cdot 5^{b_1} \cdot 17^{b_2} \cdot 257^{b_3} \cdot 65537^{b_4}
+$$
 
 
 其中 $a \geq 0$，$b_i \in \{0, 1\}$（每个费马素数最多出现一次）。因此：

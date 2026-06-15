@@ -4,7 +4,9 @@
 
 给定平面上两个不相交的圆：
 
-$$\omega_1: \text{圆心 } A,\; \text{半径 } r_1 \qquad \omega_2: \text{圆心 } B,\; \text{半径 } r_2$$
+$$
+\omega_1: \text{圆心 } A,\; \text{半径 } r_1 \qquad \omega_2: \text{圆心 } B,\; \text{半径 } r_2
+$$
 
 **内公切线**是指一条与两个圆都相切、且切线**穿过两圆之间**的直线。具体而言，内公切线与线段 $AB$ 相交，交点位于两圆之间。本作图要求使用尺规作图法，构造出两圆的全部内公切线。
 
@@ -24,17 +26,23 @@ $$\omega_1: \text{圆心 } A,\; \text{半径 } r_1 \qquad \omega_2: \text{圆心
 
 **定义.** 点 $E$ 称为 $\omega_1$ 和 $\omega_2$ 的**内位似中心**（internal center of similitude），若 $E$ 在直线 $AB$ 上，且满足：
 
-$$\frac{EA}{EB} = \frac{r_1}{r_2}$$
+$$
+\frac{EA}{EB} = \frac{r_1}{r_2}
+$$
 
 其中 $E$ 在线段 $AB$ 的**内部**（即 $A$、$E$、$B$ 依次排列）。等价地，$E$ 以比例 $r_1 : r_2$ **内分**线段 $AB$。
 
 用向量表示：
 
-$$E = \frac{r_2 \cdot A + r_1 \cdot B}{r_1 + r_2}$$
+$$
+E = \frac{r_2 \cdot A + r_1 \cdot B}{r_1 + r_2}
+$$
 
 **内位似变换.** 以 $E$ 为中心、位似比 $-r_2/r_1$（**负号**表示方向反转）的位似变换 $\mathcal{H}_{\text{int}}$：
 
-$$\mathcal{H}_{\text{int}}: P \mapsto E - \frac{r_2}{r_1}(P - E) = \left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}P$$
+$$
+\mathcal{H}_{\text{int}}: P \mapsto E - \frac{r_2}{r_1}(P - E) = \left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}P
+$$
 
 此变换满足 $\mathcal{H}_{\text{int}}(A) = B$，因此将 $\omega_1$ 映为 $\omega_2$。
 
@@ -112,17 +120,25 @@ line_line(L3, L4, e);
 
 直线 $CD$ 的斜率：
 
-$$\frac{y_C - y_D}{x_C - x_D} = \frac{r_1 - (-r_2)}{0 - d} = -\frac{r_1 + r_2}{d}$$
+$$
+\frac{y_C - y_D}{x_C - x_D} = \frac{r_1 - (-r_2)}{0 - d} = -\frac{r_1 + r_2}{d}
+$$
 
 令 $y = 0$ 求 $E$ 的横坐标：
 
-$$\frac{0 - r_1}{e - 0} = -\frac{r_1 + r_2}{d} \implies e = \frac{r_1 \cdot d}{r_1 + r_2}$$
+$$
+\frac{0 - r_1}{e - 0} = -\frac{r_1 + r_2}{d} \implies e = \frac{r_1 \cdot d}{r_1 + r_2}
+$$
 
 因此：
 
-$$EA = e = \frac{r_1 \cdot d}{r_1 + r_2}, \qquad EB = d - e = \frac{r_2 \cdot d}{r_1 + r_2}$$
+$$
+EA = e = \frac{r_1 \cdot d}{r_1 + r_2}, \qquad EB = d - e = \frac{r_2 \cdot d}{r_1 + r_2}
+$$
 
-$$\frac{EA}{EB} = \frac{r_1}{r_2}$$
+$$
+\frac{EA}{EB} = \frac{r_1}{r_2}
+$$
 
 且 $0 < e < d$，即 $E$ 在线段 $AB$ 内部。这正是内位似中心的定义条件。$\blacksquare$
 
@@ -171,7 +187,9 @@ draw_line(e, h);
 
 由于 $AE$ 是 $\Omega$ 的直径，$G$ 在 $\Omega$ 上，由**泰勒斯定理（Thales' Theorem）**：
 
-$$\angle AGE = 90°$$
+$$
+\angle AGE = 90°
+$$
 
 即 $EG \perp AG$。
 
@@ -183,7 +201,9 @@ $$\angle AGE = 90°$$
 
 考虑内位似变换 $\mathcal{H}_{\text{int}}$，以 $E$ 为中心、位似比 $-r_2/r_1$：
 
-$$\mathcal{H}_{\text{int}}(P) = E - \frac{r_2}{r_1}(P - E)$$
+$$
+\mathcal{H}_{\text{int}}(P) = E - \frac{r_2}{r_1}(P - E)
+$$
 
 令 $G' = \mathcal{H}_{\text{int}}(G)$。由于 $\mathcal{H}_{\text{int}}$ 将 $\omega_1$ 映为 $\omega_2$，有 $G' \in \omega_2$。
 
@@ -191,23 +211,33 @@ $$\mathcal{H}_{\text{int}}(P) = E - \frac{r_2}{r_1}(P - E)$$
 
 由 $\mathcal{H}_{\text{int}}(A) = B$，展开得：
 
-$$\left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}A = B$$
+$$
+\left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}A = B
+$$
 
 因此：
 
-$$\vec{BG'} = G' - B = \left[\left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}G\right] - B$$
+$$
+\vec{BG'} = G' - B = \left[\left(1 + \frac{r_2}{r_1}\right)E - \frac{r_2}{r_1}G\right] - B
+$$
 
-$$= \left[\left(1 + \frac{r_2}{r_1}\right)E - B\right] - \frac{r_2}{r_1}G = \frac{r_2}{r_1}A - \frac{r_2}{r_1}G = -\frac{r_2}{r_1}\vec{AG}$$
+$$
+= \left[\left(1 + \frac{r_2}{r_1}\right)E - B\right] - \frac{r_2}{r_1}G = \frac{r_2}{r_1}A - \frac{r_2}{r_1}G = -\frac{r_2}{r_1}\vec{AG}
+$$
 
 **第二步：证明 $BG' \perp EG'$。**
 
 计算点积：
 
-$$\vec{BG'} \cdot \vec{EG'} = \left(-\frac{r_2}{r_1}\vec{AG}\right) \cdot \left(\frac{r_2}{r_1}\vec{GE}\right) = -\left(\frac{r_2}{r_1}\right)^2 (\vec{AG} \cdot \vec{GE})$$
+$$
+\vec{BG'} \cdot \vec{EG'} = \left(-\frac{r_2}{r_1}\vec{AG}\right) \cdot \left(\frac{r_2}{r_1}\vec{GE}\right) = -\left(\frac{r_2}{r_1}\right)^2 (\vec{AG} \cdot \vec{GE})
+$$
 
 由于 $\angle AGE = 90°$（已证），$\vec{AG} \perp \vec{GE}$，故 $\vec{AG} \cdot \vec{GE} = 0$：
 
-$$\vec{BG'} \cdot \vec{EG'} = 0$$
+$$
+\vec{BG'} \cdot \vec{EG'} = 0
+$$
 
 即 $BG' \perp EG'$，$EG$ 在 $G'$ 处与 $\omega_2$ 相切。$\blacksquare$
 
@@ -235,7 +265,9 @@ $$\vec{BG'} \cdot \vec{EG'} = 0$$
 
 **定理.** 两圆 $\omega_1(A, r_1)$ 和 $\omega_2(B, r_2)$ 存在两条内公切线的充要条件为：
 
-$$d > r_1 + r_2$$
+$$
+d > r_1 + r_2
+$$
 
 即两圆**外离**。
 
@@ -243,11 +275,15 @@ $$d > r_1 + r_2$$
 
 $E$ 到 $A$ 的距离：
 
-$$EA = \frac{r_1 \cdot d}{r_1 + r_2}$$
+$$
+EA = \frac{r_1 \cdot d}{r_1 + r_2}
+$$
 
 $E$ 在 $\omega_1$ 外的条件 $EA > r_1$：
 
-$$\frac{r_1 \cdot d}{r_1 + r_2} > r_1 \iff d > r_1 + r_2$$
+$$
+\frac{r_1 \cdot d}{r_1 + r_2} > r_1 \iff d > r_1 + r_2
+$$
 
 同理，$E$ 到 $B$ 的距离 $EB = r_2 d/(r_1 + r_2) > r_2$ 也给出 $d > r_1 + r_2$。
 
@@ -343,51 +379,81 @@ line_circle(L2, c2, d, m); if (m.y > d.y) { d.x = m.x; d.y = m.y; }  // D = 下�
 
 取默认参数进行具体计算：
 
-$$A = (-1.7,\; 0), \quad B = (1.5,\; 0), \quad r_1 = 1.2, \quad r_2 = 1.0$$
+$$
+A = (-1.7,\; 0), \quad B = (1.5,\; 0), \quad r_1 = 1.2, \quad r_2 = 1.0
+$$
 
 ### 7.1 基本量
 
-$$d = |AB| = |1.5 - (-1.7)| = 3.2 = \frac{16}{5}$$
+$$
+d = |AB| = |1.5 - (-1.7)| = 3.2 = \frac{16}{5}
+$$
 
-$$r_1 + r_2 = 1.2 + 1.0 = 2.2 < 3.2 = d \quad \checkmark \text{（两圆外离，存在内公切线）}$$
+$$
+r_1 + r_2 = 1.2 + 1.0 = 2.2 < 3.2 = d \quad \checkmark \text{（两圆外离，存在内公切线）}
+$$
 
 ### 7.2 内位似中心 $E$
 
 $E$ 在线段 $AB$ 上，满足 $EA/EB = r_1/r_2 = 6/5$：
 
-$$E = \frac{r_2 A + r_1 B}{r_1 + r_2} = \frac{1.0 \times (-1.7) + 1.2 \times 1.5}{2.2} = \frac{-1.7 + 1.8}{2.2} = \frac{0.1}{2.2} = \frac{1}{22}$$
+$$
+E = \frac{r_2 A + r_1 B}{r_1 + r_2} = \frac{1.0 \times (-1.7) + 1.2 \times 1.5}{2.2} = \frac{-1.7 + 1.8}{2.2} = \frac{0.1}{2.2} = \frac{1}{22}
+$$
 
-$$E = \left(\frac{1}{22},\; 0\right) \approx (0.04545,\; 0)$$
+$$
+E = \left(\frac{1}{22},\; 0\right) \approx (0.04545,\; 0)
+$$
 
 验证：
 
-$$EA = \left|\frac{1}{22} - (-1.7)\right| = \frac{1}{22} + \frac{17}{10} = \frac{5 + 187}{110} = \frac{96}{55} \approx 1.7455$$
+$$
+EA = \left|\frac{1}{22} - (-1.7)\right| = \frac{1}{22} + \frac{17}{10} = \frac{5 + 187}{110} = \frac{96}{55} \approx 1.7455
+$$
 
-$$EB = \left|1.5 - \frac{1}{22}\right| = \frac{3}{2} - \frac{1}{22} = \frac{33 - 1}{22} = \frac{16}{11} \approx 1.4545$$
+$$
+EB = \left|1.5 - \frac{1}{22}\right| = \frac{3}{2} - \frac{1}{22} = \frac{33 - 1}{22} = \frac{16}{11} \approx 1.4545
+$$
 
-$$\frac{EA}{EB} = \frac{96/55}{16/11} = \frac{96}{55} \times \frac{11}{16} = \frac{6}{5} = \frac{r_1}{r_2} \quad \checkmark$$
+$$
+\frac{EA}{EB} = \frac{96/55}{16/11} = \frac{96}{55} \times \frac{11}{16} = \frac{6}{5} = \frac{r_1}{r_2} \quad \checkmark
+$$
 
 ### 7.3 中点 $F$ 和辅助圆 $\Omega$
 
-$$F = \frac{A + E}{2} = \left(\frac{-17/10 + 1/22}{2},\; 0\right) = \left(\frac{-187/110 + 5/110}{2},\; 0\right) = \left(\frac{-182}{220},\; 0\right) = \left(-\frac{91}{110},\; 0\right)$$
+$$
+F = \frac{A + E}{2} = \left(\frac{-17/10 + 1/22}{2},\; 0\right) = \left(\frac{-187/110 + 5/110}{2},\; 0\right) = \left(\frac{-182}{220},\; 0\right) = \left(-\frac{91}{110},\; 0\right)
+$$
 
-$$F \approx (-0.82727,\; 0)$$
+$$
+F \approx (-0.82727,\; 0)
+$$
 
-$$R_\Omega = |AF| = \frac{|AE|}{2} = \frac{96/55}{2} = \frac{48}{55} \approx 0.87273$$
+$$
+R_\Omega = |AF| = \frac{|AE|}{2} = \frac{96/55}{2} = \frac{48}{55} \approx 0.87273
+$$
 
 ### 7.4 切线长度
 
-$$EG^2 = EA^2 - r_1^2 = \left(\frac{96}{55}\right)^2 - \left(\frac{6}{5}\right)^2 = \frac{9216}{3025} - \frac{36}{25} = \frac{9216 - 4356}{3025} = \frac{4860}{3025}$$
+$$
+EG^2 = EA^2 - r_1^2 = \left(\frac{96}{55}\right)^2 - \left(\frac{6}{5}\right)^2 = \frac{9216}{3025} - \frac{36}{25} = \frac{9216 - 4356}{3025} = \frac{4860}{3025}
+$$
 
 化简：$\gcd(4860, 3025) = 5$，得 $EG^2 = 972/605$。
 
-$$EG = \sqrt{\frac{972}{605}} \approx 1.26347$$
+$$
+EG = \sqrt{\frac{972}{605}} \approx 1.26347
+$$
 
 验证与 $\omega_2$ 切线长度的关系：
 
-$$ET^2 = EB^2 - r_2^2 = \left(\frac{16}{11}\right)^2 - 1 = \frac{256 - 121}{121} = \frac{135}{121}$$
+$$
+ET^2 = EB^2 - r_2^2 = \left(\frac{16}{11}\right)^2 - 1 = \frac{256 - 121}{121} = \frac{135}{121}
+$$
 
-$$\frac{EG^2}{ET^2} = \frac{972/605}{135/121} = \frac{972}{605} \times \frac{121}{135} = \frac{972}{135} \times \frac{121}{605} = \frac{36}{5} \times \frac{1}{5} = \frac{36}{25} = \left(\frac{r_1}{r_2}\right)^2 \quad \checkmark$$
+$$
+\frac{EG^2}{ET^2} = \frac{972/605}{135/121} = \frac{972}{605} \times \frac{121}{135} = \frac{972}{135} \times \frac{121}{605} = \frac{36}{5} \times \frac{1}{5} = \frac{36}{25} = \left(\frac{r_1}{r_2}\right)^2 \quad \checkmark
+$$
 
 ### 7.5 求交点 $G$、$H$
 
@@ -397,59 +463,95 @@ $\Omega$ 的方程：$(x + 91/110)^2 + y^2 = (48/55)^2 = 2304/3025$
 
 两式相减消去 $y^2$：
 
-$$(x + 17/10)^2 - (x + 91/110)^2 = 36/25 - 2304/3025$$
+$$
+(x + 17/10)^2 - (x + 91/110)^2 = 36/25 - 2304/3025
+$$
 
 左端利用平方差公式（$17/10 = 187/110$）：
 
-$$\left(\frac{187}{110} - \frac{91}{110}\right)\left(2x + \frac{187 + 91}{110}\right) = \frac{96}{110}\left(2x + \frac{278}{110}\right)$$
+$$
+\left(\frac{187}{110} - \frac{91}{110}\right)\left(2x + \frac{187 + 91}{110}\right) = \frac{96}{110}\left(2x + \frac{278}{110}\right)
+$$
 
 右端：$36/25 - 2304/3025 = (36 \times 121 - 2304)/3025 = (4356 - 2304)/3025 = 2052/3025$
 
 解方程：
 
-$$\frac{96}{110}\left(2x + \frac{139}{55}\right) = \frac{2052}{3025}$$
+$$
+\frac{96}{110}\left(2x + \frac{139}{55}\right) = \frac{2052}{3025}
+$$
 
-$$2x + \frac{139}{55} = \frac{2052}{3025} \times \frac{110}{96} = \frac{2052 \times 110}{3025 \times 96} = \frac{225720}{290400} = \frac{171}{220}$$
+$$
+2x + \frac{139}{55} = \frac{2052}{3025} \times \frac{110}{96} = \frac{2052 \times 110}{3025 \times 96} = \frac{225720}{290400} = \frac{171}{220}
+$$
 
-$$2x = \frac{171}{220} - \frac{139}{55} = \frac{171}{220} - \frac{556}{220} = -\frac{385}{220} = -\frac{77}{44}$$
+$$
+2x = \frac{171}{220} - \frac{139}{55} = \frac{171}{220} - \frac{556}{220} = -\frac{385}{220} = -\frac{77}{44}
+$$
 
-$$x = -\frac{77}{88} = -\frac{7}{8}$$
+$$
+x = -\frac{77}{88} = -\frac{7}{8}
+$$
 
 代入 $\omega_1$ 求 $y$：
 
-$$\left(-\frac{7}{8} + \frac{17}{10}\right)^2 + y^2 = \frac{36}{25}$$
+$$
+\left(-\frac{7}{8} + \frac{17}{10}\right)^2 + y^2 = \frac{36}{25}
+$$
 
-$$\left(\frac{-35 + 68}{40}\right)^2 + y^2 = \frac{36}{25} \implies \left(\frac{33}{40}\right)^2 + y^2 = \frac{36}{25}$$
+$$
+\left(\frac{-35 + 68}{40}\right)^2 + y^2 = \frac{36}{25} \implies \left(\frac{33}{40}\right)^2 + y^2 = \frac{36}{25}
+$$
 
-$$y^2 = \frac{36}{25} - \frac{1089}{1600} = \frac{2304 - 1089}{1600} = \frac{1215}{1600}$$
+$$
+y^2 = \frac{36}{25} - \frac{1089}{1600} = \frac{2304 - 1089}{1600} = \frac{1215}{1600}
+$$
 
 化简：$\gcd(1215, 1600) = 5$，得 $y^2 = 243/320$。$243 = 3^5$，$320 = 2^6 \times 5$。
 
-$$y = \pm\sqrt{\frac{243}{320}} = \pm\frac{9\sqrt{3}}{8\sqrt{5}} = \pm\frac{9\sqrt{15}}{40}$$
+$$
+y = \pm\sqrt{\frac{243}{320}} = \pm\frac{9\sqrt{3}}{8\sqrt{5}} = \pm\frac{9\sqrt{15}}{40}
+$$
 
 因此：
 
-$$G = \left(-\frac{7}{8},\; \frac{9\sqrt{15}}{40}\right) \approx (-0.87500,\; 0.87142)$$
+$$
+G = \left(-\frac{7}{8},\; \frac{9\sqrt{15}}{40}\right) \approx (-0.87500,\; 0.87142)
+$$
 
-$$H = \left(-\frac{7}{8},\; -\frac{9\sqrt{15}}{40}\right) \approx (-0.87500,\; -0.87142)$$
+$$
+H = \left(-\frac{7}{8},\; -\frac{9\sqrt{15}}{40}\right) \approx (-0.87500,\; -0.87142)
+$$
 
 ### 7.6 验证 $G$ 在 $\omega_1$ 上
 
-$$\vec{AG} = G - A = \left(-\frac{7}{8} + \frac{17}{10},\; \frac{9\sqrt{15}}{40}\right) = \left(\frac{33}{40},\; \frac{9\sqrt{15}}{40}\right)$$
+$$
+\vec{AG} = G - A = \left(-\frac{7}{8} + \frac{17}{10},\; \frac{9\sqrt{15}}{40}\right) = \left(\frac{33}{40},\; \frac{9\sqrt{15}}{40}\right)
+$$
 
-$$|\vec{AG}|^2 = \frac{1089}{1600} + \frac{1215}{1600} = \frac{2304}{1600} = \frac{36}{25} = r_1^2 \quad \checkmark$$
+$$
+|\vec{AG}|^2 = \frac{1089}{1600} + \frac{1215}{1600} = \frac{2304}{1600} = \frac{36}{25} = r_1^2 \quad \checkmark
+$$
 
 ### 7.7 验证切线条件 $EG \perp AG$
 
-$$\vec{EG} = G - E = \left(-\frac{7}{8} - \frac{1}{22},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{77 + 4}{88},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{81}{88},\; \frac{9\sqrt{15}}{40}\right)$$
+$$
+\vec{EG} = G - E = \left(-\frac{7}{8} - \frac{1}{22},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{77 + 4}{88},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{81}{88},\; \frac{9\sqrt{15}}{40}\right)
+$$
 
-$$\vec{AG} \cdot \vec{EG} = \frac{33}{40} \times \left(-\frac{81}{88}\right) + \frac{9\sqrt{15}}{40} \times \frac{9\sqrt{15}}{40}$$
+$$
+\vec{AG} \cdot \vec{EG} = \frac{33}{40} \times \left(-\frac{81}{88}\right) + \frac{9\sqrt{15}}{40} \times \frac{9\sqrt{15}}{40}
+$$
 
-$$= -\frac{2673}{3520} + \frac{1215}{1600}$$
+$$
+= -\frac{2673}{3520} + \frac{1215}{1600}
+$$
 
 通分（$\text{lcm}(3520, 1600) = 17600$）：
 
-$$= -\frac{2673 \times 5}{17600} + \frac{1215 \times 11}{17600} = \frac{-13365 + 13365}{17600} = 0 \quad \checkmark$$
+$$
+= -\frac{2673 \times 5}{17600} + \frac{1215 \times 11}{17600} = \frac{-13365 + 13365}{17600} = 0 \quad \checkmark
+$$
 
 点积为零，$\angle AGE = 90°$，即 $EG$ 是 $\omega_1$ 在 $G$ 处的切线。
 
@@ -457,43 +559,69 @@ $$= -\frac{2673 \times 5}{17600} + \frac{1215 \times 11}{17600} = \frac{-13365 +
 
 由内位似变换 $G' = \mathcal{H}_{\text{int}}(G)$，位似比 $-r_2/r_1 = -5/6$：
 
-$$G' = E - \frac{5}{6}(G - E) = \frac{11}{6}E - \frac{5}{6}G$$
+$$
+G' = E - \frac{5}{6}(G - E) = \frac{11}{6}E - \frac{5}{6}G
+$$
 
-$$G'_x = \frac{11}{6} \times \frac{1}{22} - \frac{5}{6} \times \left(-\frac{7}{8}\right) = \frac{1}{12} + \frac{35}{48} = \frac{4 + 35}{48} = \frac{39}{48} = \frac{13}{16}$$
+$$
+G'_x = \frac{11}{6} \times \frac{1}{22} - \frac{5}{6} \times \left(-\frac{7}{8}\right) = \frac{1}{12} + \frac{35}{48} = \frac{4 + 35}{48} = \frac{39}{48} = \frac{13}{16}
+$$
 
-$$G'_y = \frac{11}{6} \times 0 - \frac{5}{6} \times \frac{9\sqrt{15}}{40} = -\frac{45\sqrt{15}}{240} = -\frac{3\sqrt{15}}{16}$$
+$$
+G'_y = \frac{11}{6} \times 0 - \frac{5}{6} \times \frac{9\sqrt{15}}{40} = -\frac{45\sqrt{15}}{240} = -\frac{3\sqrt{15}}{16}
+$$
 
-$$G' = \left(\frac{13}{16},\; -\frac{3\sqrt{15}}{16}\right) \approx (0.81250,\; -0.72618)$$
+$$
+G' = \left(\frac{13}{16},\; -\frac{3\sqrt{15}}{16}\right) \approx (0.81250,\; -0.72618)
+$$
 
 注意：$G$ 在 $AB$ **上方**（$y > 0$），$G'$ 在 $AB$ **下方**（$y < 0$）——切点在 $AB$ 异侧。
 
 **验证 $G' \in \omega_2$：**
 
-$$\vec{BG'} = G' - B = \left(\frac{13}{16} - \frac{3}{2},\; -\frac{3\sqrt{15}}{16}\right) = \left(-\frac{11}{16},\; -\frac{3\sqrt{15}}{16}\right)$$
+$$
+\vec{BG'} = G' - B = \left(\frac{13}{16} - \frac{3}{2},\; -\frac{3\sqrt{15}}{16}\right) = \left(-\frac{11}{16},\; -\frac{3\sqrt{15}}{16}\right)
+$$
 
-$$|\vec{BG'}|^2 = \frac{121}{256} + \frac{135}{256} = \frac{256}{256} = 1 = r_2^2 \quad \checkmark$$
+$$
+|\vec{BG'}|^2 = \frac{121}{256} + \frac{135}{256} = \frac{256}{256} = 1 = r_2^2 \quad \checkmark
+$$
 
 **验证 $\vec{BG'} = -\dfrac{r_2}{r_1}\vec{AG}$：**
 
-$$-\frac{5}{6}\vec{AG} = -\frac{5}{6}\left(\frac{33}{40},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{165}{240},\; -\frac{45\sqrt{15}}{240}\right) = \left(-\frac{11}{16},\; -\frac{3\sqrt{15}}{16}\right)$$
+$$
+-\frac{5}{6}\vec{AG} = -\frac{5}{6}\left(\frac{33}{40},\; \frac{9\sqrt{15}}{40}\right) = \left(-\frac{165}{240},\; -\frac{45\sqrt{15}}{240}\right) = \left(-\frac{11}{16},\; -\frac{3\sqrt{15}}{16}\right)
+$$
 
-$$= \vec{BG'} \quad \checkmark$$
+$$
+= \vec{BG'} \quad \checkmark
+$$
 
 **验证 $BG' \perp EG'$：**
 
-$$\vec{EG'} = G' - E = \left(\frac{13}{16} - \frac{1}{22},\; -\frac{3\sqrt{15}}{16}\right) = \left(\frac{143 - 8}{176},\; -\frac{3\sqrt{15}}{16}\right) = \left(\frac{135}{176},\; -\frac{3\sqrt{15}}{16}\right)$$
+$$
+\vec{EG'} = G' - E = \left(\frac{13}{16} - \frac{1}{22},\; -\frac{3\sqrt{15}}{16}\right) = \left(\frac{143 - 8}{176},\; -\frac{3\sqrt{15}}{16}\right) = \left(\frac{135}{176},\; -\frac{3\sqrt{15}}{16}\right)
+$$
 
-$$\vec{BG'} \cdot \vec{EG'} = \left(-\frac{11}{16}\right)\left(\frac{135}{176}\right) + \left(-\frac{3\sqrt{15}}{16}\right)\left(-\frac{3\sqrt{15}}{16}\right)$$
+$$
+\vec{BG'} \cdot \vec{EG'} = \left(-\frac{11}{16}\right)\left(\frac{135}{176}\right) + \left(-\frac{3\sqrt{15}}{16}\right)\left(-\frac{3\sqrt{15}}{16}\right)
+$$
 
-$$= -\frac{1485}{2816} + \frac{135}{256} = -\frac{1485}{2816} + \frac{1485}{2816} = 0 \quad \checkmark$$
+$$
+= -\frac{1485}{2816} + \frac{135}{256} = -\frac{1485}{2816} + \frac{1485}{2816} = 0 \quad \checkmark
+$$
 
 $EG$ 确实与 $\omega_2$ 在 $G'$ 处相切。
 
 ### 7.9 两条切线的斜率
 
-$$m_{EG} = \frac{G_y - E_y}{G_x - E_x} = \frac{9\sqrt{15}/40}{-81/88} = -\frac{9\sqrt{15}}{40} \times \frac{88}{81} = -\frac{11\sqrt{15}}{45} \approx -0.9487$$
+$$
+m_{EG} = \frac{G_y - E_y}{G_x - E_x} = \frac{9\sqrt{15}/40}{-81/88} = -\frac{9\sqrt{15}}{40} \times \frac{88}{81} = -\frac{11\sqrt{15}}{45} \approx -0.9487
+$$
 
-$$m_{EH} = \frac{H_y - E_y}{H_x - E_x} = \frac{-9\sqrt{15}/40}{-81/88} = \frac{11\sqrt{15}}{45} \approx 0.9487$$
+$$
+m_{EH} = \frac{H_y - E_y}{H_x - E_x} = \frac{-9\sqrt{15}/40}{-81/88} = \frac{11\sqrt{15}}{45} \approx 0.9487
+$$
 
 两条切线斜率互为相反数（关于 $x$ 轴对称），且斜率绝对值约为 $0.949$。
 
